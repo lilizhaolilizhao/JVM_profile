@@ -14,16 +14,10 @@
 
     <properties>
         <asm.version>7.0</asm.version>
-        <javassist.version>3.12.1.GA</javassist.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <dependency>
-                <groupId>javassist</groupId>
-                <artifactId>javassist</artifactId>
-                <version>${javassist.version}</version>
-            </dependency>
             <dependency>
                 <groupId>org.ow2.asm</groupId>
                 <artifactId>asm</artifactId>

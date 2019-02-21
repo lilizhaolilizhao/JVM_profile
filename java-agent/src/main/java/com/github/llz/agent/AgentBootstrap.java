@@ -26,6 +26,6 @@ public class AgentBootstrap {
     }
 
     private static void main(String args, Instrumentation inst) {
-        inst.addTransformer(new FirstAgent(), true);
+        inst.addTransformer(new LogTransformer(), true);
     }
 }
