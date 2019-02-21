@@ -3,12 +3,13 @@ package com.github.llz.agent;
 import java.lang.instrument.Instrumentation;
 
 /**
- *  代理启动类
+ * 代理启动类
  */
 public class AgentBootstrap {
 
     /**
      * -javaagent方式启动
+     *
      * @param args
      * @param inst
      */
@@ -18,6 +19,7 @@ public class AgentBootstrap {
 
     /**
      * attach方式启动
+     *
      * @param args
      * @param inst
      */
