@@ -14,12 +14,13 @@ public class LogTransformer implements ClassFileTransformer {
         try {
             ClassReader cr = new ClassReader(className);
             ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-            MyTimeCountAdapter timeCountAdpter = new MyTimeCountAdapter(cw);
+            TomcatMethodAdapter timeCountAdpter = new TomcatMethodAdapter(cw);
             cr.accept(timeCountAdpter, ClassReader.EXPAND_FRAMES);
 
             return cw.toByteArray();
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
+            System.out.println("类缺失-----------------className====================== : " + className);
         }
 
         return new byte[0];
