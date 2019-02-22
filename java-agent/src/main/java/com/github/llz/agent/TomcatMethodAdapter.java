@@ -35,17 +35,17 @@ public class TomcatMethodAdapter extends ClassVisitor implements Opcodes {
     public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
         MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions);
 
-//        if (!isInterface && mv != null && !name.equals("<init>") && !name.equals("<clinit>")) {
-////            if (owner.startsWith("org.apache.catalina.core.StandardHostValve".replace(".", "/"))) {
-//                methodName = name;
-//                AddTimerMethodAdapter at = new AddTimerMethodAdapter(mv);
-//
-//                at.aa = new AnalyzerAdapter(owner, access, name, descriptor, at);
-//                at.lvs = new LocalVariablesSorter(access, descriptor, at.aa);
-//
-//                return at.lvs;
-////            }
-//        }
+        if (!isInterface && mv != null && !name.equals("<init>") && !name.equals("<clinit>")) {
+            if (owner.startsWith("org.apache.catalina.core.StandardHostValve".replace(".", "/"))) {
+                methodName = name;
+                AddTimerMethodAdapter at = new AddTimerMethodAdapter(mv);
+
+                at.aa = new AnalyzerAdapter(owner, access, name, descriptor, at);
+                at.lvs = new LocalVariablesSorter(access, descriptor, at.aa);
+
+                return at.lvs;
+            }
+        }
 
         return mv;
     }
