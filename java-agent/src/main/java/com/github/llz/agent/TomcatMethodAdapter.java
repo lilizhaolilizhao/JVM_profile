@@ -1,5 +1,6 @@
 package com.github.llz.agent;
 
+import com.github.llz.util.JVMUtils;
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.AnalyzerAdapter;
 import org.objectweb.asm.commons.LocalVariablesSorter;
@@ -35,16 +36,22 @@ public class TomcatMethodAdapter extends ClassVisitor implements Opcodes {
     public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
         MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions);
 
-        if (!isInterface && mv != null && !name.equals("<init>") && !name.equals("<clinit>")) {
-            if (owner.startsWith("org.apache.catalina.core.StandardHostValve".replace(".", "/"))) {
-                methodName = name;
-                AddTimerMethodAdapter at = new AddTimerMethodAdapter(mv);
+        String myClassName = "org.apache.catalina.core.StandardHostValve";
+        String myMethodName = "invoke";
+        String[] myParameterTypes = new String[]{"org.apache.catalina.connector.Request", "org.apache.catalina.connector.Response"};
+        String returnType = "void";
 
-                at.aa = new AnalyzerAdapter(owner, access, name, descriptor, at);
-                at.lvs = new LocalVariablesSorter(access, descriptor, at.aa);
+//        if (!isInterface && mv != null && !name.equals("<init>") && !name.equals("<clinit>")) {
+        if (!isInterface && mv != null && owner.equals(JVMUtils.javaNameToJvmName(myClassName))
+                && name.equals(myMethodName)
+                && descriptor.equals(JVMUtils.javaTypeToJvmSignature(myParameterTypes, returnType))) {
+            methodName = name;
+            AddTimerMethodAdapter at = new AddTimerMethodAdapter(mv);
 
-                return at.lvs;
-            }
+            at.aa = new AnalyzerAdapter(owner, access, name, descriptor, at);
+            at.lvs = new LocalVariablesSorter(access, descriptor, at.aa);
+
+            return at.lvs;
         }
 
         return mv;
