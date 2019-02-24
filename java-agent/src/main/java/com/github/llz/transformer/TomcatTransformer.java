@@ -7,10 +7,6 @@ import org.objectweb.asm.commons.AnalyzerAdapter;
 import org.objectweb.asm.commons.LocalVariablesSorter;
 
 public class TomcatTransformer extends GeneralMethodAdapter {
-    public String myClassName = "org.apache.catalina.core.StandardHostValve";
-    public String myMethodName = "invoke";
-    public String[] myParameterTypes = new String[]{"org.apache.catalina.connector.Request", "org.apache.catalina.connector.Response"};
-    public String returnType = "void";
 
     public TomcatTransformer(ClassVisitor classVisitor) {
         super(classVisitor);
@@ -20,9 +16,17 @@ public class TomcatTransformer extends GeneralMethodAdapter {
     public  MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
         MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions);
 
-        if (!isInterface && mv != null && owner.equals(JVMUtils.javaNameToJvmName(myClassName))
-                && name.equals(myMethodName)
-                && descriptor.equals(JVMUtils.javaTypeToJvmSignature(myParameterTypes, returnType))) {
+        if (!isInterface && mv != null) {
+            MethodVisitor at = addStandardHostValue(access, name, descriptor, mv);
+            if (at != null) return at;
+        }
+
+        return mv;
+    }
+
+    private MethodVisitor addStandardHostValue(int access, String name, String descriptor, MethodVisitor mv) {
+        if (JVMUtils.javaNameToJvmName("org.apache.catalina.core.StandardHostValve").equals(owner) && ("invoke").equals(name)
+                && descriptor.equals(JVMUtils.javaTypeToJvmSignature(new String[]{"org.apache.catalina.connector.Request", "org.apache.catalina.connector.Response"}, "void"))) {
             methodName = name;
             AddTimerMethodAdapter at = new AddTimerMethodAdapter(mv);
 
@@ -31,7 +35,6 @@ public class TomcatTransformer extends GeneralMethodAdapter {
 
             return at.lvs;
         }
-
-        return mv;
+        return null;
     }
 }
