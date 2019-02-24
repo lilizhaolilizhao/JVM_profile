@@ -14,7 +14,7 @@
 //        try {
 //            ClassReader cr = new ClassReader(className);
 //            ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
-//            TomcatMethodAdapter timeCountAdpter = new TomcatMethodAdapter(cw);
+//            GeneralMethodAdapter timeCountAdpter = new GeneralMethodAdapter(cw);
 //            cr.accept(timeCountAdpter, ClassReader.EXPAND_FRAMES);
 //
 //            return cw.toByteArray();

@@ -1,18 +1,17 @@
-package com.github.llz.agent;
+package com.github.llz.transformer;
 
-import com.github.llz.util.JVMUtils;
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.AnalyzerAdapter;
 import org.objectweb.asm.commons.LocalVariablesSorter;
 
-public class TomcatMethodAdapter extends ClassVisitor implements Opcodes {
-    private String owner;
-    private String filedName = "UDASMCN";
-    private boolean isInterface;
+public abstract class GeneralMethodAdapter extends ClassVisitor implements Opcodes {
+    protected String owner;
+    private String filedName = "CLASS_NAME";
+    protected boolean isInterface;
     private boolean isPresent = false;
-    private String methodName;
+    protected String methodName;
 
-    public TomcatMethodAdapter(ClassVisitor classVisitor) {
+    public GeneralMethodAdapter(ClassVisitor classVisitor) {
         super(ASM6, classVisitor);
     }
 
@@ -30,31 +29,6 @@ public class TomcatMethodAdapter extends ClassVisitor implements Opcodes {
             isPresent = true;
         }
         return super.visitField(access, name, descriptor, signature, value);
-    }
-
-    @Override
-    public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-        MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions);
-
-        String myClassName = "org.apache.catalina.core.StandardHostValve";
-        String myMethodName = "invoke";
-        String[] myParameterTypes = new String[]{"org.apache.catalina.connector.Request", "org.apache.catalina.connector.Response"};
-        String returnType = "void";
-
-//        if (!isInterface && mv != null && !name.equals("<init>") && !name.equals("<clinit>")) {
-        if (!isInterface && mv != null && owner.equals(JVMUtils.javaNameToJvmName(myClassName))
-                && name.equals(myMethodName)
-                && descriptor.equals(JVMUtils.javaTypeToJvmSignature(myParameterTypes, returnType))) {
-            methodName = name;
-            AddTimerMethodAdapter at = new AddTimerMethodAdapter(mv);
-
-            at.aa = new AnalyzerAdapter(owner, access, name, descriptor, at);
-            at.lvs = new LocalVariablesSorter(access, descriptor, at.aa);
-
-            return at.lvs;
-        }
-
-        return mv;
     }
 
     @Override
