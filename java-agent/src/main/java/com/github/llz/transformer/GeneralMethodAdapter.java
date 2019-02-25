@@ -1,10 +1,17 @@
 package com.github.llz.transformer;
 
+import com.github.llz.util.JVMUtils;
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.AnalyzerAdapter;
 import org.objectweb.asm.commons.LocalVariablesSorter;
 
-public abstract class GeneralMethodAdapter extends ClassVisitor implements Opcodes {
+import java.util.Iterator;
+import java.util.Map;
+
+/**
+ * 通用方法适配
+ */
+public class GeneralMethodAdapter extends ClassVisitor implements Opcodes {
     protected String owner;
     private String filedName = "CLASS_NAME";
     protected boolean isInterface;
@@ -32,6 +39,33 @@ public abstract class GeneralMethodAdapter extends ClassVisitor implements Opcod
     }
 
     @Override
+    public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
+        MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions);
+
+        Iterator<Map.Entry<String, TransformerInfoBean>> iterTransMap = TransformerContext.transInfoMap.entrySet().iterator();
+        while (iterTransMap.hasNext()) {
+            Map.Entry<String, TransformerInfoBean> nextEntry = iterTransMap.next();
+            String className = nextEntry.getKey();
+            TransformerInfoBean transformerInfoBean = nextEntry.getValue();
+
+            if (!isInterface && mv != null && JVMUtils.javaNameToJvmName(className).equals(owner)
+                    && (transformerInfoBean.getMethodName()).equals(name)
+                    && descriptor.equals(JVMUtils.javaTypeToJvmSignature(transformerInfoBean.getParameterTypes(),
+                    transformerInfoBean.getReturnType()))) {
+                methodName = name;
+                AddTimerMethodAdapter at = new AddTimerMethodAdapter(mv);
+
+                at.aa = new AnalyzerAdapter(owner, access, name, descriptor, at);
+                at.lvs = new LocalVariablesSorter(access, descriptor, at.aa);
+
+                mv = at.lvs;
+            }
+        }
+
+        return mv;
+    }
+
+    @Override
     public void visitEnd() {
         if (!isInterface && !isPresent) {
             FieldVisitor fv = cv.visitField(ACC_PUBLIC + ACC_FINAL + ACC_STATIC, filedName, "Ljava/lang/String;", null, owner);
@@ -42,7 +76,7 @@ public abstract class GeneralMethodAdapter extends ClassVisitor implements Opcod
         super.visitEnd();
     }
 
-    class AddTimerMethodAdapter extends MethodVisitor {
+    class AddTimerMethodAdapter extends MethodVisitor implements Opcodes {
         private int time;
         private int maxStack;
         public LocalVariablesSorter lvs;

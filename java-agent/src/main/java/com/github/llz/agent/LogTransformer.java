@@ -1,7 +1,6 @@
 package com.github.llz.agent;
 
 import com.github.llz.transformer.GeneralMethodAdapter;
-import com.github.llz.transformer.TomcatTransformer;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 
@@ -16,7 +15,7 @@ public class LogTransformer implements ClassFileTransformer {
             ClassReader cr = new ClassReader(classfileBuffer);
             ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
 
-            GeneralMethodAdapter timeCountAdpter = new TomcatTransformer(cw);
+            GeneralMethodAdapter timeCountAdpter = new GeneralMethodAdapter(cw);
             cr.accept(timeCountAdpter, ClassReader.EXPAND_FRAMES);
 
             return cw.toByteArray();
