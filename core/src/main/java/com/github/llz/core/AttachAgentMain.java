@@ -44,6 +44,8 @@ public class AttachAgentMain {
                             targetSystemProperties.getProperty("java.home"));
                 }
             }
+
+            virtualMachine.loadAgent("agent/target/arthas-agent-jar-with-dependencies.jar");
 //            virtualMachine.loadAgent(configure.getArthasAgent(),
 //                    configure.getArthasCore() + ";" + configure.toString());
         } finally {

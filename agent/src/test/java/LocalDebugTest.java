@@ -9,9 +9,6 @@ import java.lang.reflect.Method;
 
 /**
  * 本机调试
- *
- * @author BlueT
- * 2018/9/17 23:34
  */
 public class LocalDebugTest {
 
@@ -25,7 +22,7 @@ public class LocalDebugTest {
     public static void main(String[] args) throws Exception {
         final int pid = getCurrentJVMPid();
         System.out.println("pid:" + pid);
-        AttachAgentMain.main(new String[]{"46550"});
+        AttachAgentMain.main(new String[]{"46227"});
         System.out.println("代码植入成功");
         Thread.sleep(10000000);
     }

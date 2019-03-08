@@ -11,6 +11,7 @@
     <modules>
         <module>java-agent</module>
         <module>core</module>
+        <module>agent</module>
     </modules>
 
     <properties>
