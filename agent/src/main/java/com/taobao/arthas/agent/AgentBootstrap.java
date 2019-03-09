@@ -59,11 +59,11 @@ public class AgentBootstrap {
             arraycopy(enhanceClassSet.toArray(), 0, classArray, 0, size);
             if (classArray.length > 0) {
                 log.info("start to batch transform classes: " + Arrays.toString(classArray));
-//                inst.retransformClasses(classArray);
+                inst.retransformClasses(classArray);
                 log.info("Success to batch transform classes: " + Arrays.toString(classArray));
             }
-//        } catch (UnmodifiableClassException e) {
-//            e.printStackTrace();
+        } catch (UnmodifiableClassException e) {
+            e.printStackTrace();
         } finally {
             inst.removeTransformer(appClassFileTransformer);
         }
