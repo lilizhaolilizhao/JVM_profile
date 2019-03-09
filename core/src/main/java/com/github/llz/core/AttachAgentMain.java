@@ -45,9 +45,10 @@ public class AttachAgentMain {
                 }
             }
 
+            //接口说明 单个参数和两个参数
+            //loadAgent(String agent)
+            //loadAgent(String agent, String options)
             virtualMachine.loadAgent("agent/target/arthas-agent-jar-with-dependencies.jar");
-//            virtualMachine.loadAgent(configure.getArthasAgent(),
-//                    configure.getArthasCore() + ";" + configure.toString());
         } finally {
             if (null != virtualMachine) {
                 virtualMachine.detach();
