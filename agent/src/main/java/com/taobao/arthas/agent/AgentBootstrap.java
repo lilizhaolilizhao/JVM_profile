@@ -52,18 +52,18 @@ public class AgentBootstrap {
         }
 
         try {
-            inst.addTransformer(appClassFileTransformer);
+            inst.addTransformer(appClassFileTransformer, true);
 
             final int size = enhanceClassSet.size();
             final Class<?>[] classArray = new Class<?>[size];
             arraycopy(enhanceClassSet.toArray(), 0, classArray, 0, size);
             if (classArray.length > 0) {
                 log.info("start to batch transform classes: " + Arrays.toString(classArray));
-                inst.retransformClasses(classArray);
+//                inst.retransformClasses(classArray);
                 log.info("Success to batch transform classes: " + Arrays.toString(classArray));
             }
-        } catch (UnmodifiableClassException e) {
-            e.printStackTrace();
+//        } catch (UnmodifiableClassException e) {
+//            e.printStackTrace();
         } finally {
             inst.removeTransformer(appClassFileTransformer);
         }
