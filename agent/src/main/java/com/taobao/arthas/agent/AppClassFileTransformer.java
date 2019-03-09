@@ -10,7 +10,6 @@ public class AppClassFileTransformer implements ClassFileTransformer {
     @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain,
                             byte[] classfileBuffer) {
-
         System.out.println("=========&&&&&&&&&&&&&============");
         System.out.println("=========&&&&&&&&&&&&&============");
         System.out.println("=========&&&&&&&&&&&&&============");

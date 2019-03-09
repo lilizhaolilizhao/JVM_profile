@@ -9,6 +9,6 @@ public class App {
     }
 
     private static void hello(int i) {
-        System.out.println("this is a test" + i);
+        System.out.println("this is a test " + i);
     }
 }

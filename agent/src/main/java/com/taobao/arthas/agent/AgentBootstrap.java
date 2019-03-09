@@ -58,18 +58,9 @@ public class AgentBootstrap {
             final Class<?>[] classArray = new Class<?>[size];
             arraycopy(enhanceClassSet.toArray(), 0, classArray, 0, size);
             if (classArray.length > 0) {
-                System.out.println("000000000000000000000000000000");
-                System.out.println("000000000000000000000000000000");
-                System.out.println("000000000000000000000000000000");
-                System.out.println("000000000000000000000000000000");
                 log.info("start to batch transform classes: " + Arrays.toString(classArray));
                 inst.retransformClasses(classArray);
                 log.info("Success to batch transform classes: " + Arrays.toString(classArray));
-                System.out.println("1111111111111111111111111111");
-                System.out.println("1111111111111111111111111111");
-                System.out.println("1111111111111111111111111111");
-                System.out.println("1111111111111111111111111111");
-                System.out.println("1111111111111111111111111111");
             }
         } catch (UnmodifiableClassException e) {
             e.printStackTrace();

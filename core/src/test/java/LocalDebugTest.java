@@ -25,7 +25,7 @@ public class LocalDebugTest {
     public static void main(String[] args) throws Exception {
         final int pid = getCurrentJVMPid();
         System.out.println("pid:" + pid);
-        AttachAgentMain.main(new String[]{"48580"});
+        AttachAgentMain.main(new String[]{"49060"});
         System.out.println("代码植入成功");
         Thread.sleep(10000000);
     }
