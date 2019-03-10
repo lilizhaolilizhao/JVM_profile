@@ -22,7 +22,7 @@ public class AppClassFileTransformer implements ClassFileTransformer {
             ClassReader cr = new ClassReader(classfileBuffer);
             ClassWriter cw = new ClassWriter(cr, COMPUTE_FRAMES | COMPUTE_MAXS);
 
-            cr.accept(new MyClassVistor(), EXPAND_FRAMES);
+            cr.accept(new MyClassVistor(cw), EXPAND_FRAMES);
 
             return cw.toByteArray();
         }

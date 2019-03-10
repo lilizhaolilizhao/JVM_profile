@@ -6,8 +6,8 @@ import org.objectweb.asm.MethodVisitor;
 import static org.objectweb.asm.Opcodes.*;
 
 public class MyClassVistor extends ClassVisitor {
-    public MyClassVistor() {
-        super(ASM5);
+    public MyClassVistor(ClassVisitor classVisitor) {
+        super(ASM5, classVisitor);
     }
 
     @Override
