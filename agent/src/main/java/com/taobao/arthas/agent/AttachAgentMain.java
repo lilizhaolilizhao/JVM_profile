@@ -2,6 +2,7 @@ package com.taobao.arthas.agent;
 
 import com.sun.tools.attach.VirtualMachine;
 import com.sun.tools.attach.VirtualMachineDescriptor;
+import com.taobao.arthas.util.AnsiLog;
 
 import java.util.Properties;
 
