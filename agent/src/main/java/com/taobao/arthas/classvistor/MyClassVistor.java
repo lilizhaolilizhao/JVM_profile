@@ -24,8 +24,14 @@ public class MyClassVistor extends ClassVisitor implements Opcodes {
         System.out.println("args is " + args);
     }
 
+    public static void methodOnEnd(Object returnVal) {
+        System.out.println("返回值: " + returnVal);
+    }
+
     Method MyClassVistor_methodOnBegin = Method.getMethod(MyClassVistor.class.getDeclaredMethod("methodOnBegin",
             String.class, String.class, String.class, Object.class, Object[].class));
+
+    Method MyClassVistor_methodOnEnd = Method.getMethod(MyClassVistor.class.getDeclaredMethod("methodOnEnd", Object.class));
 
     @Override
     public MethodVisitor visitMethod(final int access, final String name, final String descriptor, String signature, String[] exceptions) {
@@ -62,7 +68,39 @@ public class MyClassVistor extends ClassVisitor implements Opcodes {
 
                 @Override
                 protected void onMethodExit(int opcode) {
-                    super.onMethodExit(opcode);
+                    if (ATHROW != opcode) {
+                        //加载正常的返回值
+                        loadReturn(opcode);
+                        //只有一个参数就是返回值
+                        invokeStatic(Type.getType(MyClassVistor.class), MyClassVistor_methodOnEnd);
+                    }
+                }
+
+                private void loadReturn(int opcode) {
+                    switch (opcode) {
+                        case RETURN: {
+                            push((Type) null);
+                            break;
+                        }
+
+                        case ARETURN: {
+                            dup();
+                            break;
+                        }
+
+                        case LRETURN:
+                        case DRETURN: {
+                            dup2();
+                            box(Type.getReturnType(methodDesc));
+                            break;
+                        }
+
+                        default: {
+                            dup();
+                            box(Type.getReturnType(methodDesc));
+                            break;
+                        }
+                    }
                 }
             };
         }

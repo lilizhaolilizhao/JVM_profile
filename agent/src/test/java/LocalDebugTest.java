@@ -22,9 +22,9 @@ public class LocalDebugTest {
     public static void main(String[] args) throws Exception {
         final int pid = getCurrentJVMPid();
         System.out.println("pid:" + pid);
-        AttachAgentMain.main(new String[]{"60881"});
+        AttachAgentMain.main(new String[]{"66114"});
         System.out.println("代码植入成功");
-        Thread.sleep(10000000);
+//        Thread.sleep(10000000);
     }
 
     /**
