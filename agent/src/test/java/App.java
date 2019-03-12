@@ -3,9 +3,13 @@ public class App {
         App app = new App();
 
         for (int i = 0; i < 10000; i++) {
-            int hello = app.hello(i);
+            try {
+                int hello = app.hello(i);
 
-            System.out.println(hello);
+                System.out.println(hello);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             Thread.sleep(10000L);
         }
@@ -13,6 +17,7 @@ public class App {
     }
 
     private int hello(int i) {
-        return i + 100;
+//        return i + 100;
+        return i / (i - 5);
     }
 }

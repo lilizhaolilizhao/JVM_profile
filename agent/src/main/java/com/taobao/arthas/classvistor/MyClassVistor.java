@@ -1,9 +1,6 @@
 package com.taobao.arthas.classvistor;
 
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
+import org.objectweb.asm.*;
 import org.objectweb.asm.commons.AdviceAdapter;
 import org.objectweb.asm.commons.Method;
 
@@ -25,13 +22,19 @@ public class MyClassVistor extends ClassVisitor implements Opcodes {
     }
 
     public static void methodOnEnd(Object returnVal) {
-        System.out.println("返回值: " + returnVal);
+        System.out.println("------返回值: " + returnVal);
+    }
+
+    public static void methodOnThrowing(Object throwException) {
+        System.out.println("-----异常: " + throwException);
     }
 
     Method MyClassVistor_methodOnBegin = Method.getMethod(MyClassVistor.class.getDeclaredMethod("methodOnBegin",
             String.class, String.class, String.class, Object.class, Object[].class));
 
     Method MyClassVistor_methodOnEnd = Method.getMethod(MyClassVistor.class.getDeclaredMethod("methodOnEnd", Object.class));
+
+    Method MyClassVistor_methodOnThrowing = Method.getMethod(MyClassVistor.class.getDeclaredMethod("methodOnThrowing", Object.class));
 
     @Override
     public MethodVisitor visitMethod(final int access, final String name, final String descriptor, String signature, String[] exceptions) {
@@ -41,6 +44,10 @@ public class MyClassVistor extends ClassVisitor implements Opcodes {
 
         if (name.equals("hello")) {
             return new AdviceAdapter(ASM5, mv, access, name, descriptor) {
+                Label beginLabel = new Label();
+
+                Label endLabel = new Label();
+
                 @Override
                 protected void onMethodEnter() {
                     push(className);
@@ -51,7 +58,8 @@ public class MyClassVistor extends ClassVisitor implements Opcodes {
 
                     invokeStatic(Type.getType(MyClassVistor.class), MyClassVistor_methodOnBegin);
 
-                    super.onMethodEnter();
+                    //标记method begin,用于throwing的try-catch-finally block
+                    mark(beginLabel);
                 }
 
                 private void loadThisOrNullIfStatic() {
@@ -74,6 +82,20 @@ public class MyClassVistor extends ClassVisitor implements Opcodes {
                         //只有一个参数就是返回值
                         invokeStatic(Type.getType(MyClassVistor.class), MyClassVistor_methodOnEnd);
                     }
+                }
+
+                @Override
+                public void visitMaxs(int maxStack, int maxLocals) {
+                    //每个方法最后调用一次,在visitEnd之前
+                    mark(endLabel);
+                    catchException(beginLabel, endLabel, Type.getType(Throwable.class));
+                    //从栈顶加载异常(复制一份给onThrowing当参数用)
+                    dup();
+                    invokeStatic(Type.getType(MyClassVistor.class), MyClassVistor_methodOnThrowing);
+                    //将原有的异常抛出(不破坏原有异常逻辑)
+                    throwException();
+
+                    super.visitMaxs(maxStack, maxLocals);
                 }
 
                 private void loadReturn(int opcode) {
