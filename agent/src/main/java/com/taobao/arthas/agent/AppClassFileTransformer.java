@@ -22,7 +22,11 @@ public class AppClassFileTransformer implements ClassFileTransformer {
             ClassReader cr = new ClassReader(classfileBuffer);
             ClassWriter cw = new ClassWriter(cr, COMPUTE_FRAMES | COMPUTE_MAXS);
 
-            cr.accept(new MyClassVistor(cw), EXPAND_FRAMES);
+            try {
+                cr.accept(new MyClassVistor(cw, className), EXPAND_FRAMES);
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            }
 
             return cw.toByteArray();
         }
