@@ -1,4 +1,4 @@
-package com.taobao.arthas.agent;
+package com.github.jvm.agent.bootstrap;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,7 +13,6 @@ import static java.lang.System.arraycopy;
 /**
  * 探针boorstrap类
  */
-
 @Slf4j
 public class AgentBootstrap {
 

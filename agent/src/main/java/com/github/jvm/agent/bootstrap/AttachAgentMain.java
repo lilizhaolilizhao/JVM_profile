@@ -1,8 +1,8 @@
-package com.github.llz.core;
+package com.github.jvm.agent.bootstrap;
 
-import com.github.llz.util.AnsiLog;
 import com.sun.tools.attach.VirtualMachine;
 import com.sun.tools.attach.VirtualMachineDescriptor;
+import com.github.jvm.agent.util.AgentLog;
 
 import java.util.Properties;
 
@@ -38,9 +38,9 @@ public class AttachAgentMain {
             String currentJavaVersion = System.getProperty("java.specification.version");
             if (targetJavaVersion != null && currentJavaVersion != null) {
                 if (!targetJavaVersion.equals(currentJavaVersion)) {
-                    AnsiLog.warn("Current VM java version: {} do not match target VM java version: {}, attach may fail.",
+                    AgentLog.warn("Current VM java version: {} do not match target VM java version: {}, attach may fail.",
                             currentJavaVersion, targetJavaVersion);
-                    AnsiLog.warn("Target VM JAVA_HOME is {}, try to set the same JAVA_HOME.",
+                    AgentLog.warn("Target VM JAVA_HOME is {}, try to set the same JAVA_HOME.",
                             targetSystemProperties.getProperty("java.home"));
                 }
             }
@@ -48,7 +48,7 @@ public class AttachAgentMain {
             //接口说明 单个参数和两个参数
             //loadAgent(String agent)
             //loadAgent(String agent, String options)
-            virtualMachine.loadAgent("agent/target/arthas-agent-jar-with-dependencies.jar");
+            virtualMachine.loadAgent("agent/target/jvm-profile-agent-jar-with-dependencies.jar");
         } finally {
             if (null != virtualMachine) {
                 virtualMachine.detach();

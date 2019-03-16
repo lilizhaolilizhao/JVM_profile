@@ -1,6 +1,6 @@
-package com.taobao.arthas.agent;
+package com.github.jvm.agent.bootstrap;
 
-import com.taobao.arthas.classvistor.MyClassVistor;
+import com.github.jvm.agent.advisor.AdviceWeaver;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 
@@ -23,7 +23,7 @@ public class AppClassFileTransformer implements ClassFileTransformer {
             ClassWriter cw = new ClassWriter(cr, COMPUTE_FRAMES | COMPUTE_MAXS);
 
             try {
-                cr.accept(new MyClassVistor(cw, className), EXPAND_FRAMES);
+                cr.accept(new AdviceWeaver(cw, className), EXPAND_FRAMES);
             } catch (NoSuchMethodException e) {
                 e.printStackTrace();
             }

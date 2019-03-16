@@ -1,13 +1,16 @@
-package com.taobao.arthas.classvistor;
+package com.github.jvm.agent.advisor;
 
 import org.objectweb.asm.*;
 import org.objectweb.asm.commons.AdviceAdapter;
 import org.objectweb.asm.commons.Method;
 
-public class MyClassVistor extends ClassVisitor implements Opcodes {
+/**
+ * 信息编织
+ */
+public class AdviceWeaver extends ClassVisitor implements Opcodes {
     private String className;
 
-    public MyClassVistor(ClassVisitor classVisitor, String className) throws NoSuchMethodException {
+    public AdviceWeaver(ClassVisitor classVisitor, String className) throws NoSuchMethodException {
         super(ASM5, classVisitor);
 
         this.className = className;
@@ -29,12 +32,12 @@ public class MyClassVistor extends ClassVisitor implements Opcodes {
         System.out.println("-----异常: " + throwException);
     }
 
-    Method MyClassVistor_methodOnBegin = Method.getMethod(MyClassVistor.class.getDeclaredMethod("methodOnBegin",
+    Method AdviceWeaver_methodOnBegin = Method.getMethod(AdviceWeaver.class.getDeclaredMethod("methodOnBegin",
             String.class, String.class, String.class, Object.class, Object[].class));
 
-    Method MyClassVistor_methodOnEnd = Method.getMethod(MyClassVistor.class.getDeclaredMethod("methodOnEnd", Object.class));
+    Method AdviceWeaver_methodOnEnd = Method.getMethod(AdviceWeaver.class.getDeclaredMethod("methodOnEnd", Object.class));
 
-    Method MyClassVistor_methodOnThrowing = Method.getMethod(MyClassVistor.class.getDeclaredMethod("methodOnThrowing", Object.class));
+    Method AdviceWeaver_methodOnThrowing = Method.getMethod(AdviceWeaver.class.getDeclaredMethod("methodOnThrowing", Object.class));
 
     @Override
     public MethodVisitor visitMethod(final int access, final String name, final String descriptor, String signature, String[] exceptions) {
@@ -56,7 +59,7 @@ public class MyClassVistor extends ClassVisitor implements Opcodes {
                     loadThisOrNullIfStatic();
                     loadArgArray();
 
-                    invokeStatic(Type.getType(MyClassVistor.class), MyClassVistor_methodOnBegin);
+                    invokeStatic(Type.getType(AdviceWeaver.class), AdviceWeaver_methodOnBegin);
 
                     //标记method begin,用于throwing的try-catch-finally block
                     mark(beginLabel);
@@ -80,7 +83,7 @@ public class MyClassVistor extends ClassVisitor implements Opcodes {
                         //加载正常的返回值
                         loadReturn(opcode);
                         //只有一个参数就是返回值
-                        invokeStatic(Type.getType(MyClassVistor.class), MyClassVistor_methodOnEnd);
+                        invokeStatic(Type.getType(AdviceWeaver.class), AdviceWeaver_methodOnEnd);
                     }
                 }
 
@@ -91,7 +94,7 @@ public class MyClassVistor extends ClassVisitor implements Opcodes {
                     catchException(beginLabel, endLabel, Type.getType(Throwable.class));
                     //从栈顶加载异常(复制一份给onThrowing当参数用)
                     dup();
-                    invokeStatic(Type.getType(MyClassVistor.class), MyClassVistor_methodOnThrowing);
+                    invokeStatic(Type.getType(AdviceWeaver.class), AdviceWeaver_methodOnThrowing);
                     //将原有的异常抛出(不破坏原有异常逻辑)
                     throwException();
 
@@ -126,6 +129,7 @@ public class MyClassVistor extends ClassVisitor implements Opcodes {
                 }
             };
         }
+
         return mv;
     }
 }

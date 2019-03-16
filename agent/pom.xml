@@ -53,7 +53,7 @@
     </dependencies>
 
     <build>
-        <finalName>arthas-agent</finalName>
+        <finalName>jvm-profile-agent</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -80,8 +80,8 @@
                             </descriptorRefs>
                             <archive>
                                 <manifestEntries>
-                                    <Premain-Class>com.taobao.arthas.agent.AgentBootstrap</Premain-Class>
-                                    <Agent-Class>com.taobao.arthas.agent.AgentBootstrap</Agent-Class>
+                                    <Premain-Class>com.github.jvm.agent.bootstrap.AgentBootstrap</Premain-Class>
+                                    <Agent-Class>com.github.jvm.agent.bootstrap.AgentBootstrap</Agent-Class>
                                     <Can-Redefine-Classes>true</Can-Redefine-Classes>
                                     <Can-Retransform-Classes>true</Can-Retransform-Classes>
                                 </manifestEntries>

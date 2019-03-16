@@ -1,4 +1,4 @@
-import com.taobao.arthas.agent.AttachAgentMain;
+import com.github.jvm.agent.bootstrap.AttachAgentMain;
 import sun.management.VMManagement;
 
 import java.lang.management.ManagementFactory;
@@ -22,7 +22,7 @@ public class LocalDebugTest {
     public static void main(String[] args) throws Exception {
         final int pid = getCurrentJVMPid();
         System.out.println("pid:" + pid);
-        AttachAgentMain.main(new String[]{"66945"});
+        AttachAgentMain.main(new String[]{"76142"});
         System.out.println("代码植入成功");
 //        Thread.sleep(10000000);
     }

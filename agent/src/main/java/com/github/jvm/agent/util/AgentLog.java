@@ -1,4 +1,4 @@
-package com.github.llz.util;
+package com.github.jvm.agent.util;
 import java.util.regex.Matcher;
 
 /**
@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
  * @author hengyunabc 2017-05-03
  *
  */
-public abstract class AnsiLog {
+public abstract class AgentLog {
 
     static boolean enable = System.console() != null;
 
