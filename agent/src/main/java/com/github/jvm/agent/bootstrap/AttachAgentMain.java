@@ -1,8 +1,8 @@
 package com.github.jvm.agent.bootstrap;
 
+import com.github.jvm.agent.util.AgentLog;
 import com.sun.tools.attach.VirtualMachine;
 import com.sun.tools.attach.VirtualMachineDescriptor;
-import com.github.jvm.agent.util.AgentLog;
 
 import java.util.Properties;
 
