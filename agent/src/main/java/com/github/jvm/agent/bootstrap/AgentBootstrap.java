@@ -1,5 +1,8 @@
 package com.github.jvm.agent.bootstrap;
 
+import com.github.jvm.agent.shell.future.Future;
+import com.github.jvm.agent.shell.handlers.Handler;
+import com.github.jvm.agent.shell.term.TelnetTermServer;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.instrument.Instrumentation;
@@ -37,6 +40,15 @@ public class AgentBootstrap {
     }
 
     private static void main(String args, Instrumentation inst) {
+        bind(inst);
+//        retransformMethod(inst);
+    }
+
+    /**
+     * 暂时屏蔽转化过程
+     * @param inst
+     */
+    private static void retransformMethod(Instrumentation inst) {
         AppClassFileTransformer appClassFileTransformer = new AppClassFileTransformer();
 
         //统计需要字节码加强的类集
@@ -66,5 +78,16 @@ public class AgentBootstrap {
         } finally {
             inst.removeTransformer(appClassFileTransformer);
         }
+    }
+
+    private static void bind(Instrumentation inst) {
+        TelnetTermServer telnetTermServer = new TelnetTermServer("127.0.0.1", 3658,
+                5 * 60 * 1000L);
+        telnetTermServer.listen(new Handler<Future<TelnetTermServer>>() {
+            @Override
+            public void handle(Future<TelnetTermServer> event) {
+                System.out.println(event);
+            }
+        });
     }
 }
