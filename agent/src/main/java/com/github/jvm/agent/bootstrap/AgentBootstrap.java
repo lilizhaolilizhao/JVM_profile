@@ -1,8 +1,8 @@
 package com.github.jvm.agent.bootstrap;
 
+import com.github.jvm.agent.handlers.Handler;
 import com.github.jvm.agent.shell.future.Future;
-import com.github.jvm.agent.shell.handlers.Handler;
-import com.github.jvm.agent.shell.term.TelnetTermServer;
+import com.github.jvm.agent.shell.term.impl.TelnetTermServer;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.instrument.Instrumentation;
@@ -46,6 +46,7 @@ public class AgentBootstrap {
 
     /**
      * 暂时屏蔽转化过程
+     *
      * @param inst
      */
     private static void retransformMethod(Instrumentation inst) {

@@ -1,4 +1,4 @@
-package com.github.jvm.agent.shell.handlers;
+package com.github.jvm.agent.handlers;
 
 public interface Handler<E> {
     void handle(E event);
