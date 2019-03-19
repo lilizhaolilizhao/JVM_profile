@@ -7,7 +7,7 @@ import io.termd.core.function.Consumer;
 import io.termd.core.tty.TtyConnection;
 
 /**
- * @author beiwei30 on 23/11/2016.
+ * 请求处理
  */
 public class RequestHandler implements Consumer<String> {
     private TermServer term;
