@@ -81,7 +81,7 @@ public class AgentBootstrap {
     }
 
     private static void bind(Instrumentation inst) {
-        TelnetTermServer telnetTermServer = new TelnetTermServer("127.0.0.1", 3658,
+        TelnetTermServer telnetTermServer = new TelnetTermServer("127.0.0.1", 6666,
                 5 * 60 * 1000L);
         telnetTermServer.listen(new Handler<Future<TelnetTermServer>>() {
             @Override

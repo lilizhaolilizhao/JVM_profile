@@ -2,7 +2,9 @@ package com.github.jvm.agent.shell.term;
 
 import com.github.jvm.agent.shell.future.Future;
 import com.github.jvm.agent.shell.handlers.Handler;
+import com.github.jvm.agent.shell.util.Helper;
 import io.termd.core.function.Consumer;
+import io.termd.core.readline.Readline;
 import io.termd.core.telnet.netty.NettyTelnetTtyBootstrap;
 import io.termd.core.tty.TtyConnection;
 import lombok.extern.slf4j.Slf4j;
@@ -14,22 +16,18 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 public class TelnetTermServer {
+    private Readline readline;
     private NettyTelnetTtyBootstrap bootstrap;
     private String hostIp;
     private int port;
     private long connectionTimeout;
 
-    private Handler<TelnetTermServer> termHandler;
-
     public TelnetTermServer(String hostIp, int port, long connectionTimeout) {
         this.hostIp = hostIp;
         this.port = port;
         this.connectionTimeout = connectionTimeout;
-    }
 
-    public TelnetTermServer termHandler(Handler<TelnetTermServer> handler) {
-        termHandler = handler;
-        return this;
+        readline = new Readline(Helper.loadKeymap());
     }
 
     public TelnetTermServer listen(Handler<Future<TelnetTermServer>> listenHandler) {
@@ -37,8 +35,17 @@ public class TelnetTermServer {
         try {
             bootstrap.start(new Consumer<TtyConnection>() {
                 @Override
-                public void accept(TtyConnection ttyConnection) {
-                    System.out.println("this is a test!");
+                public void accept(TtyConnection conn) {
+                    conn.write("============\n");
+                    conn.write("llz");
+                    conn.write("=============\n");
+
+                    readline.readline(conn, ">>>", new Consumer<String>() {
+                        @Override
+                        public void accept(String line) {
+                            System.out.println(line);
+                        }
+                    });
                 }
             }).get(connectionTimeout, TimeUnit.MILLISECONDS);
             listenHandler.handle(Future.<TelnetTermServer>succeededFuture());

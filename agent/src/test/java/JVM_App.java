@@ -1,6 +1,6 @@
-public class App {
+public class JVM_App {
     public static void main(String[] args) throws InterruptedException {
-        App app = new App();
+        JVM_App app = new JVM_App();
 
         for (int i = 0; i < 10000; i++) {
             try {
