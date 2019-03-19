@@ -5,6 +5,7 @@ import com.github.jvm.agent.handlers.shell.ShellLineHandler;
 import com.github.jvm.agent.shell.future.Future;
 import com.github.jvm.agent.shell.term.TermServer;
 import com.github.jvm.agent.shell.util.Helper;
+import com.github.jvm.agent.util.Constants;
 import io.termd.core.function.Consumer;
 import io.termd.core.readline.Readline;
 import io.termd.core.telnet.netty.NettyTelnetTtyBootstrap;
@@ -43,7 +44,7 @@ public class TelnetTermServer extends TermServer {
                     conn.write("llz");
                     conn.write("=============\n");
 
-                    readline.readline(conn, ">>>", new RequestHandler(TelnetTermServer.this, new ShellLineHandler()));
+                    readline.readline(conn, Constants.DEFAULT_PROMPT, new RequestHandler(TelnetTermServer.this, conn, new ShellLineHandler()));
                 }
             }).get(connectionTimeout, TimeUnit.MILLISECONDS);
             listenHandler.handle(Future.<TelnetTermServer>succeededFuture());
@@ -58,5 +59,10 @@ public class TelnetTermServer extends TermServer {
     @Override
     public void setInReadline(boolean inReadline) {
         this.inReadline = inReadline;
+    }
+
+    @Override
+    public void readline(TtyConnection conn) {
+        readline.readline(conn, Constants.DEFAULT_PROMPT, new RequestHandler(this, conn, new ShellLineHandler()));
     }
 }
