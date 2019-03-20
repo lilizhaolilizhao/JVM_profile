@@ -1,6 +1,7 @@
 package com.github.jvm.agent.bootstrap;
 
 import com.github.jvm.agent.handlers.Handler;
+import com.github.jvm.agent.shell.ShellServerOptions;
 import com.github.jvm.agent.shell.future.Future;
 import com.github.jvm.agent.shell.term.impl.TelnetTermServer;
 import lombok.extern.slf4j.Slf4j;
@@ -84,6 +85,7 @@ public class AgentBootstrap {
     private static void bind(Instrumentation inst) {
         TelnetTermServer telnetTermServer = new TelnetTermServer("127.0.0.1", 6666,
                 5 * 60 * 1000L);
+        telnetTermServer.setWelcomeText(ShellServerOptions.DEFAULT_WELCOME_MESSAGE);
         telnetTermServer.listen(new Handler<Future<TelnetTermServer>>() {
             @Override
             public void handle(Future<TelnetTermServer> event) {

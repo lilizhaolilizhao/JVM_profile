@@ -25,6 +25,11 @@ public class TelnetTermServer extends TermServer {
     private int port;
     private long connectionTimeout;
     private boolean inReadline;
+    private String welcomeText;
+
+    public void setWelcomeText(String welcomeText) {
+        this.welcomeText = welcomeText;
+    }
 
     public TelnetTermServer(String hostIp, int port, long connectionTimeout) {
         this.hostIp = hostIp;
@@ -40,9 +45,7 @@ public class TelnetTermServer extends TermServer {
             bootstrap.start(new Consumer<TtyConnection>() {
                 @Override
                 public void accept(TtyConnection conn) {
-                    conn.write("============\n");
-                    conn.write("llz");
-                    conn.write("=============\n");
+                    conn.write(welcomeText + "\n");
 
                     readline.readline(conn, Constants.DEFAULT_PROMPT, new RequestHandler(TelnetTermServer.this, conn, new ShellLineHandler()));
                 }

@@ -13,6 +13,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.taobao.text</groupId>
+            <artifactId>text-ui</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.alibaba.middleware</groupId>
             <artifactId>termd-core</artifactId>
         </dependency>
