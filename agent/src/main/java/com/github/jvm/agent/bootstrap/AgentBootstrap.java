@@ -41,7 +41,7 @@ public class AgentBootstrap {
     }
 
     private static void main(String args, Instrumentation inst) {
-        bind(inst);
+        bind(args, inst);
 //        retransformMethod(inst);
     }
 
@@ -82,10 +82,11 @@ public class AgentBootstrap {
         }
     }
 
-    private static void bind(Instrumentation inst) {
+    private static void bind(String javaPid, Instrumentation inst) {
         TelnetTermServer telnetTermServer = new TelnetTermServer("127.0.0.1", 6666,
                 5 * 60 * 1000L);
         telnetTermServer.setWelcomeText(ShellServerOptions.DEFAULT_WELCOME_MESSAGE);
+        telnetTermServer.setJavaPid(javaPid);
         telnetTermServer.listen(new Handler<Future<TelnetTermServer>>() {
             @Override
             public void handle(Future<TelnetTermServer> event) {

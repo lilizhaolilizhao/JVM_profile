@@ -10,14 +10,18 @@ import io.termd.core.function.Consumer;
 import io.termd.core.readline.Readline;
 import io.termd.core.telnet.netty.NettyTelnetTtyBootstrap;
 import io.termd.core.tty.TtyConnection;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
  * 建立telnet服务端
  */
 @Slf4j
+@Data
 public class TelnetTermServer extends TermServer {
     private Readline readline;
     private NettyTelnetTtyBootstrap bootstrap;
@@ -26,10 +30,7 @@ public class TelnetTermServer extends TermServer {
     private long connectionTimeout;
     private boolean inReadline;
     private String welcomeText;
-
-    public void setWelcomeText(String welcomeText) {
-        this.welcomeText = welcomeText;
-    }
+    private String javaPid;
 
     public TelnetTermServer(String hostIp, int port, long connectionTimeout) {
         this.hostIp = hostIp;
@@ -46,6 +47,11 @@ public class TelnetTermServer extends TermServer {
                 @Override
                 public void accept(TtyConnection conn) {
                     conn.write(welcomeText + "\n");
+                    conn.write("pid:  " + javaPid + "\n");
+
+                    Date today = new Date();
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    conn.write("当前时间:  " + sdf.format(today) + "\n\n");
 
                     readline.readline(conn, Constants.DEFAULT_PROMPT, new RequestHandler(TelnetTermServer.this, conn, new ShellLineHandler()));
                 }

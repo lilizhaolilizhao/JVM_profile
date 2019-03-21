@@ -48,7 +48,7 @@ public class AttachAgentMain {
             //接口说明 单个参数和两个参数
             //loadAgent(String agent)
             //loadAgent(String agent, String options)
-            virtualMachine.loadAgent("agent/target/jvm-profile-agent-jar-with-dependencies.jar");
+            virtualMachine.loadAgent("agent/target/jvm-profile-agent-jar-with-dependencies.jar", javaPid);
         } finally {
             if (null != virtualMachine) {
                 virtualMachine.detach();
