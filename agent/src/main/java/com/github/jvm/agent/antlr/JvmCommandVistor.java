@@ -2,6 +2,7 @@ package com.github.jvm.agent.antlr;
 
 import com.github.jvm.agent.command.Command;
 import com.github.jvm.agent.command.basic.ClsCommand;
+import com.github.jvm.agent.command.basic.ExitCommand;
 import com.github.jvm.agent.command.basic.HelpCommand;
 import io.termd.core.tty.TtyConnection;
 import lombok.Data;
@@ -20,6 +21,13 @@ public class JvmCommandVistor extends CommandBaseVisitor {
         command = new HelpCommand();
 
         return super.visitCommand_list(ctx);
+    }
+
+    @Override
+    public Object visitExit_command(CommandParser.Exit_commandContext ctx) {
+        command = new ExitCommand(conn);
+
+        return super.visitExit_command(ctx);
     }
 
     @Override

@@ -17,7 +17,6 @@ public class CommandParseUtil {
     /**
      * 解析命令行
      *
-     *
      * @param conn
      * @param commandText
      * @return

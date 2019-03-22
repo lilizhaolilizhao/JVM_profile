@@ -6,6 +6,7 @@ parse
 
 command_list
  : ( help_command
+ | exit_command
  | cls_command
  )
  ;
@@ -14,11 +15,18 @@ help_command
  : HELP_COMMAND
  ;
 
+exit_command
+ : EXIT_COMMAND | LOGOUT_COMMAND | QUIT_COMMAND
+ ;
+
 cls_command
  : CLS_COMMAND
  ;
 
 HELP_COMMAND : H E L P;
+EXIT_COMMAND : E X I T;
+LOGOUT_COMMAND : L O G O U T;
+QUIT_COMMAND : Q U I T;
 CLS_COMMAND : C L S;
 
 fragment DIGIT : [0-9];
