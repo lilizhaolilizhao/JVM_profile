@@ -20,6 +20,16 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4</artifactId>
+                <version>4.7.2</version>
+            </dependency>
+            <dependency>
+                <groupId>org.antlr</groupId>
+                <artifactId>antlr4-runtime</artifactId>
+                <version>4.7.2</version>
+            </dependency>
+            <dependency>
                 <groupId>com.taobao.text</groupId>
                 <artifactId>text-ui</artifactId>
                 <version>0.0.2</version>

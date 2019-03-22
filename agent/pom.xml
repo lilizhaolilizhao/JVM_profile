@@ -13,6 +13,14 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.taobao.text</groupId>
             <artifactId>text-ui</artifactId>
         </dependency>
