@@ -1,16 +1,6 @@
 package com.navercorp.pinpoint.testapp.controller;
 
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
-
-import javax.annotation.PostConstruct;
-
+import com.navercorp.pinpoint.testapp.util.Description;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,10 +11,12 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
+import javax.annotation.PostConstruct;
+import java.util.*;
+
 /**
  * @author koo.taejin
  */
-import com.navercorp.pinpoint.testapp.util.Description;
 
 @Controller(value = "apisController")
 public class ApisController {
@@ -61,7 +53,7 @@ public class ApisController {
             alreadyMappedRequests.addAll(createRequestMappedApis(handlerMethod, mappedRequests));
         }
     }
-    
+
     private Set<RequestMappedUri> createRequestMappedApis(HandlerMethod handlerMethod, Set<String> mappedUris) {
         if (CollectionUtils.isEmpty(mappedUris)) {
             return Collections.emptySet();
@@ -74,14 +66,14 @@ public class ApisController {
         return requestMappedUris;
     }
 
-    @RequestMapping(value = { "/index.html", "/apis" }, method = RequestMethod.GET)
+    @RequestMapping(value = {"/index.html", "/apis"}, method = RequestMethod.GET)
     public String apis(Model model) {
         model.addAttribute("apiMappings", this.apiMappings);
         return "apis";
     }
 
     public static class RequestMappedUri {
-        
+
         private final String mappedUri;
         private final String description;
 
@@ -92,15 +84,15 @@ public class ApisController {
             this.mappedUri = mappedUri;
             this.description = description == null ? "" : description.value();
         }
-        
+
         public String getMappedUri() {
             return this.mappedUri;
         }
-        
+
         public String getDescription() {
             return this.description;
         }
-        
+
         private static final Comparator<RequestMappedUri> MAPPED_URI_ORDER = new Comparator<RequestMappedUri>() {
             @Override
             public int compare(RequestMappedUri arg0, RequestMappedUri arg1) {
@@ -146,7 +138,7 @@ public class ApisController {
         public String toString() {
             return "RequestMappedUri [mappedUri=" + mappedUri + ", description=" + description + "]";
         }
-        
+
     }
 
 }

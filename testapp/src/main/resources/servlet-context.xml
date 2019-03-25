@@ -9,9 +9,9 @@
 
     <!-- Enables the Spring MVC @Controller programming model -->
     <mvc:annotation-driven/>
-    <context:component-scan base-package="com.navercorp.pinpoint.testapp.controller" />
-    <context:component-scan base-package="com.navercorp.pinpoint.testapp.service" />
-    
+    <context:component-scan base-package="com.navercorp.pinpoint.testapp.controller"/>
+    <context:component-scan base-package="com.navercorp.pinpoint.testapp.service"/>
+
     <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <props>

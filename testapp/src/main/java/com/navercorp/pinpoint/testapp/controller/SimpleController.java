@@ -1,13 +1,12 @@
 package com.navercorp.pinpoint.testapp.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.navercorp.pinpoint.testapp.util.Description;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.navercorp.pinpoint.testapp.util.Description;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author koo.taejin

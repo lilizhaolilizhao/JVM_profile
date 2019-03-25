@@ -18,7 +18,7 @@ public class JvmCommandVistor extends CommandBaseVisitor {
 
     @Override
     public Object visitCommand_list(CommandParser.Command_listContext ctx) {
-        command = new HelpCommand();
+        command = new HelpCommand(conn);
 
         return super.visitCommand_list(ctx);
     }

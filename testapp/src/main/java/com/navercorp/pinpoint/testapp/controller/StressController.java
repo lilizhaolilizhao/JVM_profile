@@ -1,5 +1,10 @@
 package com.navercorp.pinpoint.testapp.controller;
 
+import com.navercorp.pinpoint.testapp.util.Description;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -7,12 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.navercorp.pinpoint.testapp.util.Description;
 
 @Controller
 public class StressController {
@@ -96,17 +95,17 @@ public class StressController {
 
         return map;
     }
-    
+
     private void consumeMemory(int byteArraySize, int createMaxHeapCount) {
         long heapSize = Runtime.getRuntime().maxMemory();
-        
-        int count = (int) Math.max(1, (heapSize/byteArraySize) * createMaxHeapCount);
-        
+
+        int count = (int) Math.max(1, (heapSize / byteArraySize) * createMaxHeapCount);
+
         List<WeakReference<byte[]>> weakReferece = new ArrayList<WeakReference<byte[]>>();
         for (int i = 0; i < count; i++) {
             weakReferece.add(new WeakReference<byte[]>(new byte[byteArraySize]));
         }
 
         System.gc();
-    }    
+    }
 }
