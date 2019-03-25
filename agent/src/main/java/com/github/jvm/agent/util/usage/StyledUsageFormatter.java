@@ -10,7 +10,6 @@ import com.taobao.text.ui.RowElement;
 import com.taobao.text.ui.TableElement;
 import com.taobao.text.util.RenderUtil;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +32,7 @@ public class StyledUsageFormatter extends UsageMessageFormatter {
         TableElement table = new TableElement(1, 2).leftCellPadding(1).rightCellPadding(1);
 
         table.add(row().add(label("USAGE:").style(getHighlightedStyle())));
-//        table.add(row().add(label(computeUsageLine(clazz))));
+        table.add(row().add(label(computeUsageLine(clazz))));
         table.add(row().add(""));
         table.add(row().add(label("SUMMARY:").style(getHighlightedStyle())));
 
@@ -101,20 +100,21 @@ public class StyledUsageFormatter extends UsageMessageFormatter {
         buff.append(name.value()).append(" ");
 
         // iterate over the options
-        for (Field field : clazz.getFields()) {
-            Option option = field.getAnnotation(Option.class);
+        for (Method method : clazz.getMethods()) {
+            Option option = method.getAnnotation(Option.class);
+            Argument argument = method.getAnnotation(Argument.class);
 
-//            appendOption(buff, new com.taobao.middleware.cli.Option().set);
-            buff.append(" ");
+            if (option != null) {
+                appendOption(buff, new com.taobao.middleware.cli.Option().setShortName(option.shortName())
+                        .setLongName(option.longName()).setFlag(option.flag()));
+                buff.append(" ");
+            }
 
-
+            if (argument != null) {
+                appendArgument(buff, new com.taobao.middleware.cli.Argument().setArgName(argument.argName()), argument.required());
+                buff.append(" ");
+            }
         }
-
-        // iterate over the arguments
-//        for (Argument arg : cli.getArguments()) {
-//            appendArgument(buff, arg, arg.isRequired());
-//            buff.append(" ");
-//        }
 
         return buff.toString();
     }
