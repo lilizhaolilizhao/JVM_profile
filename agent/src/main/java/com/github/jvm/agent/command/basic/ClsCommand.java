@@ -1,6 +1,6 @@
 package com.github.jvm.agent.command.basic;
 
-import com.github.jvm.agent.command.Command;
+import com.github.jvm.agent.command.GeneralCommand;
 import com.taobao.middleware.cli.annotations.Name;
 import com.taobao.middleware.cli.annotations.Summary;
 import com.taobao.text.util.RenderUtil;
@@ -12,11 +12,10 @@ import io.termd.core.tty.TtyConnection;
  */
 @Name("cls")
 @Summary("Clear the screen")
-public class ClsCommand implements Command {
-    private TtyConnection conn;
+public class ClsCommand extends GeneralCommand {
 
     public ClsCommand(TtyConnection conn) {
-        this.conn = conn;
+        super(conn);
     }
 
     @Override

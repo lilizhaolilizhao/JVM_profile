@@ -1,6 +1,6 @@
 package com.github.jvm.agent.command.basic;
 
-import com.github.jvm.agent.command.Command;
+import com.github.jvm.agent.command.GeneralCommand;
 import com.github.jvm.agent.shell.util.Helper;
 import com.taobao.middleware.cli.annotations.Name;
 import com.taobao.middleware.cli.annotations.Summary;
@@ -13,11 +13,10 @@ import java.io.InputStreamReader;
 
 @Name("keymap")
 @Summary("Display all the available keymap for the specified connection.")
-public class KeymapCommand implements Command {
-    private TtyConnection conn;
+public class KeymapCommand extends GeneralCommand {
 
     public KeymapCommand(TtyConnection conn) {
-        this.conn = conn;
+        super(conn);
     }
 
     @Override

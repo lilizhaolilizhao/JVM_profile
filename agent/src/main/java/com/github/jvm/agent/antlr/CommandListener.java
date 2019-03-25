@@ -50,6 +50,20 @@ public interface CommandListener extends ParseTreeListener {
     void exitHelp_command(CommandParser.Help_commandContext ctx);
 
     /**
+     * Enter a parse tree produced by {@link CommandParser#sc_command}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterSc_command(CommandParser.Sc_commandContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link CommandParser#sc_command}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitSc_command(CommandParser.Sc_commandContext ctx);
+
+    /**
      * Enter a parse tree produced by {@link CommandParser#keymap_command}.
      *
      * @param ctx the parse tree
@@ -90,4 +104,18 @@ public interface CommandListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     void exitCls_command(CommandParser.Cls_commandContext ctx);
+
+    /**
+     * Enter a parse tree produced by {@link CommandParser#general_help}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterGeneral_help(CommandParser.General_helpContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link CommandParser#general_help}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitGeneral_help(CommandParser.General_helpContext ctx);
 }

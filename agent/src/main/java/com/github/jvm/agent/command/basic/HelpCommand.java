@@ -2,6 +2,7 @@ package com.github.jvm.agent.command.basic;
 
 import com.github.jvm.agent.command.BuiltinCommandPack;
 import com.github.jvm.agent.command.Command;
+import com.github.jvm.agent.command.GeneralCommand;
 import com.taobao.middleware.cli.annotations.Description;
 import com.taobao.middleware.cli.annotations.Name;
 import com.taobao.middleware.cli.annotations.Summary;
@@ -26,11 +27,9 @@ import static com.taobao.text.ui.Element.row;
 @Name("help")
 @Summary("Display Arthas Help")
 @Description("Examples:\n" + " help\n" + " help sc\n" + " help sm\n" + " help watch")
-public class HelpCommand implements Command {
-    private TtyConnection conn;
-
+public class HelpCommand extends GeneralCommand {
     public HelpCommand(TtyConnection conn) {
-        this.conn = conn;
+        super(conn);
     }
 
     @Override

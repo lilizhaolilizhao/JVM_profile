@@ -70,6 +70,24 @@ public class CommandBaseListener implements CommandListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
+    public void enterSc_command(CommandParser.Sc_commandContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitSc_command(CommandParser.Sc_commandContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
     public void enterKeymap_command(CommandParser.Keymap_commandContext ctx) {
     }
 
@@ -116,6 +134,24 @@ public class CommandBaseListener implements CommandListener {
      */
     @Override
     public void exitCls_command(CommandParser.Cls_commandContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void enterGeneral_help(CommandParser.General_helpContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitGeneral_help(CommandParser.General_helpContext ctx) {
     }
 
     /**

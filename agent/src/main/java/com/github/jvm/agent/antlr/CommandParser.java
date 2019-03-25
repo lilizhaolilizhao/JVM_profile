@@ -10,8 +10,6 @@ import org.antlr.v4.runtime.tree.ParseTreeListener;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 import org.antlr.v4.runtime.tree.TerminalNode;
 
-import java.util.List;
-
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class CommandParser extends Parser {
     static {
@@ -22,16 +20,19 @@ public class CommandParser extends Parser {
     protected static final PredictionContextCache _sharedContextCache =
             new PredictionContextCache();
     public static final int
-            HELP_COMMAND = 1, KEYMAP_COMMAND = 2, EXIT_COMMAND = 3, LOGOUT_COMMAND = 4, QUIT_COMMAND = 5,
-            CLS_COMMAND = 6;
+            T__0 = 1, SC_COMMAND = 2, KEYMAP_COMMAND = 3, EXIT_COMMAND = 4, LOGOUT_COMMAND = 5,
+            QUIT_COMMAND = 6, CLS_COMMAND = 7, HELP_COMMAND = 8, IDENTIFIER = 9, NUMERIC_LITERAL = 10,
+            BIND_PARAMETER = 11, STRING_LITERAL = 12, BLOB_LITERAL = 13, SINGLE_LINE_COMMENT = 14,
+            MULTILINE_COMMENT = 15, SPACES = 16, UNEXPECTED_CHAR = 17;
     public static final int
-            RULE_parse = 0, RULE_command_list = 1, RULE_help_command = 2, RULE_keymap_command = 3,
-            RULE_exit_command = 4, RULE_cls_command = 5;
+            RULE_parse = 0, RULE_command_list = 1, RULE_help_command = 2, RULE_sc_command = 3,
+            RULE_keymap_command = 4, RULE_exit_command = 5, RULE_cls_command = 6,
+            RULE_general_help = 7;
 
     private static String[] makeRuleNames() {
         return new String[]{
-                "parse", "command_list", "help_command", "keymap_command", "exit_command",
-                "cls_command"
+                "parse", "command_list", "help_command", "sc_command", "keymap_command",
+                "exit_command", "cls_command", "general_help"
         };
     }
 
@@ -39,6 +40,7 @@ public class CommandParser extends Parser {
 
     private static String[] makeLiteralNames() {
         return new String[]{
+                null, "'-'"
         };
     }
 
@@ -46,8 +48,10 @@ public class CommandParser extends Parser {
 
     private static String[] makeSymbolicNames() {
         return new String[]{
-                null, "HELP_COMMAND", "KEYMAP_COMMAND", "EXIT_COMMAND", "LOGOUT_COMMAND",
-                "QUIT_COMMAND", "CLS_COMMAND"
+                null, null, "SC_COMMAND", "KEYMAP_COMMAND", "EXIT_COMMAND", "LOGOUT_COMMAND",
+                "QUIT_COMMAND", "CLS_COMMAND", "HELP_COMMAND", "IDENTIFIER", "NUMERIC_LITERAL",
+                "BIND_PARAMETER", "STRING_LITERAL", "BLOB_LITERAL", "SINGLE_LINE_COMMENT",
+                "MULTILINE_COMMENT", "SPACES", "UNEXPECTED_CHAR"
         };
     }
 
@@ -112,16 +116,8 @@ public class CommandParser extends Parser {
     }
 
     public static class ParseContext extends ParserRuleContext {
-        public TerminalNode EOF() {
-            return getToken(CommandParser.EOF, 0);
-        }
-
-        public List<Command_listContext> command_list() {
-            return getRuleContexts(Command_listContext.class);
-        }
-
-        public Command_listContext command_list(int i) {
-            return getRuleContext(Command_listContext.class, i);
+        public Command_listContext command_list() {
+            return getRuleContext(Command_listContext.class, 0);
         }
 
         public ParseContext(ParserRuleContext parent, int invokingState) {
@@ -153,26 +149,11 @@ public class CommandParser extends Parser {
     public final ParseContext parse() throws RecognitionException {
         ParseContext _localctx = new ParseContext(_ctx, getState());
         enterRule(_localctx, 0, RULE_parse);
-        int _la;
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(15);
-                _errHandler.sync(this);
-                _la = _input.LA(1);
-                while ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << HELP_COMMAND) | (1L << KEYMAP_COMMAND) | (1L << EXIT_COMMAND) | (1L << LOGOUT_COMMAND) | (1L << QUIT_COMMAND) | (1L << CLS_COMMAND))) != 0)) {
-                    {
-                        {
-                            setState(12);
-                            command_list();
-                        }
-                    }
-                    setState(17);
-                    _errHandler.sync(this);
-                    _la = _input.LA(1);
-                }
-                setState(18);
-                match(EOF);
+                setState(16);
+                command_list();
             }
         } catch (RecognitionException re) {
             _localctx.exception = re;
@@ -187,6 +168,10 @@ public class CommandParser extends Parser {
     public static class Command_listContext extends ParserRuleContext {
         public Help_commandContext help_command() {
             return getRuleContext(Help_commandContext.class, 0);
+        }
+
+        public Sc_commandContext sc_command() {
+            return getRuleContext(Sc_commandContext.class, 0);
         }
 
         public Keymap_commandContext keymap_command() {
@@ -234,28 +219,33 @@ public class CommandParser extends Parser {
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(24);
+                setState(23);
                 _errHandler.sync(this);
                 switch (_input.LA(1)) {
                     case HELP_COMMAND: {
-                        setState(20);
+                        setState(18);
                         help_command();
                     }
                     break;
+                    case SC_COMMAND: {
+                        setState(19);
+                        sc_command();
+                    }
+                    break;
                     case KEYMAP_COMMAND: {
-                        setState(21);
+                        setState(20);
                         keymap_command();
                     }
                     break;
                     case EXIT_COMMAND:
                     case LOGOUT_COMMAND:
                     case QUIT_COMMAND: {
-                        setState(22);
+                        setState(21);
                         exit_command();
                     }
                     break;
                     case CLS_COMMAND: {
-                        setState(23);
+                        setState(22);
                         cls_command();
                     }
                     break;
@@ -311,8 +301,73 @@ public class CommandParser extends Parser {
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(26);
+                setState(25);
                 match(HELP_COMMAND);
+            }
+        } catch (RecognitionException re) {
+            _localctx.exception = re;
+            _errHandler.reportError(this, re);
+            _errHandler.recover(this, re);
+        } finally {
+            exitRule();
+        }
+        return _localctx;
+    }
+
+    public static class Sc_commandContext extends ParserRuleContext {
+        public TerminalNode SC_COMMAND() {
+            return getToken(CommandParser.SC_COMMAND, 0);
+        }
+
+        public General_helpContext general_help() {
+            return getRuleContext(General_helpContext.class, 0);
+        }
+
+        public Sc_commandContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
+        @Override
+        public int getRuleIndex() {
+            return RULE_sc_command;
+        }
+
+        @Override
+        public void enterRule(ParseTreeListener listener) {
+            if (listener instanceof CommandListener) ((CommandListener) listener).enterSc_command(this);
+        }
+
+        @Override
+        public void exitRule(ParseTreeListener listener) {
+            if (listener instanceof CommandListener) ((CommandListener) listener).exitSc_command(this);
+        }
+
+        @Override
+        public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+            if (visitor instanceof CommandVisitor) return ((CommandVisitor<? extends T>) visitor).visitSc_command(this);
+            else return visitor.visitChildren(this);
+        }
+    }
+
+    public final Sc_commandContext sc_command() throws RecognitionException {
+        Sc_commandContext _localctx = new Sc_commandContext(_ctx, getState());
+        enterRule(_localctx, 6, RULE_sc_command);
+        int _la;
+        try {
+            enterOuterAlt(_localctx, 1);
+            {
+                setState(27);
+                match(SC_COMMAND);
+                setState(29);
+                _errHandler.sync(this);
+                _la = _input.LA(1);
+                if (_la == T__0) {
+                    {
+                        setState(28);
+                        general_help();
+                    }
+                }
+
             }
         } catch (RecognitionException re) {
             _localctx.exception = re;
@@ -358,11 +413,11 @@ public class CommandParser extends Parser {
 
     public final Keymap_commandContext keymap_command() throws RecognitionException {
         Keymap_commandContext _localctx = new Keymap_commandContext(_ctx, getState());
-        enterRule(_localctx, 6, RULE_keymap_command);
+        enterRule(_localctx, 8, RULE_keymap_command);
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(28);
+                setState(31);
                 match(KEYMAP_COMMAND);
             }
         } catch (RecognitionException re) {
@@ -417,12 +472,12 @@ public class CommandParser extends Parser {
 
     public final Exit_commandContext exit_command() throws RecognitionException {
         Exit_commandContext _localctx = new Exit_commandContext(_ctx, getState());
-        enterRule(_localctx, 8, RULE_exit_command);
+        enterRule(_localctx, 10, RULE_exit_command);
         int _la;
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(30);
+                setState(33);
                 _la = _input.LA(1);
                 if (!((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXIT_COMMAND) | (1L << LOGOUT_COMMAND) | (1L << QUIT_COMMAND))) != 0))) {
                     _errHandler.recoverInline(this);
@@ -476,11 +531,11 @@ public class CommandParser extends Parser {
 
     public final Cls_commandContext cls_command() throws RecognitionException {
         Cls_commandContext _localctx = new Cls_commandContext(_ctx, getState());
-        enterRule(_localctx, 10, RULE_cls_command);
+        enterRule(_localctx, 12, RULE_cls_command);
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(32);
+                setState(35);
                 match(CLS_COMMAND);
             }
         } catch (RecognitionException re) {
@@ -493,17 +548,71 @@ public class CommandParser extends Parser {
         return _localctx;
     }
 
+    public static class General_helpContext extends ParserRuleContext {
+        public TerminalNode HELP_COMMAND() {
+            return getToken(CommandParser.HELP_COMMAND, 0);
+        }
+
+        public General_helpContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
+        @Override
+        public int getRuleIndex() {
+            return RULE_general_help;
+        }
+
+        @Override
+        public void enterRule(ParseTreeListener listener) {
+            if (listener instanceof CommandListener) ((CommandListener) listener).enterGeneral_help(this);
+        }
+
+        @Override
+        public void exitRule(ParseTreeListener listener) {
+            if (listener instanceof CommandListener) ((CommandListener) listener).exitGeneral_help(this);
+        }
+
+        @Override
+        public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+            if (visitor instanceof CommandVisitor)
+                return ((CommandVisitor<? extends T>) visitor).visitGeneral_help(this);
+            else return visitor.visitChildren(this);
+        }
+    }
+
+    public final General_helpContext general_help() throws RecognitionException {
+        General_helpContext _localctx = new General_helpContext(_ctx, getState());
+        enterRule(_localctx, 14, RULE_general_help);
+        try {
+            enterOuterAlt(_localctx, 1);
+            {
+                setState(37);
+                match(T__0);
+                setState(38);
+                match(HELP_COMMAND);
+            }
+        } catch (RecognitionException re) {
+            _localctx.exception = re;
+            _errHandler.reportError(this, re);
+            _errHandler.recover(this, re);
+        } finally {
+            exitRule();
+        }
+        return _localctx;
+    }
+
     public static final String _serializedATN =
-            "\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\b%\4\2\t\2\4\3\t" +
-                    "\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\3\2\7\2\20\n\2\f\2\16\2\23\13\2\3\2" +
-                    "\3\2\3\3\3\3\3\3\3\3\5\3\33\n\3\3\4\3\4\3\5\3\5\3\6\3\6\3\7\3\7\3\7\2" +
-                    "\2\b\2\4\6\b\n\f\2\3\3\2\5\7\2\"\2\21\3\2\2\2\4\32\3\2\2\2\6\34\3\2\2" +
-                    "\2\b\36\3\2\2\2\n \3\2\2\2\f\"\3\2\2\2\16\20\5\4\3\2\17\16\3\2\2\2\20" +
-                    "\23\3\2\2\2\21\17\3\2\2\2\21\22\3\2\2\2\22\24\3\2\2\2\23\21\3\2\2\2\24" +
-                    "\25\7\2\2\3\25\3\3\2\2\2\26\33\5\6\4\2\27\33\5\b\5\2\30\33\5\n\6\2\31" +
-                    "\33\5\f\7\2\32\26\3\2\2\2\32\27\3\2\2\2\32\30\3\2\2\2\32\31\3\2\2\2\33" +
-                    "\5\3\2\2\2\34\35\7\3\2\2\35\7\3\2\2\2\36\37\7\4\2\2\37\t\3\2\2\2 !\t\2" +
-                    "\2\2!\13\3\2\2\2\"#\7\b\2\2#\r\3\2\2\2\4\21\32";
+            "\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\23+\4\2\t\2\4\3\t" +
+                    "\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\3\2\3\2\3\3\3\3\3\3" +
+                    "\3\3\3\3\5\3\32\n\3\3\4\3\4\3\5\3\5\5\5 \n\5\3\6\3\6\3\7\3\7\3\b\3\b\3" +
+                    "\t\3\t\3\t\3\t\2\2\n\2\4\6\b\n\f\16\20\2\3\3\2\6\b\2\'\2\22\3\2\2\2\4" +
+                    "\31\3\2\2\2\6\33\3\2\2\2\b\35\3\2\2\2\n!\3\2\2\2\f#\3\2\2\2\16%\3\2\2" +
+                    "\2\20\'\3\2\2\2\22\23\5\4\3\2\23\3\3\2\2\2\24\32\5\6\4\2\25\32\5\b\5\2" +
+                    "\26\32\5\n\6\2\27\32\5\f\7\2\30\32\5\16\b\2\31\24\3\2\2\2\31\25\3\2\2" +
+                    "\2\31\26\3\2\2\2\31\27\3\2\2\2\31\30\3\2\2\2\32\5\3\2\2\2\33\34\7\n\2" +
+                    "\2\34\7\3\2\2\2\35\37\7\4\2\2\36 \5\20\t\2\37\36\3\2\2\2\37 \3\2\2\2 " +
+                    "\t\3\2\2\2!\"\7\5\2\2\"\13\3\2\2\2#$\t\2\2\2$\r\3\2\2\2%&\7\t\2\2&\17" +
+                    "\3\2\2\2\'(\7\3\2\2()\7\n\2\2)\21\3\2\2\2\4\31\37";
     public static final ATN _ATN =
             new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 

@@ -18,7 +18,7 @@ help_command
  ;
 
 sc_command
- : SC_COMMAND general_help
+ : SC_COMMAND ( general_help )?
  ;
 
 keymap_command
@@ -34,11 +34,10 @@ cls_command
  ;
 
 general_help
- : '-'GENERAL_HELP
+ : '-'HELP_COMMAND
  ;
 
 SC_COMMAND : S C;
-GENERAL_HELP : H E L P;
 KEYMAP_COMMAND : K E Y M A P;
 EXIT_COMMAND : E X I T;
 LOGOUT_COMMAND : L O G O U T;
