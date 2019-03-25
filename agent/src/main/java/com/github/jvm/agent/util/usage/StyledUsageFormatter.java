@@ -1,19 +1,19 @@
 package com.github.jvm.agent.util.usage;
 
 import com.github.jvm.agent.command.Command;
-import com.taobao.middleware.cli.Argument;
-import com.taobao.middleware.cli.CLI;
-import com.taobao.middleware.cli.Option;
 import com.taobao.middleware.cli.UsageMessageFormatter;
-import com.taobao.middleware.cli.annotations.Description;
-import com.taobao.middleware.cli.annotations.Summary;
+import com.taobao.middleware.cli.annotations.*;
 import com.taobao.text.Color;
 import com.taobao.text.Decoration;
 import com.taobao.text.Style;
+import com.taobao.text.ui.RowElement;
 import com.taobao.text.ui.TableElement;
 import com.taobao.text.util.RenderUtil;
 
-import java.util.Collections;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.taobao.text.ui.Element.label;
 import static com.taobao.text.ui.Element.row;
@@ -33,7 +33,7 @@ public class StyledUsageFormatter extends UsageMessageFormatter {
         TableElement table = new TableElement(1, 2).leftCellPadding(1).rightCellPadding(1);
 
         table.add(row().add(label("USAGE:").style(getHighlightedStyle())));
-//        table.add(row().add(label(computeUsageLine(prefix, cli))));
+//        table.add(row().add(label(computeUsageLine(clazz))));
         table.add(row().add(""));
         table.add(row().add(label("SUMMARY:").style(getHighlightedStyle())));
 
@@ -52,26 +52,39 @@ public class StyledUsageFormatter extends UsageMessageFormatter {
             }
         }
 
-//        if (!cli.getOptions().isEmpty() || !cli.getArguments().isEmpty()) {
-//            table.add(row().add(""));
-//            table.row(label("OPTIONS:").style(getHighlightedStyle()));
-//            for (Option option: cli.getOptions()) {
-//                if (option.acceptValue()) {
-//                    table.add(row().add(label("-" + option.getShortName() + ", --" + option.getLongName() + " <value>")
-//                            .style(getHighlightedStyle()))
-//                            .add(option.getDescription()));
-//                } else {
-//                    table.add(row().add(label("-" + option.getShortName() + ", --" + option.getLongName())
-//                            .style(getHighlightedStyle()))
-//                            .add(option.getDescription()));
-//                }
-//            }
-//
-//            for (Argument argument: cli.getArguments()) {
-//                table.add(row().add(label("<" + argument.getArgName() + ">").style(getHighlightedStyle()))
-//                        .add(argument.getDescription()));
-//            }
-//        }
+        Method[] methods = clazz.getMethods();
+
+        List<RowElement> rowElements = new ArrayList<RowElement>();
+        for (Method method : methods) {
+            Option option = method.getAnnotation(Option.class);
+            Description fieldDesc = method.getAnnotation(Description.class);
+            Argument argument = method.getAnnotation(Argument.class);
+
+            if (option != null || argument != null) {
+                if (option != null) {
+                    if (option.acceptValue()) {
+                        rowElements.add(row().add(label("-" + option.shortName() + ", --" + option.longName() + " <value>")
+                                .style(getHighlightedStyle()))
+                                .add(fieldDesc.value()));
+                    } else {
+                        rowElements.add(row().add(label("-" + option.shortName() + ", --" + option.longName())
+                                .style(getHighlightedStyle()))
+                                .add(fieldDesc.value()));
+                    }
+                }
+
+                if (argument != null) {
+                    rowElements.add(row().add(label("<" + argument.argName() + ">").style(getHighlightedStyle()))
+                            .add(fieldDesc.value()));
+                }
+            }
+        }
+
+        if (rowElements.size() > 0) {
+            table.add(row().add(""));
+            table.row(label("OPTIONS:").style(getHighlightedStyle()));
+            table.add(rowElements.toArray(new RowElement[rowElements.size()]));
+        }
 
         builder.append(RenderUtil.render(table, getWidth()));
     }
@@ -80,35 +93,28 @@ public class StyledUsageFormatter extends UsageMessageFormatter {
         return Style.style(Decoration.bold, fontColor);
     }
 
-    private String computeUsageLine(String prefix, CLI cli) {
+    private String computeUsageLine(Class<? extends Command> clazz) {
         // initialise the string buffer
-        StringBuilder buff;
-        if (prefix == null) {
-            buff = new StringBuilder("  ");
-        } else {
-            buff = new StringBuilder("  ").append(prefix);
-            if (!prefix.endsWith(" ")) {
-                buff.append(" ");
-            }
-        }
+        StringBuilder buff = new StringBuilder("  ");
 
-        buff.append(cli.getName()).append(" ");
-
-        if (getOptionComparator() != null) {
-            Collections.sort(cli.getOptions(), getOptionComparator());
-        }
+        Name name = clazz.getAnnotation(Name.class);
+        buff.append(name.value()).append(" ");
 
         // iterate over the options
-        for (Option option : cli.getOptions()) {
-            appendOption(buff, option);
+        for (Field field : clazz.getFields()) {
+            Option option = field.getAnnotation(Option.class);
+
+//            appendOption(buff, new com.taobao.middleware.cli.Option().set);
             buff.append(" ");
+
+
         }
 
         // iterate over the arguments
-        for (Argument arg : cli.getArguments()) {
-            appendArgument(buff, arg, arg.isRequired());
-            buff.append(" ");
-        }
+//        for (Argument arg : cli.getArguments()) {
+//            appendArgument(buff, arg, arg.isRequired());
+//            buff.append(" ");
+//        }
 
         return buff.toString();
     }

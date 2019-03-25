@@ -3,9 +3,7 @@ package com.github.jvm.agent.command.klass;
 import com.github.jvm.agent.command.GeneralCommand;
 import com.github.jvm.agent.util.Constants;
 import com.github.jvm.agent.util.usage.StyledUsageFormatter;
-import com.taobao.middleware.cli.annotations.Description;
-import com.taobao.middleware.cli.annotations.Name;
-import com.taobao.middleware.cli.annotations.Summary;
+import com.taobao.middleware.cli.annotations.*;
 import com.taobao.text.Color;
 import io.termd.core.function.Consumer;
 import io.termd.core.tty.TtyConnection;
@@ -21,6 +19,42 @@ import io.termd.core.tty.TtyConnection;
         "  sc -d org/apache/commons/lang/StringUtils\n" +
         "  sc -d *StringUtils\n")
 public class SearchClassCommand extends GeneralCommand {
+    private String classPattern;
+    private boolean isDetail = false;
+    private boolean isField = false;
+    private boolean isRegEx = false;
+    private Integer expand;
+
+    @Argument(argName = "class-pattern", index = 0)
+    @Description("Class name pattern, use either '.' or '/' as separator")
+    public void setClassPattern(String classPattern) {
+        this.classPattern = classPattern;
+    }
+
+    @Option(shortName = "d", longName = "details", flag = true)
+    @Description("Display the details of class")
+    public void setDetail(boolean detail) {
+        isDetail = detail;
+    }
+
+    @Option(shortName = "f", longName = "field", flag = true)
+    @Description("Display all the member variables")
+    public void setField(boolean field) {
+        isField = field;
+    }
+
+    @Option(shortName = "E", longName = "regex", flag = true)
+    @Description("Enable regular expression to match (wildcard matching by default)")
+    public void setRegEx(boolean regEx) {
+        isRegEx = regEx;
+    }
+
+    @Option(shortName = "x", longName = "expand")
+    @Description("Expand level of object (0 by default)")
+    public void setExpand(Integer expand) {
+        this.expand = expand;
+    }
+
     public SearchClassCommand(TtyConnection conn) {
         super(conn);
     }
