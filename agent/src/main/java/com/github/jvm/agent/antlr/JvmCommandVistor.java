@@ -4,6 +4,7 @@ import com.github.jvm.agent.command.Command;
 import com.github.jvm.agent.command.basic.ClsCommand;
 import com.github.jvm.agent.command.basic.ExitCommand;
 import com.github.jvm.agent.command.basic.HelpCommand;
+import com.github.jvm.agent.command.basic.KeymapCommand;
 import io.termd.core.tty.TtyConnection;
 import lombok.Data;
 
@@ -21,6 +22,13 @@ public class JvmCommandVistor extends CommandBaseVisitor {
         command = new HelpCommand(conn);
 
         return super.visitCommand_list(ctx);
+    }
+
+    @Override
+    public Object visitKeymap_command(CommandParser.Keymap_commandContext ctx) {
+        command = new KeymapCommand(conn);
+
+        return super.visitKeymap_command(ctx);
     }
 
     @Override

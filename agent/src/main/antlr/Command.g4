@@ -6,6 +6,7 @@ parse
 
 command_list
  : ( help_command
+ | keymap_command
  | exit_command
  | cls_command
  )
@@ -13,6 +14,10 @@ command_list
 
 help_command
  : HELP_COMMAND
+ ;
+
+keymap_command
+ : KEYMAP_COMMAND
  ;
 
 exit_command
@@ -24,6 +29,7 @@ cls_command
  ;
 
 HELP_COMMAND : H E L P;
+KEYMAP_COMMAND : K E Y M A P;
 EXIT_COMMAND : E X I T;
 LOGOUT_COMMAND : L O G O U T;
 QUIT_COMMAND : Q U I T;

@@ -3,6 +3,7 @@ package com.github.jvm.agent.command;
 import com.github.jvm.agent.command.basic.ClsCommand;
 import com.github.jvm.agent.command.basic.ExitCommand;
 import com.github.jvm.agent.command.basic.HelpCommand;
+import com.github.jvm.agent.command.basic.KeymapCommand;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,5 +26,6 @@ public class BuiltinCommandPack {
         commands.add(ClsCommand.class);
         commands.add(ExitCommand.class);
         commands.add(HelpCommand.class);
+        commands.add(KeymapCommand.class);
     }
 }

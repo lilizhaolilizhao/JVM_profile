@@ -7,7 +7,7 @@ import io.termd.core.function.Consumer;
 import io.termd.core.tty.TtyConnection;
 
 /**
- * 推出命令
+ * 退出命令
  */
 @Name("exit")
 @Summary("Exit the screen")
