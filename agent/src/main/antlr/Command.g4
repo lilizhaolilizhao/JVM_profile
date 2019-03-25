@@ -1,11 +1,12 @@
 grammar Command;
 
 parse
- : (command_list)* EOF
+ : command_list
  ;
 
 command_list
  : ( help_command
+ | sc_command
  | keymap_command
  | exit_command
  | cls_command
@@ -14,6 +15,10 @@ command_list
 
 help_command
  : HELP_COMMAND
+ ;
+
+sc_command
+ : SC_COMMAND general_help
  ;
 
 keymap_command
@@ -28,12 +33,59 @@ cls_command
  : CLS_COMMAND
  ;
 
-HELP_COMMAND : H E L P;
+general_help
+ : '-'GENERAL_HELP
+ ;
+
+SC_COMMAND : S C;
+GENERAL_HELP : H E L P;
 KEYMAP_COMMAND : K E Y M A P;
 EXIT_COMMAND : E X I T;
 LOGOUT_COMMAND : L O G O U T;
 QUIT_COMMAND : Q U I T;
 CLS_COMMAND : C L S;
+HELP_COMMAND : H E L P;
+
+IDENTIFIER
+ : '"' (~'"' | '""')* '"'
+ | '`' (~'`' | '``')* '`'
+ | '[' ~']'* ']'
+ | [a-zA-Z_] [a-zA-Z_0-9]* // TODO check: needs more chars in set
+ ;
+
+NUMERIC_LITERAL
+ : DIGIT+ ( '.' DIGIT* )? ( E [-+]? DIGIT+ )?
+ | '.' DIGIT+ ( E [-+]? DIGIT+ )?
+ ;
+
+BIND_PARAMETER
+ : '?' DIGIT*
+ | [:@$] IDENTIFIER
+ ;
+
+STRING_LITERAL
+ : '\'' ( ~'\'' | '\'\'' )* '\''
+ ;
+
+BLOB_LITERAL
+ : X STRING_LITERAL
+ ;
+
+SINGLE_LINE_COMMENT
+ : '--' ~[\r\n]* -> channel(HIDDEN)
+ ;
+
+MULTILINE_COMMENT
+ : '/*' .*? ( '*/' | EOF ) -> channel(HIDDEN)
+ ;
+
+SPACES
+ : [ \u000B\t\r\n] -> channel(HIDDEN)
+ ;
+
+UNEXPECTED_CHAR
+ : .
+ ;
 
 fragment DIGIT : [0-9];
 
@@ -63,3 +115,4 @@ fragment W : [wW];
 fragment X : [xX];
 fragment Y : [yY];
 fragment Z : [zZ];
+

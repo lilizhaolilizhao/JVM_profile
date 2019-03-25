@@ -26,5 +26,6 @@ public interface Constants {
      */
     String COST_VARIABLE = "cost";
 
+    String EXAMPLE = "\nEXAMPLES:\n";
 
 }
