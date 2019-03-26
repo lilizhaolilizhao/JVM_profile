@@ -11,7 +11,10 @@ import com.taobao.text.ui.TableElement;
 import com.taobao.text.util.RenderUtil;
 
 import java.lang.reflect.Method;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import static com.taobao.text.ui.Element.label;
 import static com.taobao.text.ui.Element.row;
@@ -99,7 +102,17 @@ public class StyledUsageFormatter extends UsageMessageFormatter {
 
         //对方法进行排序
         Method[] methods = clazz.getMethods();
-        List<Method> methodList = Arrays.asList(methods);
+        List<Method> methodList = new ArrayList<Method>();
+
+        for (Method method : methods) {
+            Option option = method.getAnnotation(Option.class);
+            Argument argument = method.getAnnotation(Argument.class);
+
+            if (option != null || argument != null) {
+                methodList.add(method);
+            }
+        }
+
         Collections.sort(methodList, new Comparator<Method>() {
             @Override
             public int compare(Method o1, Method o2) {
@@ -108,21 +121,13 @@ public class StyledUsageFormatter extends UsageMessageFormatter {
 
                 if (option1 != null && option2 != null) {
                     String longName1 = option1.longName();
-                    String shortName1 = option1.shortName();
-
                     String longName2 = option2.longName();
-                    String shortName2 = option2.shortName();
 
-                    String name1 = longName1 == null ? longName1 : shortName1;
-                    String name2 = longName2 == null ? longName2 : shortName2;
-
-                    if (name1 != null && name2 == null) {
-                        return name1.compareToIgnoreCase(name2);
-                    }
-                } else if (option1 == null && option2 != null) {
-                    return -1;
-                } else if (option1 != null && option2 == null) {
+                    return longName1.compareToIgnoreCase(longName2);
+                } else if (option1 == null) {
                     return 1;
+                } else if (option2 == null) {
+                    return -1;
                 }
 
                 return 1;
@@ -136,7 +141,7 @@ public class StyledUsageFormatter extends UsageMessageFormatter {
 
             if (option != null) {
                 appendOption(buff, new com.taobao.middleware.cli.Option().setShortName(option.shortName())
-                        .setLongName(option.longName()).setFlag(option.flag()));
+                        .setLongName(option.longName()).setSingleValued(!option.flag()));
                 buff.append(" ");
             }
 

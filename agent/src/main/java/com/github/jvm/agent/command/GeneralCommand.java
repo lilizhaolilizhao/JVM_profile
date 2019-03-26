@@ -1,5 +1,7 @@
 package com.github.jvm.agent.command;
 
+import com.taobao.middleware.cli.annotations.Description;
+import com.taobao.middleware.cli.annotations.Option;
 import io.termd.core.function.Consumer;
 import io.termd.core.tty.TtyConnection;
 import lombok.Data;
@@ -17,6 +19,8 @@ public abstract class GeneralCommand implements Command {
     }
 
     @Override
+    @Option(shortName = "h", longName = "help", flag = true)
+    @Description("this help")
     public void setHelpFlag(boolean helpFlag) {
         this.helpFlag = helpFlag;
     }

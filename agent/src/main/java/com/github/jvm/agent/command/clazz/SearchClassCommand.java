@@ -1,4 +1,4 @@
-package com.github.jvm.agent.command.klass;
+package com.github.jvm.agent.command.clazz;
 
 import com.github.jvm.agent.command.GeneralCommand;
 import com.github.jvm.agent.util.Constants;

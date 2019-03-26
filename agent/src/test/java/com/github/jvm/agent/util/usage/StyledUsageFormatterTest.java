@@ -1,6 +1,6 @@
 package com.github.jvm.agent.util.usage;
 
-import com.github.jvm.agent.command.klass.SearchClassCommand;
+import com.github.jvm.agent.command.clazz.SearchClassCommand;
 import org.junit.Test;
 
 public class StyledUsageFormatterTest {
@@ -8,6 +8,10 @@ public class StyledUsageFormatterTest {
     @Test
     public void computeUsageLineTest() {
         StyledUsageFormatter formatter = new StyledUsageFormatter(null);
-        formatter.usageMsg(new StringBuilder(), SearchClassCommand.class);
+
+        StringBuilder builder = new StringBuilder();
+        formatter.usageMsg(builder, SearchClassCommand.class);
+
+        System.out.println(builder);
     }
 }
