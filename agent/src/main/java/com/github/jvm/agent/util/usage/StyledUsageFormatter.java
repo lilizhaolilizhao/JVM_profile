@@ -34,7 +34,12 @@ public class StyledUsageFormatter extends UsageMessageFormatter {
         TableElement table = new TableElement(1, 2).leftCellPadding(1).rightCellPadding(1);
 
         table.add(row().add(label("USAGE:").style(getHighlightedStyle())));
-        table.add(row().add(label(computeUsageLine(clazz))));
+
+        //对方法进行排序
+        final Name name = clazz.getAnnotation(Name.class);
+        List<Method> methodList = getUsageMethods(clazz);
+
+        table.add(row().add(label(computeUsageLine(name.value(), methodList))));
         table.add(row().add(""));
         table.add(row().add(label("SUMMARY:").style(getHighlightedStyle())));
 
@@ -53,9 +58,8 @@ public class StyledUsageFormatter extends UsageMessageFormatter {
             }
         }
 
-        Method[] methods = clazz.getMethods();
         List<RowElement> rowElements = new ArrayList<RowElement>();
-        for (Method method : methods) {
+        for (Method method : methodList) {
             Option option = method.getAnnotation(Option.class);
             Description fieldDesc = method.getAnnotation(Description.class);
             Argument argument = method.getAnnotation(Argument.class);
@@ -89,18 +93,13 @@ public class StyledUsageFormatter extends UsageMessageFormatter {
         builder.append(RenderUtil.render(table, getWidth()));
     }
 
-    private Style.Composite getHighlightedStyle() {
-        return Style.style(Decoration.bold, fontColor);
-    }
-
-    private String computeUsageLine(Class<? extends Command> clazz) {
-        // initialise the string buffer
-        StringBuilder buff = new StringBuilder("  ");
-
-        final Name name = clazz.getAnnotation(Name.class);
-        buff.append(name.value()).append(" ");
-
-        //对方法进行排序
+    /**
+     * 获取配置的方法信息并根据 longname 排序
+     *
+     * @param clazz
+     * @return
+     */
+    private List<Method> getUsageMethods(Class<? extends Command> clazz) {
         Method[] methods = clazz.getMethods();
         List<Method> methodList = new ArrayList<Method>();
 
@@ -133,6 +132,24 @@ public class StyledUsageFormatter extends UsageMessageFormatter {
                 return 1;
             }
         });
+        return methodList;
+    }
+
+    private Style.Composite getHighlightedStyle() {
+        return Style.style(Decoration.bold, fontColor);
+    }
+
+    /**
+     * 拼接 USAGE 信息
+     *
+     * @param name
+     * @param methodList
+     * @return
+     */
+    private String computeUsageLine(String name, List<Method> methodList) {
+        // initialise the string buffer
+        StringBuilder buff = new StringBuilder("  ");
+        buff.append(name).append(" ");
 
         // iterate over the options
         for (Method method : methodList) {
