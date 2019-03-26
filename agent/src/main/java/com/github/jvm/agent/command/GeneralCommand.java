@@ -19,6 +19,10 @@ public abstract class GeneralCommand implements Command {
     }
 
     @Override
+    public void setClassPattern(String classPattern) {
+    }
+
+    @Override
     @Option(shortName = "h", longName = "help", flag = true)
     @Description("this help")
     public void setHelpFlag(boolean helpFlag) {

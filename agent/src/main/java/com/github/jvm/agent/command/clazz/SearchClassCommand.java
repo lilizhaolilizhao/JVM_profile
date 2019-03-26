@@ -61,7 +61,15 @@ public class SearchClassCommand extends GeneralCommand {
 
     @Override
     public void process(Consumer<int[]> out) {
-        if (helpFlag) {
+        if (classPattern != null) {
+            System.out.println("==================");
+            System.out.println("==================");
+            System.out.println("==================");
+            System.out.println(classPattern);
+            System.out.println("==================");
+            System.out.println("==================");
+            System.out.println("==================");
+        } else if (helpFlag) {
             StyledUsageFormatter formatter = new StyledUsageFormatter(Color.green);
             formatter.setWidth(100);
             StringBuilder usage = new StringBuilder();

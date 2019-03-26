@@ -56,5 +56,10 @@ public class CommandParseUtilTest {
 
         Assert.assertTrue(command instanceof SearchClassCommand);
         Assert.assertTrue(((SearchClassCommand) command).isHelpFlag());
+
+        commandText = "sc sun.reflect.generics.scope.MethodScope";
+        command = CommandParseUtil.parseCommand(null, commandText);
+        Assert.assertTrue(command instanceof SearchClassCommand);
+//        Assert.assertTrue(((SearchClassCommand) command));
     }
 }

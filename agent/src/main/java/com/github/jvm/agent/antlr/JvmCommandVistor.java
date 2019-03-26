@@ -33,6 +33,14 @@ public class JvmCommandVistor extends CommandBaseVisitor {
     }
 
     @Override
+    public Object visitClass_pattern(CommandParser.Class_patternContext ctx) {
+        String classPattern = ctx.any_name().getChild(0).toString();
+        command.setClassPattern(classPattern);
+
+        return super.visitClass_pattern(ctx);
+    }
+
+    @Override
     public Object visitKeymap_command(CommandParser.Keymap_commandContext ctx) {
         command = new KeymapCommand(conn);
 

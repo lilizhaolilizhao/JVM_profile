@@ -98,4 +98,26 @@ public class CommandBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
     public T visitGeneral_help(CommandParser.General_helpContext ctx) {
         return visitChildren(ctx);
     }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
+    @Override
+    public T visitClass_pattern(CommandParser.Class_patternContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
+    @Override
+    public T visitAny_name(CommandParser.Any_nameContext ctx) {
+        return visitChildren(ctx);
+    }
 }

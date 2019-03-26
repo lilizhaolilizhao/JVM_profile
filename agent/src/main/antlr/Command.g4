@@ -18,7 +18,7 @@ help_command
  ;
 
 sc_command
- : SC_COMMAND ( general_help )?
+ : SC_COMMAND ( class_pattern | ( general_help )?)
  ;
 
 keymap_command
@@ -38,6 +38,16 @@ general_help
  | '-'HELP
  ;
 
+class_pattern
+ : any_name
+ ;
+
+any_name
+ : IDENTIFIER
+ | STRING_LITERAL
+ | '(' any_name ')'
+ ;
+
 SC_COMMAND : S C;
 KEYMAP_COMMAND : K E Y M A P;
 EXIT_COMMAND : E X I T;
@@ -51,7 +61,7 @@ IDENTIFIER
  : '"' (~'"' | '""')* '"'
  | '`' (~'`' | '``')* '`'
  | '[' ~']'* ']'
- | [a-zA-Z_] [a-zA-Z_0-9]* // TODO check: needs more chars in set
+ | [a-zA-Z_.*] [a-zA-Z_0-9.*]*
  ;
 
 NUMERIC_LITERAL
