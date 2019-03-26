@@ -35,6 +35,7 @@ cls_command
 
 general_help
  : '-'HELP_COMMAND
+ | '-'HELP
  ;
 
 SC_COMMAND : S C;
@@ -44,6 +45,7 @@ LOGOUT_COMMAND : L O G O U T;
 QUIT_COMMAND : Q U I T;
 CLS_COMMAND : C L S;
 HELP_COMMAND : H E L P;
+HELP : H;
 
 IDENTIFIER
  : '"' (~'"' | '""')* '"'
