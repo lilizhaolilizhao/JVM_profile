@@ -11,8 +11,7 @@ import com.taobao.text.ui.TableElement;
 import com.taobao.text.util.RenderUtil;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static com.taobao.text.ui.Element.label;
 import static com.taobao.text.ui.Element.row;
@@ -52,7 +51,6 @@ public class StyledUsageFormatter extends UsageMessageFormatter {
         }
 
         Method[] methods = clazz.getMethods();
-
         List<RowElement> rowElements = new ArrayList<RowElement>();
         for (Method method : methods) {
             Option option = method.getAnnotation(Option.class);
@@ -96,11 +94,43 @@ public class StyledUsageFormatter extends UsageMessageFormatter {
         // initialise the string buffer
         StringBuilder buff = new StringBuilder("  ");
 
-        Name name = clazz.getAnnotation(Name.class);
+        final Name name = clazz.getAnnotation(Name.class);
         buff.append(name.value()).append(" ");
 
+        //对方法进行排序
+        Method[] methods = clazz.getMethods();
+        List<Method> methodList = Arrays.asList(methods);
+        Collections.sort(methodList, new Comparator<Method>() {
+            @Override
+            public int compare(Method o1, Method o2) {
+                Option option1 = o1.getAnnotation(Option.class);
+                Option option2 = o2.getAnnotation(Option.class);
+
+                if (option1 != null && option2 != null) {
+                    String longName1 = option1.longName();
+                    String shortName1 = option1.shortName();
+
+                    String longName2 = option2.longName();
+                    String shortName2 = option2.shortName();
+
+                    String name1 = longName1 == null ? longName1 : shortName1;
+                    String name2 = longName2 == null ? longName2 : shortName2;
+
+                    if (name1 != null && name2 == null) {
+                        return name1.compareToIgnoreCase(name2);
+                    }
+                } else if (option1 == null && option2 != null) {
+                    return -1;
+                } else if (option1 != null && option2 == null) {
+                    return 1;
+                }
+
+                return 1;
+            }
+        });
+
         // iterate over the options
-        for (Method method : clazz.getMethods()) {
+        for (Method method : methodList) {
             Option option = method.getAnnotation(Option.class);
             Argument argument = method.getAnnotation(Argument.class);
 

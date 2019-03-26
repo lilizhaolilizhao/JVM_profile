@@ -32,7 +32,7 @@ public class RequestHandler implements Consumer<String> {
                 Command command = CommandParseUtil.parseCommand(conn, line);
                 command.process(out);
             } catch (Exception e) {
-                Helper.echoMsg(out, "命令格式异常." + "\n");
+                Helper.echoMsg(out, "命令格式异常:" + e.getMessage() + "\n");
             }
         }
 
