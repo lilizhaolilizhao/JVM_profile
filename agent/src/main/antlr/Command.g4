@@ -18,7 +18,7 @@ help_command
  ;
 
 sc_command
- : SC_COMMAND ( ( detail_flag )?( field_flag )?( regex_flag )? class_pattern | ( general_help )?)
+ : SC_COMMAND ( ( detail_flag )?( field_flag )?( regex_flag )?( extend_flag )? class_pattern | ( general_help )?)
  ;
 
 keymap_command
@@ -46,6 +46,10 @@ regex_flag
  : '-'REGEX
  ;
 
+extend_flag
+ : '-'EXTEND EXTEND_LEVEL
+ ;
+
 detail_flag
  : '-'DETAIL
  ;
@@ -71,12 +75,17 @@ HELP : H;
 DETAIL : D;
 FIELD : F;
 REGEX : E;
+EXTEND : X;
 
 IDENTIFIER
  : '"' (~'"' | '""')* '"'
  | '`' (~'`' | '``')* '`'
  | '[' ~']'* ']'
  | [a-zA-Z_.*] [a-zA-Z_0-9.*]*
+ ;
+
+EXTEND_LEVEL
+ : [1-5]?
  ;
 
 NUMERIC_LITERAL
