@@ -9,6 +9,8 @@ import com.github.jvm.agent.command.clazz.SearchClassCommand;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.lang.reflect.Field;
+
 public class CommandParseUtilTest {
 
     @Test
@@ -60,6 +62,17 @@ public class CommandParseUtilTest {
         commandText = "sc sun.reflect.generics.scope.MethodScope";
         command = CommandParseUtil.parseCommand(null, commandText);
         Assert.assertTrue(command instanceof SearchClassCommand);
-//        Assert.assertTrue(((SearchClassCommand) command));
+
+        try {
+            Field classPatternField = SearchClassCommand.class.getDeclaredField("classPattern");
+            classPatternField.setAccessible(true);
+            Object o = classPatternField.get(command);
+
+            Assert.assertEquals("sun.reflect.generics.scope.MethodScope", o);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 }
