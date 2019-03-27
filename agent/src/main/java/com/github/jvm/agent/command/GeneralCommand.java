@@ -27,6 +27,10 @@ public abstract class GeneralCommand implements Command {
     }
 
     @Override
+    public void setRegEx(boolean regEx) {
+    }
+
+    @Override
     public void setField(boolean field) {
     }
 

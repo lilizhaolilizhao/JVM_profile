@@ -45,6 +45,12 @@ public class JvmCommandVistor extends CommandBaseVisitor {
             command.setField(true);
         }
 
+        //访问 -e 是否正则
+        CommandParser.Regex_flagContext regex_flagContext = ctx.regex_flag();
+        if (regex_flagContext != null) {
+            command.setRegEx(true);
+        }
+
         //访问 class_pattern
         CommandParser.Class_patternContext classPatternContext = ctx.class_pattern();
         if (classPatternContext != null) {

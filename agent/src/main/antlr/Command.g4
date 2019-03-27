@@ -18,7 +18,7 @@ help_command
  ;
 
 sc_command
- : SC_COMMAND ( ( detail_flag )?( field_flag )? class_pattern | ( general_help )?)
+ : SC_COMMAND ( ( detail_flag )?( field_flag )?( regex_flag )? class_pattern | ( general_help )?)
  ;
 
 keymap_command
@@ -40,6 +40,10 @@ general_help
 
 field_flag
  : '-'FIELD
+ ;
+
+regex_flag
+ : '-'REGEX
  ;
 
 detail_flag
@@ -65,7 +69,8 @@ CLS_COMMAND : C L S;
 HELP_COMMAND : H E L P;
 HELP : H;
 DETAIL : D;
-FIELD :F;
+FIELD : F;
+REGEX : E;
 
 IDENTIFIER
  : '"' (~'"' | '""')* '"'
