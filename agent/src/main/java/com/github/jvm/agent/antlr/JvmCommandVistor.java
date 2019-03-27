@@ -51,6 +51,13 @@ public class JvmCommandVistor extends CommandBaseVisitor {
             command.setRegEx(true);
         }
 
+        //访问 -x 展开级别
+        CommandParser.Extend_flagContext extend_flagContext = ctx.extend_flag();
+        if (extend_flagContext != null) {
+            String extendLevel = extend_flagContext.getChild(2).getText();
+            command.set
+        }
+
         //访问 class_pattern
         CommandParser.Class_patternContext classPatternContext = ctx.class_pattern();
         if (classPatternContext != null) {

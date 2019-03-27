@@ -3,6 +3,8 @@ package com.github.jvm.agent.command;
 import io.termd.core.function.Consumer;
 
 public interface Command {
+    void setExpand(Integer expand);
+
     void setRegEx(boolean regEx);
 
     void setField(boolean field);

@@ -27,6 +27,11 @@ public abstract class GeneralCommand implements Command {
     }
 
     @Override
+    public void setExpand(Integer expand) {
+
+    }
+
+    @Override
     public void setRegEx(boolean regEx) {
     }
 

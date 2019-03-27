@@ -91,6 +91,14 @@ public interface CommandVisitor<T> extends ParseTreeVisitor<T> {
     T visitRegex_flag(CommandParser.Regex_flagContext ctx);
 
     /**
+     * Visit a parse tree produced by {@link CommandParser#extend_flag}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitExtend_flag(CommandParser.Extend_flagContext ctx);
+
+    /**
      * Visit a parse tree produced by {@link CommandParser#detail_flag}.
      *
      * @param ctx the parse tree
