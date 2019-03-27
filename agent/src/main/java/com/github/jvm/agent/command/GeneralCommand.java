@@ -6,6 +6,8 @@ import io.termd.core.function.Consumer;
 import io.termd.core.tty.TtyConnection;
 import lombok.Data;
 
+import java.lang.instrument.Instrumentation;
+
 /**
  * 通用命令处理
  */
@@ -13,9 +15,15 @@ import lombok.Data;
 public abstract class GeneralCommand implements Command {
     protected boolean helpFlag = false;
     protected TtyConnection conn;
+    protected Instrumentation inst;
 
     public GeneralCommand(TtyConnection conn) {
         this.conn = conn;
+    }
+
+    public GeneralCommand(TtyConnection conn, Instrumentation inst) {
+        this.conn = conn;
+        this.inst = inst;
     }
 
     @Override

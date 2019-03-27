@@ -9,13 +9,17 @@ import com.github.jvm.agent.command.clazz.SearchClassCommand;
 import io.termd.core.tty.TtyConnection;
 import lombok.Data;
 
+import java.lang.instrument.Instrumentation;
+
 @Data
 public class JvmCommandVistor extends CommandBaseVisitor {
     private TtyConnection conn;
+    private Instrumentation inst;
     private Command command;
 
-    public JvmCommandVistor(TtyConnection conn) {
+    public JvmCommandVistor(TtyConnection conn, Instrumentation inst) {
         this.conn = conn;
+        this.inst = inst;
     }
 
     @Override
@@ -27,7 +31,7 @@ public class JvmCommandVistor extends CommandBaseVisitor {
 
     @Override
     public Object visitSc_command(CommandParser.Sc_commandContext ctx) {
-        command = new SearchClassCommand(conn);
+        command = new SearchClassCommand(conn, inst);
 
         return super.visitSc_command(ctx);
     }

@@ -2,11 +2,15 @@ package com.github.jvm.agent.command.clazz;
 
 import com.github.jvm.agent.command.GeneralCommand;
 import com.github.jvm.agent.util.Constants;
+import com.github.jvm.agent.util.command.SearchUtils;
 import com.github.jvm.agent.util.usage.StyledUsageFormatter;
 import com.taobao.middleware.cli.annotations.*;
 import com.taobao.text.Color;
 import io.termd.core.function.Consumer;
 import io.termd.core.tty.TtyConnection;
+
+import java.lang.instrument.Instrumentation;
+import java.util.Set;
 
 /**
  * 展示相关类信息
@@ -55,20 +59,18 @@ public class SearchClassCommand extends GeneralCommand {
         this.expand = expand;
     }
 
-    public SearchClassCommand(TtyConnection conn) {
-        super(conn);
+    public SearchClassCommand(TtyConnection conn, Instrumentation inst) {
+        super(conn, inst);
     }
 
     @Override
     public void process(Consumer<int[]> out) {
         if (classPattern != null) {
-            System.out.println("==================");
-            System.out.println("==================");
-            System.out.println("==================");
-            System.out.println(classPattern);
-            System.out.println("==================");
-            System.out.println("==================");
-            System.out.println("==================");
+            Set<Class<?>> matchedClasses = SearchUtils.searchClass(inst, classPattern, isRegEx);
+
+            for (Class<?> matchedClass : matchedClasses) {
+                conn.write(matchedClass.getName() + "\n");
+            }
         } else if (helpFlag) {
             StyledUsageFormatter formatter = new StyledUsageFormatter(Color.green);
             formatter.setWidth(100);

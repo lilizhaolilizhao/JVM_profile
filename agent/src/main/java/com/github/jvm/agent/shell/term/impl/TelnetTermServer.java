@@ -13,6 +13,7 @@ import io.termd.core.tty.TtyConnection;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
+import java.lang.instrument.Instrumentation;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -31,11 +32,13 @@ public class TelnetTermServer extends TermServer {
     private boolean inReadline;
     private String welcomeText;
     private String javaPid;
+    private Instrumentation inst;
 
-    public TelnetTermServer(String hostIp, int port, long connectionTimeout) {
+    public TelnetTermServer(String hostIp, int port, long connectionTimeout, Instrumentation inst) {
         this.hostIp = hostIp;
         this.port = port;
         this.connectionTimeout = connectionTimeout;
+        this.inst = inst;
 
         readline = new Readline(Helper.loadKeymap());
     }
@@ -53,7 +56,8 @@ public class TelnetTermServer extends TermServer {
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                     conn.write("当前时间:  " + sdf.format(today) + "\n\n");
 
-                    readline.readline(conn, Constants.DEFAULT_PROMPT, new RequestHandler(TelnetTermServer.this, conn, new ShellLineHandler()));
+                    readline.readline(conn, Constants.DEFAULT_PROMPT, new RequestHandler(TelnetTermServer.this,
+                            conn, new ShellLineHandler(), inst));
                 }
             }).get(connectionTimeout, TimeUnit.MILLISECONDS);
             listenHandler.handle(Future.<TelnetTermServer>succeededFuture());
@@ -72,6 +76,6 @@ public class TelnetTermServer extends TermServer {
 
     @Override
     public void readline(TtyConnection conn) {
-        readline.readline(conn, Constants.DEFAULT_PROMPT, new RequestHandler(this, conn, new ShellLineHandler()));
+        readline.readline(conn, Constants.DEFAULT_PROMPT, new RequestHandler(this, conn, new ShellLineHandler(), inst));
     }
 }
