@@ -118,6 +118,9 @@ public class SearchClassCommand extends GeneralCommand {
                 .row(label("class-loader").style(Decoration.bold.bold()), TypeRenderUtils.drawClassLoader(clazz))
                 .row(label("classLoaderHash").style(Decoration.bold.bold()), label(StringUtils.classLoaderHash(clazz)));
 
+        if (isPrintField) {
+            table.row(label("fields"), TypeRenderUtils.drawField(clazz, expand));
+        }
         return table;
     }
 

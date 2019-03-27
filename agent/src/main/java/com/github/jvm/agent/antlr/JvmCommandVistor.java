@@ -39,6 +39,12 @@ public class JvmCommandVistor extends CommandBaseVisitor {
             command.setDetail(true);
         }
 
+        //访问 -f 显示字段
+        CommandParser.Field_flagContext field_flagContext = ctx.field_flag();
+        if (field_flagContext != null) {
+            command.setField(true);
+        }
+
         //访问 class_pattern
         CommandParser.Class_patternContext classPatternContext = ctx.class_pattern();
         if (classPatternContext != null) {

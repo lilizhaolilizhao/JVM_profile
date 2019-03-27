@@ -106,7 +106,7 @@ public class TypeRenderUtils {
 
         for (Field field : fields) {
             TableElement fieldTable = new TableElement().leftCellPadding(0).rightCellPadding(0);
-            fieldTable.row("modifier", StringUtils.modifier(field.getModifiers(), ','))
+            fieldTable.row("modifier ", StringUtils.modifier(field.getModifiers(), ','))
                     .row("type", StringUtils.classname(field.getType()))
                     .row("name", field.getName());
 

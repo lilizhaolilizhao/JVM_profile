@@ -27,6 +27,10 @@ public abstract class GeneralCommand implements Command {
     }
 
     @Override
+    public void setField(boolean field) {
+    }
+
+    @Override
     public void setDetail(boolean detail) {
     }
 
