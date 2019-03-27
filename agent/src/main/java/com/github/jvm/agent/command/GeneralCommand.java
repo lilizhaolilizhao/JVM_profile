@@ -27,6 +27,11 @@ public abstract class GeneralCommand implements Command {
     }
 
     @Override
+    public void setDetail(boolean detail) {
+    }
+
+
+    @Override
     public void setClassPattern(String classPattern) {
     }
 

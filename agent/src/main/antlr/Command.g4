@@ -18,7 +18,7 @@ help_command
  ;
 
 sc_command
- : SC_COMMAND ( class_pattern | ( general_help )?)
+ : SC_COMMAND ( ( detail_flag )? class_pattern | ( general_help )?)
  ;
 
 keymap_command
@@ -36,6 +36,10 @@ cls_command
 general_help
  : '-'HELP_COMMAND
  | '-'HELP
+ ;
+
+detail_flag
+ : '-'DETAIL
  ;
 
 class_pattern
@@ -56,6 +60,7 @@ QUIT_COMMAND : Q U I T;
 CLS_COMMAND : C L S;
 HELP_COMMAND : H E L P;
 HELP : H;
+DETAIL : D;
 
 IDENTIFIER
  : '"' (~'"' | '""')* '"'

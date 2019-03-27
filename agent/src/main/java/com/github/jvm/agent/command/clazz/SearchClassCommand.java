@@ -2,15 +2,24 @@ package com.github.jvm.agent.command.clazz;
 
 import com.github.jvm.agent.command.GeneralCommand;
 import com.github.jvm.agent.util.Constants;
+import com.github.jvm.agent.util.StringUtils;
+import com.github.jvm.agent.util.TypeRenderUtils;
 import com.github.jvm.agent.util.command.SearchUtils;
 import com.github.jvm.agent.util.usage.StyledUsageFormatter;
 import com.taobao.middleware.cli.annotations.*;
 import com.taobao.text.Color;
+import com.taobao.text.Decoration;
+import com.taobao.text.ui.Element;
+import com.taobao.text.ui.TableElement;
+import com.taobao.text.util.RenderUtil;
 import io.termd.core.function.Consumer;
 import io.termd.core.tty.TtyConnection;
 
 import java.lang.instrument.Instrumentation;
+import java.security.CodeSource;
 import java.util.Set;
+
+import static com.taobao.text.ui.Element.label;
 
 /**
  * 展示相关类信息
@@ -69,7 +78,11 @@ public class SearchClassCommand extends GeneralCommand {
             Set<Class<?>> matchedClasses = SearchUtils.searchClass(inst, classPattern, isRegEx);
 
             for (Class<?> matchedClass : matchedClasses) {
-                conn.write(matchedClass.getName() + "\n");
+                if (isDetail) {
+                    conn.write(RenderUtil.render(renderClassInfo(matchedClass, isField), 120) + "\n");
+                } else {
+                    conn.write(matchedClass.getName() + "\n");
+                }
             }
         } else if (helpFlag) {
             StyledUsageFormatter formatter = new StyledUsageFormatter(Color.green);
@@ -79,5 +92,40 @@ public class SearchClassCommand extends GeneralCommand {
 
             conn.write(usage.toString());
         }
+    }
+
+    private Element renderClassInfo(Class<?> clazz, boolean isPrintField) {
+        TableElement table = new TableElement().leftCellPadding(1).rightCellPadding(1);
+        CodeSource cs = clazz.getProtectionDomain().getCodeSource();
+
+        table.row(label("class-info").style(Decoration.bold.bold()), label(StringUtils.classname(clazz)))
+                .row(label("code-source").style(Decoration.bold.bold()), label(getCodeSource(cs)))
+                .row(label("name").style(Decoration.bold.bold()), label(StringUtils.classname(clazz)))
+                .row(label("isInterface").style(Decoration.bold.bold()), label("" + clazz.isInterface()))
+                .row(label("isAnnotation").style(Decoration.bold.bold()), label("" + clazz.isAnnotation()))
+                .row(label("isEnum").style(Decoration.bold.bold()), label("" + clazz.isEnum()))
+                .row(label("isAnonymousClass").style(Decoration.bold.bold()), label("" + clazz.isAnonymousClass()))
+                .row(label("isArray").style(Decoration.bold.bold()), label("" + clazz.isArray()))
+                .row(label("isLocalClass").style(Decoration.bold.bold()), label("" + clazz.isLocalClass()))
+                .row(label("isMemberClass").style(Decoration.bold.bold()), label("" + clazz.isMemberClass()))
+                .row(label("isPrimitive").style(Decoration.bold.bold()), label("" + clazz.isPrimitive()))
+                .row(label("isSynthetic").style(Decoration.bold.bold()), label("" + clazz.isSynthetic()))
+                .row(label("simple-name").style(Decoration.bold.bold()), label(clazz.getSimpleName()))
+                .row(label("modifier").style(Decoration.bold.bold()), label(StringUtils.modifier(clazz.getModifiers(), ',')))
+                .row(label("annotation").style(Decoration.bold.bold()), label(TypeRenderUtils.drawAnnotation(clazz)))
+                .row(label("interfaces").style(Decoration.bold.bold()), label(TypeRenderUtils.drawInterface(clazz)))
+                .row(label("super-class").style(Decoration.bold.bold()), TypeRenderUtils.drawSuperClass(clazz))
+                .row(label("class-loader").style(Decoration.bold.bold()), TypeRenderUtils.drawClassLoader(clazz))
+                .row(label("classLoaderHash").style(Decoration.bold.bold()), label(StringUtils.classLoaderHash(clazz)));
+
+        return table;
+    }
+
+    public static String getCodeSource(final CodeSource cs) {
+        if (null == cs || null == cs.getLocation() || null == cs.getLocation().getFile()) {
+            return Constants.EMPTY_STRING;
+        }
+
+        return cs.getLocation().getFile();
     }
 }

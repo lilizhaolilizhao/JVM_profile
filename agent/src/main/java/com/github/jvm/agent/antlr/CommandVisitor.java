@@ -75,6 +75,14 @@ public interface CommandVisitor<T> extends ParseTreeVisitor<T> {
     T visitGeneral_help(CommandParser.General_helpContext ctx);
 
     /**
+     * Visit a parse tree produced by {@link CommandParser#detail_flag}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitDetail_flag(CommandParser.Detail_flagContext ctx);
+
+    /**
      * Visit a parse tree produced by {@link CommandParser#class_pattern}.
      *
      * @param ctx the parse tree

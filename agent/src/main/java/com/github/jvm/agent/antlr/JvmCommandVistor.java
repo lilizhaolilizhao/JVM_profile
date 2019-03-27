@@ -33,15 +33,20 @@ public class JvmCommandVistor extends CommandBaseVisitor {
     public Object visitSc_command(CommandParser.Sc_commandContext ctx) {
         command = new SearchClassCommand(conn, inst);
 
+        //访问 -d 显示详情
+        CommandParser.Detail_flagContext detail_flagContext = ctx.detail_flag();
+        if (detail_flagContext != null) {
+            command.setDetail(true);
+        }
+
+        //访问 class_pattern
+        CommandParser.Class_patternContext classPatternContext = ctx.class_pattern();
+        if (classPatternContext != null) {
+            String classPattern = classPatternContext.any_name().getText();
+            command.setClassPattern(classPattern);
+        }
+
         return super.visitSc_command(ctx);
-    }
-
-    @Override
-    public Object visitClass_pattern(CommandParser.Class_patternContext ctx) {
-        String classPattern = ctx.any_name().getChild(0).toString();
-        command.setClassPattern(classPattern);
-
-        return super.visitClass_pattern(ctx);
     }
 
     @Override

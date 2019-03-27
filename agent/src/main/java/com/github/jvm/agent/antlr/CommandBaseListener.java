@@ -160,6 +160,24 @@ public class CommandBaseListener implements CommandListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
+    public void enterDetail_flag(CommandParser.Detail_flagContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitDetail_flag(CommandParser.Detail_flagContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
     public void enterClass_pattern(CommandParser.Class_patternContext ctx) {
     }
 
