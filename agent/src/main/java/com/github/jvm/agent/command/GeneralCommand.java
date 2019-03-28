@@ -28,6 +28,10 @@ public abstract class GeneralCommand implements Command {
         this.inst = inst;
     }
 
+    public void setAll(boolean all) {
+
+    }
+
     @Override
     public void setExpand(Integer expand) {
     }

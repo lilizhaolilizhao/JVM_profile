@@ -4,6 +4,7 @@ import com.github.jvm.agent.command.GeneralCommand;
 import com.github.jvm.agent.util.Constants;
 import com.github.jvm.agent.util.StringUtils;
 import com.github.jvm.agent.util.TypeRenderUtils;
+import com.github.jvm.agent.util.affect.RowAffect;
 import com.github.jvm.agent.util.command.SearchUtils;
 import com.github.jvm.agent.util.matcher.Matcher;
 import com.github.jvm.agent.util.matcher.RegexMatcher;
@@ -69,6 +70,8 @@ public class SearchMethodCommand extends GeneralCommand {
 
     @Override
     public void process(Consumer<int[]> out) {
+        RowAffect affect = new RowAffect();
+
         if (classPattern != null) {
             Matcher<String> methodNameMatcher = methodNameMatcher();
             Set<Class<?>> matchedClasses = SearchUtils.searchClass(inst, classPattern, isRegEx);
@@ -90,6 +93,8 @@ public class SearchMethodCommand extends GeneralCommand {
                         String line = format("%s->%s%n", clazz.getName(), "<init>");
                         conn.write(line);
                     }
+
+                    affect.rCnt(1);
                 }
 
                 for (Method method : clazz.getDeclaredMethods()) {
@@ -107,11 +112,14 @@ public class SearchMethodCommand extends GeneralCommand {
                         String line = format("%s->%s%n", clazz.getName(), method.getName());
                         conn.write(line);
                     }
+
+                    affect.rCnt(1);
                 }
             }
         } else if (helpFlag) {
             writeHelpInfo(SearchMethodCommand.class);
         }
+        conn.write(affect + "\n");
     }
 
 

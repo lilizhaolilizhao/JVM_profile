@@ -60,7 +60,20 @@ public class JvmCommandVistor extends CommandBaseVisitor {
     public Object visitClassloader_command(CommandParser.Classloader_commandContext ctx) {
         command = new ClassLoaderCommand(conn, inst);
 
+        visitAllFlag(ctx.all_flag());
+
         return super.visitClassloader_command(ctx);
+    }
+
+    /**
+     * 访问 -a 标记
+     *
+     * @param all_flagContext
+     */
+    private void visitAllFlag(CommandParser.All_flagContext all_flagContext) {
+        if (all_flagContext != null) {
+            command.setAll(true);
+        }
     }
 
     /**

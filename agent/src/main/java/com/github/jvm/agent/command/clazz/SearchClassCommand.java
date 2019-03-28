@@ -4,6 +4,7 @@ import com.github.jvm.agent.command.GeneralCommand;
 import com.github.jvm.agent.util.Constants;
 import com.github.jvm.agent.util.StringUtils;
 import com.github.jvm.agent.util.TypeRenderUtils;
+import com.github.jvm.agent.util.affect.RowAffect;
 import com.github.jvm.agent.util.command.SearchUtils;
 import com.taobao.middleware.cli.annotations.*;
 import com.taobao.text.Decoration;
@@ -72,6 +73,7 @@ public class SearchClassCommand extends GeneralCommand {
 
     @Override
     public void process(Consumer<int[]> out) {
+        RowAffect affect = new RowAffect();
         if (classPattern != null) {
             Set<Class<?>> matchedClasses = SearchUtils.searchClass(inst, classPattern, isRegEx);
 
@@ -82,9 +84,12 @@ public class SearchClassCommand extends GeneralCommand {
                     conn.write(matchedClass.getName() + "\n");
                 }
             }
+
+            affect.rCnt(matchedClasses.size());
         } else if (helpFlag) {
             writeHelpInfo(SearchClassCommand.class);
         }
+        conn.write(affect + "\n");
     }
 
     private Element renderClassInfo(Class<?> clazz, boolean isPrintField) {

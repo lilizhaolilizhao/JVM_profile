@@ -28,7 +28,7 @@ sm_command
  ;
 
 classloader_command
- : CLASSLOADER_COMMAND ( general_help )?
+ : CLASSLOADER_COMMAND ( ( all_flag )? | ( general_help )?)
  ;
 
 keymap_command
@@ -64,6 +64,10 @@ detail_flag
  : '-'DETAIL
  ;
 
+all_flag
+ : '-'ALL_INFO
+ ;
+
 class_pattern
  : any_name
  ;
@@ -89,6 +93,7 @@ CLS_COMMAND : C L S;
 HELP_COMMAND : H E L P;
 HELP : H;
 DETAIL : D;
+ALL_INFO : A;
 FIELD : F;
 REGEX : E;
 EXTEND : X;
