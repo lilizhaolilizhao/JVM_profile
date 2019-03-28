@@ -43,6 +43,14 @@ public interface CommandVisitor<T> extends ParseTreeVisitor<T> {
     T visitSc_command(CommandParser.Sc_commandContext ctx);
 
     /**
+     * Visit a parse tree produced by {@link CommandParser#sm_command}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitSm_command(CommandParser.Sm_commandContext ctx);
+
+    /**
      * Visit a parse tree produced by {@link CommandParser#keymap_command}.
      *
      * @param ctx the parse tree
@@ -113,6 +121,14 @@ public interface CommandVisitor<T> extends ParseTreeVisitor<T> {
      * @return the visitor result
      */
     T visitClass_pattern(CommandParser.Class_patternContext ctx);
+
+    /**
+     * Visit a parse tree produced by {@link CommandParser#method_pattern}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitMethod_pattern(CommandParser.Method_patternContext ctx);
 
     /**
      * Visit a parse tree produced by {@link CommandParser#any_name}.

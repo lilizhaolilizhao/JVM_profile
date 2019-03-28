@@ -7,6 +7,7 @@ parse
 command_list
  : ( help_command
  | sc_command
+ | sm_command
  | keymap_command
  | exit_command
  | cls_command
@@ -19,6 +20,10 @@ help_command
 
 sc_command
  : SC_COMMAND ( ( detail_flag )?( field_flag )?( regex_flag )?( extend_flag )? class_pattern | ( general_help )?)
+ ;
+
+sm_command
+ : SM_COMMAND ( ( detail_flag )?( regex_flag )? class_pattern (method_pattern)? | ( general_help )?)
  ;
 
 keymap_command
@@ -58,6 +63,10 @@ class_pattern
  : any_name
  ;
 
+method_pattern
+ : any_name
+ ;
+
 any_name
  : IDENTIFIER
  | STRING_LITERAL
@@ -65,6 +74,7 @@ any_name
  ;
 
 SC_COMMAND : S C;
+SM_COMMAND : S M;
 KEYMAP_COMMAND : K E Y M A P;
 EXIT_COMMAND : E X I T;
 LOGOUT_COMMAND : L O G O U T;

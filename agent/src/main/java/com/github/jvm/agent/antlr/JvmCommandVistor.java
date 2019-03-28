@@ -6,6 +6,7 @@ import com.github.jvm.agent.command.basic.ExitCommand;
 import com.github.jvm.agent.command.basic.HelpCommand;
 import com.github.jvm.agent.command.basic.KeymapCommand;
 import com.github.jvm.agent.command.clazz.SearchClassCommand;
+import com.github.jvm.agent.command.clazz.SearchMethodCommand;
 import io.termd.core.tty.TtyConnection;
 import lombok.Data;
 
@@ -33,39 +34,100 @@ public class JvmCommandVistor extends CommandBaseVisitor {
     public Object visitSc_command(CommandParser.Sc_commandContext ctx) {
         command = new SearchClassCommand(conn, inst);
 
-        //访问 -d 显示详情
-        CommandParser.Detail_flagContext detail_flagContext = ctx.detail_flag();
-        if (detail_flagContext != null) {
-            command.setDetail(true);
-        }
+        visitDetailContext(ctx.detail_flag());
+        visitFieldContext(ctx);
+        visitRegexContext(ctx.regex_flag());
+        visitExtendContext(ctx);
+        visitClassPatternContext(ctx.class_pattern());
 
-        //访问 -f 显示字段
+        return super.visitSc_command(ctx);
+    }
+
+    @Override
+    public Object visitSm_command(CommandParser.Sm_commandContext ctx) {
+        command = new SearchMethodCommand(conn, inst);
+
+        visitDetailContext(ctx.detail_flag());
+        visitRegexContext(ctx.regex_flag());
+        visitClassPatternContext(ctx.class_pattern());
+        visitMethodPatternContext(ctx);
+
+        return super.visitSm_command(ctx);
+    }
+
+    /**
+     * 访问 -x 展开级别
+     *
+     * @param ctx
+     */
+    private void visitExtendContext(CommandParser.Sc_commandContext ctx) {
+        CommandParser.Extend_flagContext extend_flagContext = ctx.extend_flag();
+        if (extend_flagContext != null) {
+            String extendLevel = extend_flagContext.getChild(2).getText();
+            command.setExpand(Integer.parseInt(extendLevel));
+        }
+    }
+
+    /**
+     * 访问 -f 显示字段
+     *
+     * @param ctx
+     */
+    private void visitFieldContext(CommandParser.Sc_commandContext ctx) {
         CommandParser.Field_flagContext field_flagContext = ctx.field_flag();
         if (field_flagContext != null) {
             command.setField(true);
         }
+    }
 
-        //访问 -e 是否正则
-        CommandParser.Regex_flagContext regex_flagContext = ctx.regex_flag();
-        if (regex_flagContext != null) {
-            command.setRegEx(true);
+    /**
+     * 访问 method_pattern
+     *
+     * @param ctx
+     */
+    private void visitMethodPatternContext(CommandParser.Sm_commandContext ctx) {
+        CommandParser.Method_patternContext method_patternContext = ctx.method_pattern();
+        if (method_patternContext != null) {
+            String methodPattern = method_patternContext.any_name().getText();
+            command.setMethodPattern(methodPattern);
         }
+    }
 
-        //访问 -x 展开级别
-        CommandParser.Extend_flagContext extend_flagContext = ctx.extend_flag();
-        if (extend_flagContext != null) {
-            String extendLevel = extend_flagContext.getChild(2).getText();
-            command.set
-        }
-
-        //访问 class_pattern
-        CommandParser.Class_patternContext classPatternContext = ctx.class_pattern();
+    /**
+     * 访问 class_pattern
+     *
+     * @param class_patternContext
+     */
+    private void visitClassPatternContext(CommandParser.Class_patternContext class_patternContext) {
+        CommandParser.Class_patternContext classPatternContext = class_patternContext;
         if (classPatternContext != null) {
             String classPattern = classPatternContext.any_name().getText();
             command.setClassPattern(classPattern);
         }
+    }
 
-        return super.visitSc_command(ctx);
+    /**
+     * 访问 -e 是否正则
+     *
+     * @param regex_flagContext2
+     */
+    private void visitRegexContext(CommandParser.Regex_flagContext regex_flagContext2) {
+        CommandParser.Regex_flagContext regex_flagContext = regex_flagContext2;
+        if (regex_flagContext != null) {
+            command.setRegEx(true);
+        }
+    }
+
+    /**
+     * 访问 -d 显示详情
+     *
+     * @param detail_flagContext2
+     */
+    private void visitDetailContext(CommandParser.Detail_flagContext detail_flagContext2) {
+        CommandParser.Detail_flagContext detail_flagContext = detail_flagContext2;
+        if (detail_flagContext != null) {
+            command.setDetail(true);
+        }
     }
 
     @Override

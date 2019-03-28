@@ -13,6 +13,8 @@ public interface Command {
 
     void setClassPattern(String classPattern);
 
+    void setMethodPattern(String methodPattern);
+
     void setHelpFlag(boolean helpFlag);
 
     void process(Consumer<int[]> out);

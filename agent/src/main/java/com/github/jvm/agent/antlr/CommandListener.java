@@ -64,6 +64,20 @@ public interface CommandListener extends ParseTreeListener {
     void exitSc_command(CommandParser.Sc_commandContext ctx);
 
     /**
+     * Enter a parse tree produced by {@link CommandParser#sm_command}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterSm_command(CommandParser.Sm_commandContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link CommandParser#sm_command}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitSm_command(CommandParser.Sm_commandContext ctx);
+
+    /**
      * Enter a parse tree produced by {@link CommandParser#keymap_command}.
      *
      * @param ctx the parse tree
@@ -188,6 +202,20 @@ public interface CommandListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     void exitClass_pattern(CommandParser.Class_patternContext ctx);
+
+    /**
+     * Enter a parse tree produced by {@link CommandParser#method_pattern}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterMethod_pattern(CommandParser.Method_patternContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link CommandParser#method_pattern}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitMethod_pattern(CommandParser.Method_patternContext ctx);
 
     /**
      * Enter a parse tree produced by {@link CommandParser#any_name}.

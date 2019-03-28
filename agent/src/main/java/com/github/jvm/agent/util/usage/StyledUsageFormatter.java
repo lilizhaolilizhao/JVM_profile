@@ -117,15 +117,28 @@ public class StyledUsageFormatter extends UsageMessageFormatter {
             public int compare(Method o1, Method o2) {
                 Option option1 = o1.getAnnotation(Option.class);
                 Option option2 = o2.getAnnotation(Option.class);
+                Argument argument1 = o1.getAnnotation(Argument.class);
+                Argument argument2 = o2.getAnnotation(Argument.class);
 
                 if (option1 != null && option2 != null) {
                     String longName1 = option1.longName();
                     String longName2 = option2.longName();
 
                     return longName1.compareToIgnoreCase(longName2);
-                } else if (option1 == null) {
+                } else if (option1 == null && option2 != null) {
                     return 1;
-                } else if (option2 == null) {
+                } else if (option1 != null && option2 == null) {
+                    return -1;
+                }
+
+                if (argument1 != null && argument2 != null) {
+                    int index1 = argument1.index();
+                    int index2 = argument2.index();
+
+                    return index1 - index2;
+                } else if (argument1 == null && argument2 != null) {
+                    return 1;
+                } else if (argument1 != null && argument2 == null) {
                     return -1;
                 }
 

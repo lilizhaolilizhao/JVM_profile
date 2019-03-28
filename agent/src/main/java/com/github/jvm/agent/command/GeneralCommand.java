@@ -28,7 +28,6 @@ public abstract class GeneralCommand implements Command {
 
     @Override
     public void setExpand(Integer expand) {
-
     }
 
     @Override
@@ -46,6 +45,10 @@ public abstract class GeneralCommand implements Command {
 
     @Override
     public void setClassPattern(String classPattern) {
+    }
+
+    @Override
+    public void setMethodPattern(String methodPattern) {
     }
 
     @Override

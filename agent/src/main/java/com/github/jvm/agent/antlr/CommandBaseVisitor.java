@@ -62,6 +62,17 @@ public class CommandBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
+    public T visitSm_command(CommandParser.Sm_commandContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
+    @Override
     public T visitKeymap_command(CommandParser.Keymap_commandContext ctx) {
         return visitChildren(ctx);
     }
@@ -151,6 +162,17 @@ public class CommandBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
      */
     @Override
     public T visitClass_pattern(CommandParser.Class_patternContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
+    @Override
+    public T visitMethod_pattern(CommandParser.Method_patternContext ctx) {
         return visitChildren(ctx);
     }
 
