@@ -66,7 +66,7 @@ public class StyledUsageFormatter extends UsageMessageFormatter {
 
             if (option != null || argument != null) {
                 if (option != null) {
-                    if (option.acceptValue()) {
+                    if (!option.flag()) {
                         rowElements.add(row().add(label("-" + option.shortName() + ", --" + option.longName() + " <value>")
                                 .style(getHighlightedStyle()))
                                 .add(fieldDesc.value()));

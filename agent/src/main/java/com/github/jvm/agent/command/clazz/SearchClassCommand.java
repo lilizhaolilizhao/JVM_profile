@@ -5,9 +5,7 @@ import com.github.jvm.agent.util.Constants;
 import com.github.jvm.agent.util.StringUtils;
 import com.github.jvm.agent.util.TypeRenderUtils;
 import com.github.jvm.agent.util.command.SearchUtils;
-import com.github.jvm.agent.util.usage.StyledUsageFormatter;
 import com.taobao.middleware.cli.annotations.*;
-import com.taobao.text.Color;
 import com.taobao.text.Decoration;
 import com.taobao.text.ui.Element;
 import com.taobao.text.ui.TableElement;
@@ -85,12 +83,7 @@ public class SearchClassCommand extends GeneralCommand {
                 }
             }
         } else if (helpFlag) {
-            StyledUsageFormatter formatter = new StyledUsageFormatter(Color.green);
-            formatter.setWidth(100);
-            StringBuilder usage = new StringBuilder();
-            formatter.usageMsg(usage, SearchClassCommand.class);
-
-            conn.write(usage.toString());
+            writeHelpInfo(SearchClassCommand.class);
         }
     }
 

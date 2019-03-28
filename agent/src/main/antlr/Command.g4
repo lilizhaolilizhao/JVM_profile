@@ -8,6 +8,7 @@ command_list
  : ( help_command
  | sc_command
  | sm_command
+ | classloader_command
  | keymap_command
  | exit_command
  | cls_command
@@ -24,6 +25,10 @@ sc_command
 
 sm_command
  : SM_COMMAND ( ( detail_flag )?( regex_flag )? class_pattern (method_pattern)? | ( general_help )?)
+ ;
+
+classloader_command
+ : CLASSLOADER_COMMAND ( general_help )?
  ;
 
 keymap_command
@@ -75,6 +80,7 @@ any_name
 
 SC_COMMAND : S C;
 SM_COMMAND : S M;
+CLASSLOADER_COMMAND : C L A S S L O A D E R;
 KEYMAP_COMMAND : K E Y M A P;
 EXIT_COMMAND : E X I T;
 LOGOUT_COMMAND : L O G O U T;

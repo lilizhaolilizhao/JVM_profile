@@ -1,7 +1,9 @@
 package com.github.jvm.agent.command;
 
+import com.github.jvm.agent.util.usage.StyledUsageFormatter;
 import com.taobao.middleware.cli.annotations.Description;
 import com.taobao.middleware.cli.annotations.Option;
+import com.taobao.text.Color;
 import io.termd.core.function.Consumer;
 import io.termd.core.tty.TtyConnection;
 import lombok.Data;
@@ -60,4 +62,17 @@ public abstract class GeneralCommand implements Command {
 
     @Override
     public abstract void process(Consumer<int[]> out);
+
+    protected void writeHelpInfo(Class<? extends Command> clazz) {
+        writeHelpInfo(clazz, 100);
+    }
+
+    protected void writeHelpInfo(Class<? extends Command> clazz, int width) {
+        StyledUsageFormatter formatter = new StyledUsageFormatter(Color.green);
+        formatter.setWidth(width);
+        StringBuilder usage = new StringBuilder();
+        formatter.usageMsg(usage, clazz);
+
+        conn.write(usage.toString());
+    }
 }
