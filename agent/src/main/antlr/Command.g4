@@ -28,7 +28,7 @@ sm_command
  ;
 
 classloader_command
- : CLASSLOADER_COMMAND ( ( all_flag )?( hashcode_flag )? | ( general_help )?)
+ : CLASSLOADER_COMMAND ( ( all_flag )?( hashcode_flag )?( includeReflectionClassLoader_flag )? | ( general_help )?)
  ;
 
 keymap_command
@@ -63,6 +63,11 @@ extend_flag
 hashcode_flag
  : '-'HASHCODE_FLAG HASHCODE
  ;
+
+includeReflectionClassLoader_flag
+ : '-'INCLUDEREFLECTIONCLASSLOADER_FLAG
+ ;
+
 
 detail_flag
  : '-'DETAIL
@@ -102,6 +107,7 @@ FIELD : F;
 REGEX : E;
 EXTEND : X;
 HASHCODE_FLAG : C;
+INCLUDEREFLECTIONCLASSLOADER_FLAG : I;
 
 IDENTIFIER
  : '"' (~'"' | '""')* '"'

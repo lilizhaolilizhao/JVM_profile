@@ -204,6 +204,20 @@ public interface CommandListener extends ParseTreeListener {
     void exitHashcode_flag(CommandParser.Hashcode_flagContext ctx);
 
     /**
+     * Enter a parse tree produced by {@link CommandParser#includeReflectionClassLoader_flag}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterIncludeReflectionClassLoader_flag(CommandParser.IncludeReflectionClassLoader_flagContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link CommandParser#includeReflectionClassLoader_flag}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitIncludeReflectionClassLoader_flag(CommandParser.IncludeReflectionClassLoader_flagContext ctx);
+
+    /**
      * Enter a parse tree produced by {@link CommandParser#detail_flag}.
      *
      * @param ctx the parse tree

@@ -28,6 +28,9 @@ public abstract class GeneralCommand implements Command {
         this.inst = inst;
     }
 
+    public void setIncludeReflectionClassLoader(boolean includeReflectionClassLoader) {
+    }
+
     public void setHashCode(String hashCode) {
     }
 

@@ -268,6 +268,24 @@ public class CommandBaseListener implements CommandListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
+    public void enterIncludeReflectionClassLoader_flag(CommandParser.IncludeReflectionClassLoader_flagContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitIncludeReflectionClassLoader_flag(CommandParser.IncludeReflectionClassLoader_flagContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
     public void enterDetail_flag(CommandParser.Detail_flagContext ctx) {
     }
 
