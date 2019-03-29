@@ -115,6 +115,14 @@ public interface CommandVisitor<T> extends ParseTreeVisitor<T> {
     T visitExtend_flag(CommandParser.Extend_flagContext ctx);
 
     /**
+     * Visit a parse tree produced by {@link CommandParser#hashcode_flag}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitHashcode_flag(CommandParser.Hashcode_flagContext ctx);
+
+    /**
      * Visit a parse tree produced by {@link CommandParser#detail_flag}.
      *
      * @param ctx the parse tree

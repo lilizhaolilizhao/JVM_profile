@@ -3,6 +3,8 @@ package com.github.jvm.agent.command;
 import io.termd.core.function.Consumer;
 
 public interface Command {
+    void setHashCode(String hashCode);
+
     void setAll(boolean all);
 
     void setExpand(Integer expand);

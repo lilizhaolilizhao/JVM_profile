@@ -28,8 +28,10 @@ public abstract class GeneralCommand implements Command {
         this.inst = inst;
     }
 
-    public void setAll(boolean all) {
+    public void setHashCode(String hashCode) {
+    }
 
+    public void setAll(boolean all) {
     }
 
     @Override

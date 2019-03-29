@@ -16,6 +16,8 @@ import io.termd.core.function.Consumer;
 import io.termd.core.tty.TtyConnection;
 
 import java.lang.instrument.Instrumentation;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.*;
 
 @Name("classloader")
@@ -79,11 +81,87 @@ public class ClassLoaderCommand extends GeneralCommand {
     public void process(Consumer<int[]> out) {
         if (all) {
             processAllClasses(conn, inst);
+        } else if (hashCode != null && resource != null) {
+//            processResources(process, inst);
+        } else if (hashCode != null) {
+            processClassloader(conn, inst);
+        } else if (listClassLoader || isTree) {
+//            processClassloaders(process, inst);
         } else if (helpFlag) {
             writeHelpInfo(ClassLoaderCommand.class, 130);
         } else {
-
+//            processClassLoaderStats(process, inst);
         }
+    }
+
+    /**
+     * 根据 hashCode 来打印URLClassLoader的urls
+     *
+     * @param conn
+     * @param inst
+     */
+    private void processClassloader(TtyConnection conn, Instrumentation inst) {
+        RowAffect affect = new RowAffect();
+
+        Set<ClassLoader> allClassLoader = getAllClassLoader(inst);
+        for (ClassLoader cl : allClassLoader) {
+            if (Integer.toString(cl.hashCode()).equals(hashCode)) {
+                conn.write(RenderUtil.render(renderClassLoaderUrls(cl), 120));
+            }
+        }
+        affect.rCnt(allClassLoader.size());
+
+        conn.write(Constants.EMPTY_STRING);
+        conn.write(affect + "\n");
+    }
+
+    private Element renderClassLoaderUrls(ClassLoader classLoader) {
+        StringBuilder sb = new StringBuilder();
+        if (classLoader instanceof URLClassLoader) {
+            URLClassLoader cl = (URLClassLoader) classLoader;
+            URL[] urls = cl.getURLs();
+            if (urls != null) {
+                for (URL url : urls) {
+                    sb.append(url.toString() + "\n");
+                }
+                return new LabelElement(sb.toString());
+            } else {
+                return new LabelElement("urls is empty.");
+            }
+        } else {
+            return new LabelElement("not a URLClassLoader.\n");
+        }
+    }
+
+    private static Set<ClassLoader> getAllClassLoader(Instrumentation inst, Filter... filters) {
+        Set<ClassLoader> classLoaderSet = new HashSet<ClassLoader>();
+
+        for (Class<?> clazz : inst.getAllLoadedClasses()) {
+            ClassLoader classLoader = clazz.getClassLoader();
+            if (classLoader != null) {
+                if (shouldInclude(classLoader, filters)) {
+                    classLoaderSet.add(classLoader);
+                }
+            }
+        }
+        return classLoaderSet;
+    }
+
+    private static boolean shouldInclude(ClassLoader classLoader, Filter... filters) {
+        if (filters == null) {
+            return true;
+        }
+
+        for (Filter filter : filters) {
+            if (!filter.accept(classLoader)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private interface Filter {
+        boolean accept(ClassLoader classLoader);
     }
 
     private void processAllClasses(TtyConnection conn, Instrumentation inst) {

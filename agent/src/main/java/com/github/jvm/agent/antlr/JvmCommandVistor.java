@@ -61,8 +61,20 @@ public class JvmCommandVistor extends CommandBaseVisitor {
         command = new ClassLoaderCommand(conn, inst);
 
         visitAllFlag(ctx.all_flag());
+        visitHashcode(ctx.hashcode_flag());
 
         return super.visitClassloader_command(ctx);
+    }
+
+    /**
+     * 访问 -c hashcode
+     *
+     * @param hashcode_flagContext
+     */
+    private void visitHashcode(CommandParser.Hashcode_flagContext hashcode_flagContext) {
+        if (hashcode_flagContext != null) {
+            command.setHashCode(hashcode_flagContext.getChild(2).getText());
+        }
     }
 
     /**

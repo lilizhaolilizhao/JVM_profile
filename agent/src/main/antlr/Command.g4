@@ -28,7 +28,7 @@ sm_command
  ;
 
 classloader_command
- : CLASSLOADER_COMMAND ( ( all_flag )? | ( general_help )?)
+ : CLASSLOADER_COMMAND ( ( all_flag )?( hashcode_flag )? | ( general_help )?)
  ;
 
 keymap_command
@@ -58,6 +58,10 @@ regex_flag
 
 extend_flag
  : '-'EXTEND EXTEND_LEVEL
+ ;
+
+hashcode_flag
+ : '-'HASHCODE_FLAG HASHCODE
  ;
 
 detail_flag
@@ -97,6 +101,7 @@ ALL_INFO : A;
 FIELD : F;
 REGEX : E;
 EXTEND : X;
+HASHCODE_FLAG : C;
 
 IDENTIFIER
  : '"' (~'"' | '""')* '"'
@@ -107,6 +112,10 @@ IDENTIFIER
 
 EXTEND_LEVEL
  : [1-5]?
+ ;
+
+HASHCODE
+ : [1-9a-z]+
  ;
 
 NUMERIC_LITERAL
