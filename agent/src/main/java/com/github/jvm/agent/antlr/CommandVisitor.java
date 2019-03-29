@@ -1,4 +1,5 @@
-package com.github.jvm.agent.antlr;// Generated from /Users/oneapm/git/JVM_profile/agent/src/main/antlr/Command.g4 by ANTLR 4.7.2
+// Generated from /Users/oneapm/git/JVM_profile/agent/src/main/antlr/Command.g4 by ANTLR 4.7.2
+package com.github.jvm.agent.antlr;
 
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -97,6 +98,14 @@ public interface CommandVisitor<T> extends ParseTreeVisitor<T> {
      * @return the visitor result
      */
     T visitField_flag(CommandParser.Field_flagContext ctx);
+
+    /**
+     * Visit a parse tree produced by {@link CommandParser#resource_flag}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitResource_flag(CommandParser.Resource_flagContext ctx);
 
     /**
      * Visit a parse tree produced by {@link CommandParser#regex_flag}.

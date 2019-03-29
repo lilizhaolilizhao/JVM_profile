@@ -82,7 +82,7 @@ public class ClassLoaderCommand extends GeneralCommand {
         if (all) {
             processAllClasses(conn, inst);
         } else if (hashCode != null && resource != null) {
-//            processResources(process, inst);
+            processResources(conn, inst);
         } else if (hashCode != null) {
             processClassloader(conn, inst);
         } else if (listClassLoader || isTree) {
@@ -92,6 +92,33 @@ public class ClassLoaderCommand extends GeneralCommand {
         } else {
 //            processClassLoaderStats(process, inst);
         }
+    }
+
+    private void processResources(TtyConnection conn, Instrumentation inst) {
+        RowAffect affect = new RowAffect();
+
+        int rowCount = 0;
+        Set<ClassLoader> allClassLoader = includeReflectionClassLoader ? getAllClassLoader(inst) :
+                getAllClassLoader(inst, new SunReflectionClassLoaderFilter());
+        for (ClassLoader cl : allClassLoader) {
+            if (Integer.toString(cl.hashCode()).equals(hashCode)) {
+                TableElement table = new TableElement().leftCellPadding(1).rightCellPadding(1);
+                try {
+                    Enumeration<URL> urls = cl.getResources(resource);
+                    while (urls.hasMoreElements()) {
+                        URL url = urls.nextElement();
+                        table.row(url.toString());
+                        rowCount++;
+                    }
+                } catch (Throwable e) {
+                    e.printStackTrace();
+                }
+                conn.write(RenderUtil.render(table, 120) + "\n");
+            }
+        }
+
+        conn.write(Constants.EMPTY_STRING);
+        conn.write(affect.rCnt(rowCount) + "\n");
     }
 
     /**
@@ -162,6 +189,15 @@ public class ClassLoaderCommand extends GeneralCommand {
 
     private interface Filter {
         boolean accept(ClassLoader classLoader);
+    }
+
+    private static class SunReflectionClassLoaderFilter implements Filter {
+        private static final String REFLECTION_CLASSLOADER = "sun.reflect.DelegatingClassLoader";
+
+        @Override
+        public boolean accept(ClassLoader classLoader) {
+            return !REFLECTION_CLASSLOADER.equals(classLoader.getClass().getName());
+        }
     }
 
     private void processAllClasses(TtyConnection conn, Instrumentation inst) {

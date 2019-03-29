@@ -1,4 +1,5 @@
-package com.github.jvm.agent.antlr;// Generated from /Users/oneapm/git/JVM_profile/agent/src/main/antlr/Command.g4 by ANTLR 4.7.2
+// Generated from /Users/oneapm/git/JVM_profile/agent/src/main/antlr/Command.g4 by ANTLR 4.7.2
+package com.github.jvm.agent.antlr;
 
 import org.antlr.v4.runtime.tree.AbstractParseTreeVisitor;
 
@@ -129,6 +130,17 @@ public class CommandBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
      */
     @Override
     public T visitField_flag(CommandParser.Field_flagContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
+    @Override
+    public T visitResource_flag(CommandParser.Resource_flagContext ctx) {
         return visitChildren(ctx);
     }
 

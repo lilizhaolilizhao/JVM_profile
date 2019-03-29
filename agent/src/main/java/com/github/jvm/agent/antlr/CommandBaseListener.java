@@ -1,4 +1,5 @@
-package com.github.jvm.agent.antlr;// Generated from /Users/oneapm/git/JVM_profile/agent/src/main/antlr/Command.g4 by ANTLR 4.7.2
+// Generated from /Users/oneapm/git/JVM_profile/agent/src/main/antlr/Command.g4 by ANTLR 4.7.2
+package com.github.jvm.agent.antlr;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
@@ -206,6 +207,24 @@ public class CommandBaseListener implements CommandListener {
      */
     @Override
     public void exitField_flag(CommandParser.Field_flagContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void enterResource_flag(CommandParser.Resource_flagContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitResource_flag(CommandParser.Resource_flagContext ctx) {
     }
 
     /**

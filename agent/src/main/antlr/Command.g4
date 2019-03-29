@@ -28,7 +28,8 @@ sm_command
  ;
 
 classloader_command
- : CLASSLOADER_COMMAND ( ( all_flag )?( hashcode_flag )?( includeReflectionClassLoader_flag )? | ( general_help )?)
+ : CLASSLOADER_COMMAND ( ( all_flag )?( hashcode_flag )?( includeReflectionClassLoader_flag )?( resource_flag )?
+ | ( general_help )?)
  ;
 
 keymap_command
@@ -52,6 +53,10 @@ field_flag
  : '-'FIELD
  ;
 
+resource_flag
+ : '-'RESOURCE any_name
+ ;
+
 regex_flag
  : '-'REGEX
  ;
@@ -67,7 +72,6 @@ hashcode_flag
 includeReflectionClassLoader_flag
  : '-'INCLUDEREFLECTIONCLASSLOADER_FLAG
  ;
-
 
 detail_flag
  : '-'DETAIL
@@ -108,12 +112,13 @@ REGEX : E;
 EXTEND : X;
 HASHCODE_FLAG : C;
 INCLUDEREFLECTIONCLASSLOADER_FLAG : I;
+RESOURCE : R;
 
 IDENTIFIER
  : '"' (~'"' | '""')* '"'
  | '`' (~'`' | '``')* '`'
  | '[' ~']'* ']'
- | [a-zA-Z_.*] [a-zA-Z_0-9.*]*
+ | [a-zA-Z_0-9_.*/] [a-zA-Z_0-9.*/]*
  ;
 
 EXTEND_LEVEL

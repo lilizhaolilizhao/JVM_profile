@@ -3,6 +3,9 @@ package com.github.jvm.agent.command;
 import io.termd.core.function.Consumer;
 
 public interface Command {
+
+    void setResource(String resource);
+
     void setIncludeReflectionClassLoader(boolean includeReflectionClassLoader);
 
     void setHashCode(String hashCode);
