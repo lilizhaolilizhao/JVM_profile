@@ -28,6 +28,9 @@ public abstract class GeneralCommand implements Command {
         this.inst = inst;
     }
 
+    public void setTree(boolean tree) {
+    }
+
     public void setResource(String resource) {
     }
 

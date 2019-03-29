@@ -4,6 +4,8 @@ import io.termd.core.function.Consumer;
 
 public interface Command {
 
+    void setTree(boolean tree);
+
     void setResource(String resource);
 
     void setIncludeReflectionClassLoader(boolean includeReflectionClassLoader);

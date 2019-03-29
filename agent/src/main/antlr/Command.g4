@@ -28,7 +28,7 @@ sm_command
  ;
 
 classloader_command
- : CLASSLOADER_COMMAND ( ( all_flag )?( hashcode_flag )?( includeReflectionClassLoader_flag )?( resource_flag )?
+ : CLASSLOADER_COMMAND ( ( all_flag )?( hashcode_flag )?( includeReflectionClassLoader_flag )?( resource_flag )?( tree_flag )?
  | ( general_help )?)
  ;
 
@@ -55,6 +55,10 @@ field_flag
 
 resource_flag
  : '-'RESOURCE any_name
+ ;
+
+tree_flag
+ : '-'TREE
  ;
 
 regex_flag
@@ -113,6 +117,7 @@ EXTEND : X;
 HASHCODE_FLAG : C;
 INCLUDEREFLECTIONCLASSLOADER_FLAG : I;
 RESOURCE : R;
+TREE : T;
 
 IDENTIFIER
  : '"' (~'"' | '""')* '"'

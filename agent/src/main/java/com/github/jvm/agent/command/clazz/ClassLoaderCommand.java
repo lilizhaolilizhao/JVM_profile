@@ -86,12 +86,24 @@ public class ClassLoaderCommand extends GeneralCommand {
         } else if (hashCode != null) {
             processClassloader(conn, inst);
         } else if (listClassLoader || isTree) {
-//            processClassloaders(process, inst);
+            processClassloaders(conn, inst);
         } else if (helpFlag) {
             writeHelpInfo(ClassLoaderCommand.class, 130);
         } else {
 //            processClassLoaderStats(process, inst);
         }
+    }
+
+    private void processClassloaders(TtyConnection conn, Instrumentation inst) {
+//        RowAffect affect = new RowAffect();
+//        List<ClassLoaderInfo> classLoaderInfos = includeReflectionClassLoader ? getAllClassLoaderInfo(inst) :
+//                getAllClassLoaderInfo(inst, new SunReflectionClassLoaderFilter());
+//        Element element = isTree ? renderTree(classLoaderInfos) : renderTable(classLoaderInfos);
+//        process.write(RenderUtil.render(element, process.width()))
+//                .write(com.taobao.arthas.core.util.Constants.EMPTY_STRING);
+//        affect.rCnt(classLoaderInfos.size());
+//        process.write(affect + "\n");
+//        process.end();
     }
 
     private void processResources(TtyConnection conn, Instrumentation inst) {
