@@ -4,6 +4,8 @@ import io.termd.core.function.Consumer;
 
 public interface Command {
 
+    void setListClassLoader(boolean listClassLoader);
+
     void setTree(boolean tree);
 
     void setResource(String resource);

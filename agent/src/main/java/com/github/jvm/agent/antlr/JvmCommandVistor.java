@@ -65,8 +65,20 @@ public class JvmCommandVistor extends CommandBaseVisitor {
         visitIncludeReflectionClassLoader(ctx.includeReflectionClassLoader_flag());
         visitResource(ctx.resource_flag());
         visitTree(ctx.tree_flag());
+        visitList(ctx.list_flag());
 
         return super.visitClassloader_command(ctx);
+    }
+
+    /**
+     * 访问 -l
+     *
+     * @param list_flagContext
+     */
+    private void visitList(CommandParser.List_flagContext list_flagContext) {
+        if (list_flagContext != null) {
+            command.setListClassLoader(true);
+        }
     }
 
     /**

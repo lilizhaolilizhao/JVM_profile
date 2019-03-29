@@ -8,9 +8,7 @@ import com.taobao.middleware.cli.annotations.Name;
 import com.taobao.middleware.cli.annotations.Option;
 import com.taobao.middleware.cli.annotations.Summary;
 import com.taobao.text.Decoration;
-import com.taobao.text.ui.Element;
-import com.taobao.text.ui.LabelElement;
-import com.taobao.text.ui.TableElement;
+import com.taobao.text.ui.*;
 import com.taobao.text.util.RenderUtil;
 import io.termd.core.function.Consumer;
 import io.termd.core.tty.TtyConnection;
@@ -95,15 +93,111 @@ public class ClassLoaderCommand extends GeneralCommand {
     }
 
     private void processClassloaders(TtyConnection conn, Instrumentation inst) {
-//        RowAffect affect = new RowAffect();
-//        List<ClassLoaderInfo> classLoaderInfos = includeReflectionClassLoader ? getAllClassLoaderInfo(inst) :
-//                getAllClassLoaderInfo(inst, new SunReflectionClassLoaderFilter());
-//        Element element = isTree ? renderTree(classLoaderInfos) : renderTable(classLoaderInfos);
-//        process.write(RenderUtil.render(element, process.width()))
-//                .write(com.taobao.arthas.core.util.Constants.EMPTY_STRING);
-//        affect.rCnt(classLoaderInfos.size());
-//        process.write(affect + "\n");
-//        process.end();
+        RowAffect affect = new RowAffect();
+        List<ClassLoaderInfo> classLoaderInfos = includeReflectionClassLoader ? getAllClassLoaderInfo(inst) :
+                getAllClassLoaderInfo(inst, new SunReflectionClassLoaderFilter());
+        Element element = isTree ? renderTree(classLoaderInfos) : renderTable(classLoaderInfos);
+        conn.write(RenderUtil.render(element, 120)).write(Constants.EMPTY_STRING);
+        affect.rCnt(classLoaderInfos.size());
+        conn.write(affect + "\n");
+    }
+
+    // 统计所有的ClassLoader的信息
+    private static TableElement renderTable(List<ClassLoaderInfo> classLoaderInfos) {
+        TableElement table = new TableElement().leftCellPadding(1).rightCellPadding(1);
+        table.add(new RowElement().style(Decoration.bold.bold()).add("name", "loadedCount", "hash", "parent"));
+        for (ClassLoaderInfo info : classLoaderInfos) {
+            table.row(info.getName(), "" + info.loadedClassCount(), info.hashCodeStr(), info.parentStr());
+        }
+        return table;
+    }
+
+    // 以树状列出ClassLoader的继承结构
+    private static Element renderTree(List<ClassLoaderInfo> classLoaderInfos) {
+        TreeElement root = new TreeElement();
+
+        List<ClassLoaderInfo> parentNullClassLoaders = new ArrayList<ClassLoaderInfo>();
+        List<ClassLoaderInfo> parentNotNullClassLoaders = new ArrayList<ClassLoaderInfo>();
+        for (ClassLoaderInfo info : classLoaderInfos) {
+            if (info.parent() == null) {
+                parentNullClassLoaders.add(info);
+            } else {
+                parentNotNullClassLoaders.add(info);
+            }
+        }
+
+        for (ClassLoaderInfo info : parentNullClassLoaders) {
+            if (info.parent() == null) {
+                TreeElement parent = new TreeElement(info.getName());
+                renderParent(parent, info, parentNotNullClassLoaders);
+                root.addChild(parent);
+            }
+        }
+
+        return root;
+    }
+
+    private static void renderParent(TreeElement node, ClassLoaderInfo parent, List<ClassLoaderInfo> classLoaderInfos) {
+        for (ClassLoaderInfo info : classLoaderInfos) {
+            if (info.parent() == parent.classLoader) {
+                TreeElement child = new TreeElement(info.getName());
+                node.addChild(child);
+                renderParent(child, info, classLoaderInfos);
+            }
+        }
+    }
+
+    private static List<ClassLoaderInfo> getAllClassLoaderInfo(Instrumentation inst, Filter... filters) {
+        // 这里认为class.getClassLoader()返回是null的是由BootstrapClassLoader加载的，特殊处理
+        ClassLoaderInfo bootstrapInfo = new ClassLoaderInfo(null);
+        Map<ClassLoader, ClassLoaderInfo> loaderInfos = new HashMap<ClassLoader, ClassLoaderInfo>();
+
+        for (Class<?> clazz : inst.getAllLoadedClasses()) {
+            ClassLoader classLoader = clazz.getClassLoader();
+            if (classLoader == null) {
+                bootstrapInfo.increase();
+            } else {
+                if (shouldInclude(classLoader, filters)) {
+                    ClassLoaderInfo loaderInfo = loaderInfos.get(classLoader);
+                    if (loaderInfo == null) {
+                        loaderInfo = new ClassLoaderInfo(classLoader);
+                        loaderInfos.put(classLoader, loaderInfo);
+                        ClassLoader parent = classLoader.getParent();
+                        while (parent != null) {
+                            ClassLoaderInfo parentLoaderInfo = loaderInfos.get(parent);
+                            if (parentLoaderInfo == null) {
+                                parentLoaderInfo = new ClassLoaderInfo(parent);
+                                loaderInfos.put(parent, parentLoaderInfo);
+                            }
+                            parent = parent.getParent();
+                        }
+                    }
+                    loaderInfo.increase();
+                }
+            }
+        }
+
+        // 排序时，把用户自己定的ClassLoader排在最前面，以sun.
+        // 开头的放后面，因为sun.reflect.DelegatingClassLoader的实例太多
+        List<ClassLoaderInfo> sunClassLoaderList = new ArrayList<ClassLoaderInfo>();
+        List<ClassLoaderInfo> otherClassLoaderList = new ArrayList<ClassLoaderInfo>();
+        for (Map.Entry<ClassLoader, ClassLoaderInfo> entry : loaderInfos.entrySet()) {
+            ClassLoader classLoader = entry.getKey();
+            if (classLoader.getClass().getName().startsWith("sun.")) {
+                sunClassLoaderList.add(entry.getValue());
+            } else {
+                otherClassLoaderList.add(entry.getValue());
+            }
+        }
+
+        Collections.sort(sunClassLoaderList);
+        Collections.sort(otherClassLoaderList);
+
+        List<ClassLoaderInfo> result = new ArrayList<ClassLoaderInfo>();
+        result.add(bootstrapInfo);
+        result.addAll(otherClassLoaderList);
+        result.addAll(sunClassLoaderList);
+        return result;
     }
 
     private void processResources(TtyConnection conn, Instrumentation inst) {
@@ -209,6 +303,71 @@ public class ClassLoaderCommand extends GeneralCommand {
         @Override
         public boolean accept(ClassLoader classLoader) {
             return !REFLECTION_CLASSLOADER.equals(classLoader.getClass().getName());
+        }
+    }
+
+    private static class ClassLoaderInfo implements Comparable<ClassLoaderInfo> {
+        private ClassLoader classLoader;
+        private int loadedClassCount = 0;
+
+        ClassLoaderInfo(ClassLoader classLoader) {
+            this.classLoader = classLoader;
+        }
+
+        public ClassLoader getClassLoader() {
+            return classLoader;
+        }
+
+        public String getName() {
+            if (classLoader != null) {
+                return classLoader.toString();
+            }
+            return "BootstrapClassLoader";
+        }
+
+        String hashCodeStr() {
+            if (classLoader != null) {
+                return "" + Integer.toHexString(classLoader.hashCode());
+            }
+            return "null";
+        }
+
+        void increase() {
+            loadedClassCount++;
+        }
+
+        int loadedClassCount() {
+            return loadedClassCount;
+        }
+
+        ClassLoader parent() {
+            return classLoader == null ? null : classLoader.getParent();
+        }
+
+        String parentStr() {
+            if (classLoader == null) {
+                return "null";
+            }
+            ClassLoader parent = classLoader.getParent();
+            if (parent == null) {
+                return "null";
+            }
+            return parent.toString();
+        }
+
+        @Override
+        public int compareTo(ClassLoaderInfo other) {
+            if (other == null) {
+                return -1;
+            }
+            if (other.classLoader == null) {
+                return -1;
+            }
+            if (this.classLoader == null) {
+                return -1;
+            }
+
+            return this.classLoader.getClass().getName().compareTo(other.classLoader.getClass().getName());
         }
     }
 

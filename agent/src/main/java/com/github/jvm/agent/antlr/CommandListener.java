@@ -191,6 +191,20 @@ public interface CommandListener extends ParseTreeListener {
     void exitTree_flag(CommandParser.Tree_flagContext ctx);
 
     /**
+     * Enter a parse tree produced by {@link CommandParser#list_flag}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterList_flag(CommandParser.List_flagContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link CommandParser#list_flag}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitList_flag(CommandParser.List_flagContext ctx);
+
+    /**
      * Enter a parse tree produced by {@link CommandParser#regex_flag}.
      *
      * @param ctx the parse tree
