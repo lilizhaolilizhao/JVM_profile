@@ -88,8 +88,49 @@ public class ClassLoaderCommand extends GeneralCommand {
         } else if (helpFlag) {
             writeHelpInfo(ClassLoaderCommand.class, 130);
         } else {
-//            processClassLoaderStats(process, inst);
+            processClassLoaderStats(conn, inst);
         }
+    }
+
+    /**
+     * Calculate classloader statistics.
+     * e.g. In JVM, there are 100 GrooyClassLoader instances, which loaded 200 classes in total
+     *
+     * @param conn
+     * @param inst
+     */
+    private void processClassLoaderStats(TtyConnection conn, Instrumentation inst) {
+        RowAffect affect = new RowAffect();
+        List<ClassLoaderInfo> classLoaderInfos = getAllClassLoaderInfo(inst);
+        Map<String, ClassLoaderStat> classLoaderStats = new HashMap<String, ClassLoaderStat>();
+
+        for (ClassLoaderInfo info : classLoaderInfos) {
+            String name = info.classLoader == null ? "BootstrapClassLoader" : info.classLoader.getClass().getName();
+            ClassLoaderStat stat = classLoaderStats.get(name);
+            if (null == stat) {
+                stat = new ClassLoaderStat();
+                classLoaderStats.put(name, stat);
+            }
+            stat.addLoadedCount(info.loadedClassCount);
+            stat.addNumberOfInstance(1);
+        }
+
+        TreeMap<String, ClassLoaderStat> sorted = new TreeMap<String, ClassLoaderStat>(new ValueComparator(classLoaderStats));
+        sorted.putAll(classLoaderStats);
+
+        Element element = renderStat(sorted);
+        conn.write(RenderUtil.render(element, 120)).write(Constants.EMPTY_STRING);
+        affect.rCnt(sorted.keySet().size());
+        conn.write(affect + "\n");
+    }
+
+    private static TableElement renderStat(Map<String, ClassLoaderStat> classLoaderStats) {
+        TableElement table = new TableElement().leftCellPadding(1).rightCellPadding(1);
+        table.add(new RowElement().style(Decoration.bold.bold()).add("name", "numberOfInstances", "loadedCountTotal"));
+        for (Map.Entry<String, ClassLoaderStat> entry : classLoaderStats.entrySet()) {
+            table.row(entry.getKey(), "" + entry.getValue().getNumberOfInstance(), "" + entry.getValue().getLoadedCount());
+        }
+        return table;
     }
 
     private void processClassloaders(TtyConnection conn, Instrumentation inst) {
@@ -303,6 +344,49 @@ public class ClassLoaderCommand extends GeneralCommand {
         @Override
         public boolean accept(ClassLoader classLoader) {
             return !REFLECTION_CLASSLOADER.equals(classLoader.getClass().getName());
+        }
+    }
+
+    private static class ValueComparator implements Comparator<String> {
+        private Map<String, ClassLoaderStat> unsortedStats;
+
+        ValueComparator(Map<String, ClassLoaderStat> stats) {
+            this.unsortedStats = stats;
+        }
+
+        @Override
+        public int compare(String o1, String o2) {
+            if (null == unsortedStats) {
+                return -1;
+            }
+            if (!unsortedStats.containsKey(o1)) {
+                return 1;
+            }
+            if (!unsortedStats.containsKey(o2)) {
+                return -1;
+            }
+            return unsortedStats.get(o2).getLoadedCount() - unsortedStats.get(o1).getLoadedCount();
+        }
+    }
+
+    private static class ClassLoaderStat {
+        private int loadedCount;
+        private int numberOfInstance;
+
+        void addLoadedCount(int count) {
+            this.loadedCount += count;
+        }
+
+        void addNumberOfInstance(int count) {
+            this.numberOfInstance += count;
+        }
+
+        int getLoadedCount() {
+            return loadedCount;
+        }
+
+        int getNumberOfInstance() {
+            return numberOfInstance;
         }
     }
 
