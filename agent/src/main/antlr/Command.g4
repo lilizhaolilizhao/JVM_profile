@@ -9,6 +9,7 @@ command_list
  | sc_command
  | sm_command
  | classloader_command
+ | jad_command
  | keymap_command
  | exit_command
  | cls_command
@@ -25,6 +26,10 @@ sc_command
 
 sm_command
  : SM_COMMAND ( ( detail_flag )?( regex_flag )? class_pattern (method_pattern)? | ( general_help )?)
+ ;
+
+jad_command
+ : JAD_COMMAND ( ( hashcode_flag )?( regex_flag )? class_pattern (method_pattern)? | ( general_help )?)
  ;
 
 classloader_command
@@ -75,7 +80,7 @@ extend_flag
  ;
 
 hashcode_flag
- : '-'HASHCODE_FLAG HASHCODE
+ : '-'HASHCODE_FLAG any_name
  ;
 
 includeReflectionClassLoader_flag
@@ -106,6 +111,7 @@ any_name
 
 SC_COMMAND : S C;
 SM_COMMAND : S M;
+JAD_COMMAND : J A D;
 CLASSLOADER_COMMAND : C L A S S L O A D E R;
 KEYMAP_COMMAND : K E Y M A P;
 EXIT_COMMAND : E X I T;
@@ -137,7 +143,7 @@ EXTEND_LEVEL
  ;
 
 HASHCODE
- : [1-9a-z]+
+ : [1-9a-z]*
  ;
 
 NUMERIC_LITERAL

@@ -21,28 +21,29 @@ public class CommandParser extends Parser {
     protected static final PredictionContextCache _sharedContextCache =
             new PredictionContextCache();
     public static final int
-            T__0 = 1, T__1 = 2, T__2 = 3, SC_COMMAND = 4, SM_COMMAND = 5, CLASSLOADER_COMMAND = 6,
-            KEYMAP_COMMAND = 7, EXIT_COMMAND = 8, LOGOUT_COMMAND = 9, QUIT_COMMAND = 10, CLS_COMMAND = 11,
-            HELP_COMMAND = 12, HELP = 13, DETAIL = 14, ALL_INFO = 15, FIELD = 16, REGEX = 17,
-            EXTEND = 18, HASHCODE_FLAG = 19, INCLUDEREFLECTIONCLASSLOADER_FLAG = 20, RESOURCE = 21,
-            TREE = 22, LIST = 23, IDENTIFIER = 24, EXTEND_LEVEL = 25, HASHCODE = 26, NUMERIC_LITERAL = 27,
-            BIND_PARAMETER = 28, STRING_LITERAL = 29, BLOB_LITERAL = 30, SINGLE_LINE_COMMENT = 31,
-            MULTILINE_COMMENT = 32, SPACES = 33, UNEXPECTED_CHAR = 34;
+            T__0 = 1, T__1 = 2, T__2 = 3, SC_COMMAND = 4, SM_COMMAND = 5, JAD_COMMAND = 6, CLASSLOADER_COMMAND = 7,
+            KEYMAP_COMMAND = 8, EXIT_COMMAND = 9, LOGOUT_COMMAND = 10, QUIT_COMMAND = 11,
+            CLS_COMMAND = 12, HELP_COMMAND = 13, HELP = 14, DETAIL = 15, ALL_INFO = 16, FIELD = 17,
+            REGEX = 18, EXTEND = 19, HASHCODE_FLAG = 20, INCLUDEREFLECTIONCLASSLOADER_FLAG = 21,
+            RESOURCE = 22, TREE = 23, LIST = 24, IDENTIFIER = 25, EXTEND_LEVEL = 26, HASHCODE = 27,
+            NUMERIC_LITERAL = 28, BIND_PARAMETER = 29, STRING_LITERAL = 30, BLOB_LITERAL = 31,
+            SINGLE_LINE_COMMENT = 32, MULTILINE_COMMENT = 33, SPACES = 34, UNEXPECTED_CHAR = 35;
     public static final int
             RULE_parse = 0, RULE_command_list = 1, RULE_help_command = 2, RULE_sc_command = 3,
-            RULE_sm_command = 4, RULE_classloader_command = 5, RULE_keymap_command = 6,
-            RULE_exit_command = 7, RULE_cls_command = 8, RULE_general_help = 9, RULE_field_flag = 10,
-            RULE_resource_flag = 11, RULE_tree_flag = 12, RULE_list_flag = 13, RULE_regex_flag = 14,
-            RULE_extend_flag = 15, RULE_hashcode_flag = 16, RULE_includeReflectionClassLoader_flag = 17,
-            RULE_detail_flag = 18, RULE_all_flag = 19, RULE_class_pattern = 20, RULE_method_pattern = 21,
-            RULE_any_name = 22;
+            RULE_sm_command = 4, RULE_jad_command = 5, RULE_classloader_command = 6,
+            RULE_keymap_command = 7, RULE_exit_command = 8, RULE_cls_command = 9,
+            RULE_general_help = 10, RULE_field_flag = 11, RULE_resource_flag = 12,
+            RULE_tree_flag = 13, RULE_list_flag = 14, RULE_regex_flag = 15, RULE_extend_flag = 16,
+            RULE_hashcode_flag = 17, RULE_includeReflectionClassLoader_flag = 18,
+            RULE_detail_flag = 19, RULE_all_flag = 20, RULE_class_pattern = 21, RULE_method_pattern = 22,
+            RULE_any_name = 23;
 
     private static String[] makeRuleNames() {
         return new String[]{
                 "parse", "command_list", "help_command", "sc_command", "sm_command",
-                "classloader_command", "keymap_command", "exit_command", "cls_command",
-                "general_help", "field_flag", "resource_flag", "tree_flag", "list_flag",
-                "regex_flag", "extend_flag", "hashcode_flag", "includeReflectionClassLoader_flag",
+                "jad_command", "classloader_command", "keymap_command", "exit_command",
+                "cls_command", "general_help", "field_flag", "resource_flag", "tree_flag",
+                "list_flag", "regex_flag", "extend_flag", "hashcode_flag", "includeReflectionClassLoader_flag",
                 "detail_flag", "all_flag", "class_pattern", "method_pattern", "any_name"
         };
     }
@@ -59,7 +60,7 @@ public class CommandParser extends Parser {
 
     private static String[] makeSymbolicNames() {
         return new String[]{
-                null, null, null, null, "SC_COMMAND", "SM_COMMAND", "CLASSLOADER_COMMAND",
+                null, null, null, null, "SC_COMMAND", "SM_COMMAND", "JAD_COMMAND", "CLASSLOADER_COMMAND",
                 "KEYMAP_COMMAND", "EXIT_COMMAND", "LOGOUT_COMMAND", "QUIT_COMMAND", "CLS_COMMAND",
                 "HELP_COMMAND", "HELP", "DETAIL", "ALL_INFO", "FIELD", "REGEX", "EXTEND",
                 "HASHCODE_FLAG", "INCLUDEREFLECTIONCLASSLOADER_FLAG", "RESOURCE", "TREE",
@@ -166,7 +167,7 @@ public class CommandParser extends Parser {
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(46);
+                setState(48);
                 command_list();
             }
         } catch (RecognitionException re) {
@@ -194,6 +195,10 @@ public class CommandParser extends Parser {
 
         public Classloader_commandContext classloader_command() {
             return getRuleContext(Classloader_commandContext.class, 0);
+        }
+
+        public Jad_commandContext jad_command() {
+            return getRuleContext(Jad_commandContext.class, 0);
         }
 
         public Keymap_commandContext keymap_command() {
@@ -241,43 +246,48 @@ public class CommandParser extends Parser {
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(55);
+                setState(58);
                 _errHandler.sync(this);
                 switch (_input.LA(1)) {
                     case HELP_COMMAND: {
-                        setState(48);
+                        setState(50);
                         help_command();
                     }
                     break;
                     case SC_COMMAND: {
-                        setState(49);
+                        setState(51);
                         sc_command();
                     }
                     break;
                     case SM_COMMAND: {
-                        setState(50);
+                        setState(52);
                         sm_command();
                     }
                     break;
                     case CLASSLOADER_COMMAND: {
-                        setState(51);
+                        setState(53);
                         classloader_command();
                     }
                     break;
+                    case JAD_COMMAND: {
+                        setState(54);
+                        jad_command();
+                    }
+                    break;
                     case KEYMAP_COMMAND: {
-                        setState(52);
+                        setState(55);
                         keymap_command();
                     }
                     break;
                     case EXIT_COMMAND:
                     case LOGOUT_COMMAND:
                     case QUIT_COMMAND: {
-                        setState(53);
+                        setState(56);
                         exit_command();
                     }
                     break;
                     case CLS_COMMAND: {
-                        setState(54);
+                        setState(57);
                         cls_command();
                     }
                     break;
@@ -333,7 +343,7 @@ public class CommandParser extends Parser {
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(57);
+                setState(60);
                 match(HELP_COMMAND);
             }
         } catch (RecognitionException re) {
@@ -408,60 +418,60 @@ public class CommandParser extends Parser {
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(59);
+                setState(62);
                 match(SC_COMMAND);
-                setState(76);
+                setState(79);
                 _errHandler.sync(this);
                 switch (getInterpreter().adaptivePredict(_input, 6, _ctx)) {
                     case 1: {
-                        setState(61);
+                        setState(64);
                         _errHandler.sync(this);
                         switch (getInterpreter().adaptivePredict(_input, 1, _ctx)) {
                             case 1: {
-                                setState(60);
-                                detail_flag();
-                            }
-                            break;
-                        }
-                        setState(64);
-                        _errHandler.sync(this);
-                        switch (getInterpreter().adaptivePredict(_input, 2, _ctx)) {
-                            case 1: {
                                 setState(63);
-                                field_flag();
+                                detail_flag();
                             }
                             break;
                         }
                         setState(67);
                         _errHandler.sync(this);
-                        switch (getInterpreter().adaptivePredict(_input, 3, _ctx)) {
+                        switch (getInterpreter().adaptivePredict(_input, 2, _ctx)) {
                             case 1: {
                                 setState(66);
-                                regex_flag();
+                                field_flag();
                             }
                             break;
                         }
                         setState(70);
                         _errHandler.sync(this);
-                        _la = _input.LA(1);
-                        if (_la == T__0) {
-                            {
+                        switch (getInterpreter().adaptivePredict(_input, 3, _ctx)) {
+                            case 1: {
                                 setState(69);
-                                extend_flag();
+                                regex_flag();
                             }
+                            break;
                         }
-
-                        setState(72);
-                        class_pattern();
-                    }
-                    break;
-                    case 2: {
-                        setState(74);
+                        setState(73);
                         _errHandler.sync(this);
                         _la = _input.LA(1);
                         if (_la == T__0) {
                             {
-                                setState(73);
+                                setState(72);
+                                extend_flag();
+                            }
+                        }
+
+                        setState(75);
+                        class_pattern();
+                    }
+                    break;
+                    case 2: {
+                        setState(77);
+                        _errHandler.sync(this);
+                        _la = _input.LA(1);
+                        if (_la == T__0) {
+                            {
+                                setState(76);
                                 general_help();
                             }
                         }
@@ -538,39 +548,39 @@ public class CommandParser extends Parser {
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(78);
+                setState(81);
                 match(SM_COMMAND);
-                setState(92);
+                setState(95);
                 _errHandler.sync(this);
                 switch (getInterpreter().adaptivePredict(_input, 11, _ctx)) {
                     case 1: {
-                        setState(80);
+                        setState(83);
                         _errHandler.sync(this);
                         switch (getInterpreter().adaptivePredict(_input, 7, _ctx)) {
                             case 1: {
-                                setState(79);
+                                setState(82);
                                 detail_flag();
                             }
                             break;
                         }
-                        setState(83);
+                        setState(86);
                         _errHandler.sync(this);
                         _la = _input.LA(1);
                         if (_la == T__0) {
                             {
-                                setState(82);
+                                setState(85);
                                 regex_flag();
                             }
                         }
 
-                        setState(85);
+                        setState(88);
                         class_pattern();
-                        setState(87);
+                        setState(90);
                         _errHandler.sync(this);
                         _la = _input.LA(1);
                         if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << IDENTIFIER) | (1L << STRING_LITERAL))) != 0)) {
                             {
-                                setState(86);
+                                setState(89);
                                 method_pattern();
                             }
                         }
@@ -578,12 +588,135 @@ public class CommandParser extends Parser {
                     }
                     break;
                     case 2: {
-                        setState(90);
+                        setState(93);
                         _errHandler.sync(this);
                         _la = _input.LA(1);
                         if (_la == T__0) {
                             {
-                                setState(89);
+                                setState(92);
+                                general_help();
+                            }
+                        }
+
+                    }
+                    break;
+                }
+            }
+        } catch (RecognitionException re) {
+            _localctx.exception = re;
+            _errHandler.reportError(this, re);
+            _errHandler.recover(this, re);
+        } finally {
+            exitRule();
+        }
+        return _localctx;
+    }
+
+    public static class Jad_commandContext extends ParserRuleContext {
+        public TerminalNode JAD_COMMAND() {
+            return getToken(CommandParser.JAD_COMMAND, 0);
+        }
+
+        public Class_patternContext class_pattern() {
+            return getRuleContext(Class_patternContext.class, 0);
+        }
+
+        public Hashcode_flagContext hashcode_flag() {
+            return getRuleContext(Hashcode_flagContext.class, 0);
+        }
+
+        public Regex_flagContext regex_flag() {
+            return getRuleContext(Regex_flagContext.class, 0);
+        }
+
+        public Method_patternContext method_pattern() {
+            return getRuleContext(Method_patternContext.class, 0);
+        }
+
+        public General_helpContext general_help() {
+            return getRuleContext(General_helpContext.class, 0);
+        }
+
+        public Jad_commandContext(ParserRuleContext parent, int invokingState) {
+            super(parent, invokingState);
+        }
+
+        @Override
+        public int getRuleIndex() {
+            return RULE_jad_command;
+        }
+
+        @Override
+        public void enterRule(ParseTreeListener listener) {
+            if (listener instanceof CommandListener) ((CommandListener) listener).enterJad_command(this);
+        }
+
+        @Override
+        public void exitRule(ParseTreeListener listener) {
+            if (listener instanceof CommandListener) ((CommandListener) listener).exitJad_command(this);
+        }
+
+        @Override
+        public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+            if (visitor instanceof CommandVisitor)
+                return ((CommandVisitor<? extends T>) visitor).visitJad_command(this);
+            else return visitor.visitChildren(this);
+        }
+    }
+
+    public final Jad_commandContext jad_command() throws RecognitionException {
+        Jad_commandContext _localctx = new Jad_commandContext(_ctx, getState());
+        enterRule(_localctx, 10, RULE_jad_command);
+        int _la;
+        try {
+            enterOuterAlt(_localctx, 1);
+            {
+                setState(97);
+                match(JAD_COMMAND);
+                setState(111);
+                _errHandler.sync(this);
+                switch (getInterpreter().adaptivePredict(_input, 16, _ctx)) {
+                    case 1: {
+                        setState(99);
+                        _errHandler.sync(this);
+                        switch (getInterpreter().adaptivePredict(_input, 12, _ctx)) {
+                            case 1: {
+                                setState(98);
+                                hashcode_flag();
+                            }
+                            break;
+                        }
+                        setState(102);
+                        _errHandler.sync(this);
+                        _la = _input.LA(1);
+                        if (_la == T__0) {
+                            {
+                                setState(101);
+                                regex_flag();
+                            }
+                        }
+
+                        setState(104);
+                        class_pattern();
+                        setState(106);
+                        _errHandler.sync(this);
+                        _la = _input.LA(1);
+                        if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__1) | (1L << IDENTIFIER) | (1L << STRING_LITERAL))) != 0)) {
+                            {
+                                setState(105);
+                                method_pattern();
+                            }
+                        }
+
+                    }
+                    break;
+                    case 2: {
+                        setState(109);
+                        _errHandler.sync(this);
+                        _la = _input.LA(1);
+                        if (_la == T__0) {
+                            {
+                                setState(108);
                                 general_help();
                             }
                         }
@@ -664,68 +797,68 @@ public class CommandParser extends Parser {
 
     public final Classloader_commandContext classloader_command() throws RecognitionException {
         Classloader_commandContext _localctx = new Classloader_commandContext(_ctx, getState());
-        enterRule(_localctx, 10, RULE_classloader_command);
+        enterRule(_localctx, 12, RULE_classloader_command);
         int _la;
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(94);
+                setState(113);
                 match(CLASSLOADER_COMMAND);
-                setState(116);
+                setState(135);
                 _errHandler.sync(this);
-                switch (getInterpreter().adaptivePredict(_input, 19, _ctx)) {
+                switch (getInterpreter().adaptivePredict(_input, 24, _ctx)) {
                     case 1: {
-                        setState(96);
+                        setState(115);
                         _errHandler.sync(this);
-                        switch (getInterpreter().adaptivePredict(_input, 12, _ctx)) {
+                        switch (getInterpreter().adaptivePredict(_input, 17, _ctx)) {
                             case 1: {
-                                setState(95);
+                                setState(114);
                                 all_flag();
                             }
                             break;
                         }
-                        setState(99);
+                        setState(118);
                         _errHandler.sync(this);
-                        switch (getInterpreter().adaptivePredict(_input, 13, _ctx)) {
+                        switch (getInterpreter().adaptivePredict(_input, 18, _ctx)) {
                             case 1: {
-                                setState(98);
+                                setState(117);
                                 hashcode_flag();
                             }
                             break;
                         }
-                        setState(102);
+                        setState(121);
                         _errHandler.sync(this);
-                        switch (getInterpreter().adaptivePredict(_input, 14, _ctx)) {
+                        switch (getInterpreter().adaptivePredict(_input, 19, _ctx)) {
                             case 1: {
-                                setState(101);
+                                setState(120);
                                 includeReflectionClassLoader_flag();
                             }
                             break;
                         }
-                        setState(105);
+                        setState(124);
                         _errHandler.sync(this);
-                        switch (getInterpreter().adaptivePredict(_input, 15, _ctx)) {
+                        switch (getInterpreter().adaptivePredict(_input, 20, _ctx)) {
                             case 1: {
-                                setState(104);
+                                setState(123);
                                 resource_flag();
                             }
                             break;
                         }
-                        setState(108);
+                        setState(127);
                         _errHandler.sync(this);
-                        switch (getInterpreter().adaptivePredict(_input, 16, _ctx)) {
+                        switch (getInterpreter().adaptivePredict(_input, 21, _ctx)) {
                             case 1: {
-                                setState(107);
+                                setState(126);
                                 tree_flag();
                             }
                             break;
                         }
-                        setState(111);
+                        setState(130);
                         _errHandler.sync(this);
                         _la = _input.LA(1);
                         if (_la == T__0) {
                             {
-                                setState(110);
+                                setState(129);
                                 list_flag();
                             }
                         }
@@ -733,12 +866,12 @@ public class CommandParser extends Parser {
                     }
                     break;
                     case 2: {
-                        setState(114);
+                        setState(133);
                         _errHandler.sync(this);
                         _la = _input.LA(1);
                         if (_la == T__0) {
                             {
-                                setState(113);
+                                setState(132);
                                 general_help();
                             }
                         }
@@ -791,11 +924,11 @@ public class CommandParser extends Parser {
 
     public final Keymap_commandContext keymap_command() throws RecognitionException {
         Keymap_commandContext _localctx = new Keymap_commandContext(_ctx, getState());
-        enterRule(_localctx, 12, RULE_keymap_command);
+        enterRule(_localctx, 14, RULE_keymap_command);
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(118);
+                setState(137);
                 match(KEYMAP_COMMAND);
             }
         } catch (RecognitionException re) {
@@ -850,12 +983,12 @@ public class CommandParser extends Parser {
 
     public final Exit_commandContext exit_command() throws RecognitionException {
         Exit_commandContext _localctx = new Exit_commandContext(_ctx, getState());
-        enterRule(_localctx, 14, RULE_exit_command);
+        enterRule(_localctx, 16, RULE_exit_command);
         int _la;
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(120);
+                setState(139);
                 _la = _input.LA(1);
                 if (!((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << EXIT_COMMAND) | (1L << LOGOUT_COMMAND) | (1L << QUIT_COMMAND))) != 0))) {
                     _errHandler.recoverInline(this);
@@ -909,11 +1042,11 @@ public class CommandParser extends Parser {
 
     public final Cls_commandContext cls_command() throws RecognitionException {
         Cls_commandContext _localctx = new Cls_commandContext(_ctx, getState());
-        enterRule(_localctx, 16, RULE_cls_command);
+        enterRule(_localctx, 18, RULE_cls_command);
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(122);
+                setState(141);
                 match(CLS_COMMAND);
             }
         } catch (RecognitionException re) {
@@ -964,26 +1097,26 @@ public class CommandParser extends Parser {
 
     public final General_helpContext general_help() throws RecognitionException {
         General_helpContext _localctx = new General_helpContext(_ctx, getState());
-        enterRule(_localctx, 18, RULE_general_help);
+        enterRule(_localctx, 20, RULE_general_help);
         try {
-            setState(128);
+            setState(147);
             _errHandler.sync(this);
-            switch (getInterpreter().adaptivePredict(_input, 20, _ctx)) {
+            switch (getInterpreter().adaptivePredict(_input, 25, _ctx)) {
                 case 1:
                     enterOuterAlt(_localctx, 1);
                 {
-                    setState(124);
+                    setState(143);
                     match(T__0);
-                    setState(125);
+                    setState(144);
                     match(HELP_COMMAND);
                 }
                 break;
                 case 2:
                     enterOuterAlt(_localctx, 2);
                 {
-                    setState(126);
+                    setState(145);
                     match(T__0);
-                    setState(127);
+                    setState(146);
                     match(HELP);
                 }
                 break;
@@ -1031,13 +1164,13 @@ public class CommandParser extends Parser {
 
     public final Field_flagContext field_flag() throws RecognitionException {
         Field_flagContext _localctx = new Field_flagContext(_ctx, getState());
-        enterRule(_localctx, 20, RULE_field_flag);
+        enterRule(_localctx, 22, RULE_field_flag);
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(130);
+                setState(149);
                 match(T__0);
-                setState(131);
+                setState(150);
                 match(FIELD);
             }
         } catch (RecognitionException re) {
@@ -1088,15 +1221,15 @@ public class CommandParser extends Parser {
 
     public final Resource_flagContext resource_flag() throws RecognitionException {
         Resource_flagContext _localctx = new Resource_flagContext(_ctx, getState());
-        enterRule(_localctx, 22, RULE_resource_flag);
+        enterRule(_localctx, 24, RULE_resource_flag);
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(133);
+                setState(152);
                 match(T__0);
-                setState(134);
+                setState(153);
                 match(RESOURCE);
-                setState(135);
+                setState(154);
                 any_name();
             }
         } catch (RecognitionException re) {
@@ -1142,13 +1275,13 @@ public class CommandParser extends Parser {
 
     public final Tree_flagContext tree_flag() throws RecognitionException {
         Tree_flagContext _localctx = new Tree_flagContext(_ctx, getState());
-        enterRule(_localctx, 24, RULE_tree_flag);
+        enterRule(_localctx, 26, RULE_tree_flag);
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(137);
+                setState(156);
                 match(T__0);
-                setState(138);
+                setState(157);
                 match(TREE);
             }
         } catch (RecognitionException re) {
@@ -1194,13 +1327,13 @@ public class CommandParser extends Parser {
 
     public final List_flagContext list_flag() throws RecognitionException {
         List_flagContext _localctx = new List_flagContext(_ctx, getState());
-        enterRule(_localctx, 26, RULE_list_flag);
+        enterRule(_localctx, 28, RULE_list_flag);
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(140);
+                setState(159);
                 match(T__0);
-                setState(141);
+                setState(160);
                 match(LIST);
             }
         } catch (RecognitionException re) {
@@ -1246,13 +1379,13 @@ public class CommandParser extends Parser {
 
     public final Regex_flagContext regex_flag() throws RecognitionException {
         Regex_flagContext _localctx = new Regex_flagContext(_ctx, getState());
-        enterRule(_localctx, 28, RULE_regex_flag);
+        enterRule(_localctx, 30, RULE_regex_flag);
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(143);
+                setState(162);
                 match(T__0);
-                setState(144);
+                setState(163);
                 match(REGEX);
             }
         } catch (RecognitionException re) {
@@ -1303,15 +1436,15 @@ public class CommandParser extends Parser {
 
     public final Extend_flagContext extend_flag() throws RecognitionException {
         Extend_flagContext _localctx = new Extend_flagContext(_ctx, getState());
-        enterRule(_localctx, 30, RULE_extend_flag);
+        enterRule(_localctx, 32, RULE_extend_flag);
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(146);
+                setState(165);
                 match(T__0);
-                setState(147);
+                setState(166);
                 match(EXTEND);
-                setState(148);
+                setState(167);
                 match(EXTEND_LEVEL);
             }
         } catch (RecognitionException re) {
@@ -1329,8 +1462,8 @@ public class CommandParser extends Parser {
             return getToken(CommandParser.HASHCODE_FLAG, 0);
         }
 
-        public TerminalNode HASHCODE() {
-            return getToken(CommandParser.HASHCODE, 0);
+        public Any_nameContext any_name() {
+            return getRuleContext(Any_nameContext.class, 0);
         }
 
         public Hashcode_flagContext(ParserRuleContext parent, int invokingState) {
@@ -1362,16 +1495,16 @@ public class CommandParser extends Parser {
 
     public final Hashcode_flagContext hashcode_flag() throws RecognitionException {
         Hashcode_flagContext _localctx = new Hashcode_flagContext(_ctx, getState());
-        enterRule(_localctx, 32, RULE_hashcode_flag);
+        enterRule(_localctx, 34, RULE_hashcode_flag);
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(150);
+                setState(169);
                 match(T__0);
-                setState(151);
+                setState(170);
                 match(HASHCODE_FLAG);
-                setState(152);
-                match(HASHCODE);
+                setState(171);
+                any_name();
             }
         } catch (RecognitionException re) {
             _localctx.exception = re;
@@ -1419,13 +1552,13 @@ public class CommandParser extends Parser {
 
     public final IncludeReflectionClassLoader_flagContext includeReflectionClassLoader_flag() throws RecognitionException {
         IncludeReflectionClassLoader_flagContext _localctx = new IncludeReflectionClassLoader_flagContext(_ctx, getState());
-        enterRule(_localctx, 34, RULE_includeReflectionClassLoader_flag);
+        enterRule(_localctx, 36, RULE_includeReflectionClassLoader_flag);
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(154);
+                setState(173);
                 match(T__0);
-                setState(155);
+                setState(174);
                 match(INCLUDEREFLECTIONCLASSLOADER_FLAG);
             }
         } catch (RecognitionException re) {
@@ -1472,13 +1605,13 @@ public class CommandParser extends Parser {
 
     public final Detail_flagContext detail_flag() throws RecognitionException {
         Detail_flagContext _localctx = new Detail_flagContext(_ctx, getState());
-        enterRule(_localctx, 36, RULE_detail_flag);
+        enterRule(_localctx, 38, RULE_detail_flag);
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(157);
+                setState(176);
                 match(T__0);
-                setState(158);
+                setState(177);
                 match(DETAIL);
             }
         } catch (RecognitionException re) {
@@ -1524,13 +1657,13 @@ public class CommandParser extends Parser {
 
     public final All_flagContext all_flag() throws RecognitionException {
         All_flagContext _localctx = new All_flagContext(_ctx, getState());
-        enterRule(_localctx, 38, RULE_all_flag);
+        enterRule(_localctx, 40, RULE_all_flag);
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(160);
+                setState(179);
                 match(T__0);
-                setState(161);
+                setState(180);
                 match(ALL_INFO);
             }
         } catch (RecognitionException re) {
@@ -1577,11 +1710,11 @@ public class CommandParser extends Parser {
 
     public final Class_patternContext class_pattern() throws RecognitionException {
         Class_patternContext _localctx = new Class_patternContext(_ctx, getState());
-        enterRule(_localctx, 40, RULE_class_pattern);
+        enterRule(_localctx, 42, RULE_class_pattern);
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(163);
+                setState(182);
                 any_name();
             }
         } catch (RecognitionException re) {
@@ -1628,11 +1761,11 @@ public class CommandParser extends Parser {
 
     public final Method_patternContext method_pattern() throws RecognitionException {
         Method_patternContext _localctx = new Method_patternContext(_ctx, getState());
-        enterRule(_localctx, 42, RULE_method_pattern);
+        enterRule(_localctx, 44, RULE_method_pattern);
         try {
             enterOuterAlt(_localctx, 1);
             {
-                setState(165);
+                setState(184);
                 any_name();
             }
         } catch (RecognitionException re) {
@@ -1686,33 +1819,33 @@ public class CommandParser extends Parser {
 
     public final Any_nameContext any_name() throws RecognitionException {
         Any_nameContext _localctx = new Any_nameContext(_ctx, getState());
-        enterRule(_localctx, 44, RULE_any_name);
+        enterRule(_localctx, 46, RULE_any_name);
         try {
-            setState(173);
+            setState(192);
             _errHandler.sync(this);
             switch (_input.LA(1)) {
                 case IDENTIFIER:
                     enterOuterAlt(_localctx, 1);
                 {
-                    setState(167);
+                    setState(186);
                     match(IDENTIFIER);
                 }
                 break;
                 case STRING_LITERAL:
                     enterOuterAlt(_localctx, 2);
                 {
-                    setState(168);
+                    setState(187);
                     match(STRING_LITERAL);
                 }
                 break;
                 case T__1:
                     enterOuterAlt(_localctx, 3);
                 {
-                    setState(169);
+                    setState(188);
                     match(T__1);
-                    setState(170);
+                    setState(189);
                     any_name();
-                    setState(171);
+                    setState(190);
                     match(T__2);
                 }
                 break;
@@ -1730,56 +1863,64 @@ public class CommandParser extends Parser {
     }
 
     public static final String _serializedATN =
-            "\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3$\u00b2\4\2\t\2\4" +
+            "\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3%\u00c5\4\2\t\2\4" +
                     "\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t" +
                     "\13\4\f\t\f\4\r\t\r\4\16\t\16\4\17\t\17\4\20\t\20\4\21\t\21\4\22\t\22" +
-                    "\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\3\2\3\2\3" +
-                    "\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3:\n\3\3\4\3\4\3\5\3\5\5\5@\n\5\3\5\5\5C" +
-                    "\n\5\3\5\5\5F\n\5\3\5\5\5I\n\5\3\5\3\5\5\5M\n\5\5\5O\n\5\3\6\3\6\5\6S" +
-                    "\n\6\3\6\5\6V\n\6\3\6\3\6\5\6Z\n\6\3\6\5\6]\n\6\5\6_\n\6\3\7\3\7\5\7c" +
-                    "\n\7\3\7\5\7f\n\7\3\7\5\7i\n\7\3\7\5\7l\n\7\3\7\5\7o\n\7\3\7\5\7r\n\7" +
-                    "\3\7\5\7u\n\7\5\7w\n\7\3\b\3\b\3\t\3\t\3\n\3\n\3\13\3\13\3\13\3\13\5\13" +
-                    "\u0083\n\13\3\f\3\f\3\f\3\r\3\r\3\r\3\r\3\16\3\16\3\16\3\17\3\17\3\17" +
-                    "\3\20\3\20\3\20\3\21\3\21\3\21\3\21\3\22\3\22\3\22\3\22\3\23\3\23\3\23" +
-                    "\3\24\3\24\3\24\3\25\3\25\3\25\3\26\3\26\3\27\3\27\3\30\3\30\3\30\3\30" +
-                    "\3\30\3\30\5\30\u00b0\n\30\3\30\2\2\31\2\4\6\b\n\f\16\20\22\24\26\30\32" +
-                    "\34\36 \"$&(*,.\2\3\3\2\n\f\2\u00b6\2\60\3\2\2\2\49\3\2\2\2\6;\3\2\2\2" +
-                    "\b=\3\2\2\2\nP\3\2\2\2\f`\3\2\2\2\16x\3\2\2\2\20z\3\2\2\2\22|\3\2\2\2" +
-                    "\24\u0082\3\2\2\2\26\u0084\3\2\2\2\30\u0087\3\2\2\2\32\u008b\3\2\2\2\34" +
-                    "\u008e\3\2\2\2\36\u0091\3\2\2\2 \u0094\3\2\2\2\"\u0098\3\2\2\2$\u009c" +
-                    "\3\2\2\2&\u009f\3\2\2\2(\u00a2\3\2\2\2*\u00a5\3\2\2\2,\u00a7\3\2\2\2." +
-                    "\u00af\3\2\2\2\60\61\5\4\3\2\61\3\3\2\2\2\62:\5\6\4\2\63:\5\b\5\2\64:" +
-                    "\5\n\6\2\65:\5\f\7\2\66:\5\16\b\2\67:\5\20\t\28:\5\22\n\29\62\3\2\2\2" +
-                    "9\63\3\2\2\29\64\3\2\2\29\65\3\2\2\29\66\3\2\2\29\67\3\2\2\298\3\2\2\2" +
-                    ":\5\3\2\2\2;<\7\16\2\2<\7\3\2\2\2=N\7\6\2\2>@\5&\24\2?>\3\2\2\2?@\3\2" +
-                    "\2\2@B\3\2\2\2AC\5\26\f\2BA\3\2\2\2BC\3\2\2\2CE\3\2\2\2DF\5\36\20\2ED" +
-                    "\3\2\2\2EF\3\2\2\2FH\3\2\2\2GI\5 \21\2HG\3\2\2\2HI\3\2\2\2IJ\3\2\2\2J" +
-                    "O\5*\26\2KM\5\24\13\2LK\3\2\2\2LM\3\2\2\2MO\3\2\2\2N?\3\2\2\2NL\3\2\2" +
-                    "\2O\t\3\2\2\2P^\7\7\2\2QS\5&\24\2RQ\3\2\2\2RS\3\2\2\2SU\3\2\2\2TV\5\36" +
-                    "\20\2UT\3\2\2\2UV\3\2\2\2VW\3\2\2\2WY\5*\26\2XZ\5,\27\2YX\3\2\2\2YZ\3" +
-                    "\2\2\2Z_\3\2\2\2[]\5\24\13\2\\[\3\2\2\2\\]\3\2\2\2]_\3\2\2\2^R\3\2\2\2" +
-                    "^\\\3\2\2\2_\13\3\2\2\2`v\7\b\2\2ac\5(\25\2ba\3\2\2\2bc\3\2\2\2ce\3\2" +
-                    "\2\2df\5\"\22\2ed\3\2\2\2ef\3\2\2\2fh\3\2\2\2gi\5$\23\2hg\3\2\2\2hi\3" +
-                    "\2\2\2ik\3\2\2\2jl\5\30\r\2kj\3\2\2\2kl\3\2\2\2ln\3\2\2\2mo\5\32\16\2" +
-                    "nm\3\2\2\2no\3\2\2\2oq\3\2\2\2pr\5\34\17\2qp\3\2\2\2qr\3\2\2\2rw\3\2\2" +
-                    "\2su\5\24\13\2ts\3\2\2\2tu\3\2\2\2uw\3\2\2\2vb\3\2\2\2vt\3\2\2\2w\r\3" +
-                    "\2\2\2xy\7\t\2\2y\17\3\2\2\2z{\t\2\2\2{\21\3\2\2\2|}\7\r\2\2}\23\3\2\2" +
-                    "\2~\177\7\3\2\2\177\u0083\7\16\2\2\u0080\u0081\7\3\2\2\u0081\u0083\7\17" +
-                    "\2\2\u0082~\3\2\2\2\u0082\u0080\3\2\2\2\u0083\25\3\2\2\2\u0084\u0085\7" +
-                    "\3\2\2\u0085\u0086\7\22\2\2\u0086\27\3\2\2\2\u0087\u0088\7\3\2\2\u0088" +
-                    "\u0089\7\27\2\2\u0089\u008a\5.\30\2\u008a\31\3\2\2\2\u008b\u008c\7\3\2" +
-                    "\2\u008c\u008d\7\30\2\2\u008d\33\3\2\2\2\u008e\u008f\7\3\2\2\u008f\u0090" +
-                    "\7\31\2\2\u0090\35\3\2\2\2\u0091\u0092\7\3\2\2\u0092\u0093\7\23\2\2\u0093" +
-                    "\37\3\2\2\2\u0094\u0095\7\3\2\2\u0095\u0096\7\24\2\2\u0096\u0097\7\33" +
-                    "\2\2\u0097!\3\2\2\2\u0098\u0099\7\3\2\2\u0099\u009a\7\25\2\2\u009a\u009b" +
-                    "\7\34\2\2\u009b#\3\2\2\2\u009c\u009d\7\3\2\2\u009d\u009e\7\26\2\2\u009e" +
-                    "%\3\2\2\2\u009f\u00a0\7\3\2\2\u00a0\u00a1\7\20\2\2\u00a1\'\3\2\2\2\u00a2" +
-                    "\u00a3\7\3\2\2\u00a3\u00a4\7\21\2\2\u00a4)\3\2\2\2\u00a5\u00a6\5.\30\2" +
-                    "\u00a6+\3\2\2\2\u00a7\u00a8\5.\30\2\u00a8-\3\2\2\2\u00a9\u00b0\7\32\2" +
-                    "\2\u00aa\u00b0\7\37\2\2\u00ab\u00ac\7\4\2\2\u00ac\u00ad\5.\30\2\u00ad" +
-                    "\u00ae\7\5\2\2\u00ae\u00b0\3\2\2\2\u00af\u00a9\3\2\2\2\u00af\u00aa\3\2" +
-                    "\2\2\u00af\u00ab\3\2\2\2\u00b0/\3\2\2\2\309?BEHLNRUY\\^behknqtv\u0082" +
-                    "\u00af";
+                    "\4\23\t\23\4\24\t\24\4\25\t\25\4\26\t\26\4\27\t\27\4\30\t\30\4\31\t\31" +
+                    "\3\2\3\2\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3=\n\3\3\4\3\4\3\5\3\5\5\5" +
+                    "C\n\5\3\5\5\5F\n\5\3\5\5\5I\n\5\3\5\5\5L\n\5\3\5\3\5\5\5P\n\5\5\5R\n\5" +
+                    "\3\6\3\6\5\6V\n\6\3\6\5\6Y\n\6\3\6\3\6\5\6]\n\6\3\6\5\6`\n\6\5\6b\n\6" +
+                    "\3\7\3\7\5\7f\n\7\3\7\5\7i\n\7\3\7\3\7\5\7m\n\7\3\7\5\7p\n\7\5\7r\n\7" +
+                    "\3\b\3\b\5\bv\n\b\3\b\5\by\n\b\3\b\5\b|\n\b\3\b\5\b\177\n\b\3\b\5\b\u0082" +
+                    "\n\b\3\b\5\b\u0085\n\b\3\b\5\b\u0088\n\b\5\b\u008a\n\b\3\t\3\t\3\n\3\n" +
+                    "\3\13\3\13\3\f\3\f\3\f\3\f\5\f\u0096\n\f\3\r\3\r\3\r\3\16\3\16\3\16\3" +
+                    "\16\3\17\3\17\3\17\3\20\3\20\3\20\3\21\3\21\3\21\3\22\3\22\3\22\3\22\3" +
+                    "\23\3\23\3\23\3\23\3\24\3\24\3\24\3\25\3\25\3\25\3\26\3\26\3\26\3\27\3" +
+                    "\27\3\30\3\30\3\31\3\31\3\31\3\31\3\31\3\31\5\31\u00c3\n\31\3\31\2\2\32" +
+                    "\2\4\6\b\n\f\16\20\22\24\26\30\32\34\36 \"$&(*,.\60\2\3\3\2\13\r\2\u00ce" +
+                    "\2\62\3\2\2\2\4<\3\2\2\2\6>\3\2\2\2\b@\3\2\2\2\nS\3\2\2\2\fc\3\2\2\2\16" +
+                    "s\3\2\2\2\20\u008b\3\2\2\2\22\u008d\3\2\2\2\24\u008f\3\2\2\2\26\u0095" +
+                    "\3\2\2\2\30\u0097\3\2\2\2\32\u009a\3\2\2\2\34\u009e\3\2\2\2\36\u00a1\3" +
+                    "\2\2\2 \u00a4\3\2\2\2\"\u00a7\3\2\2\2$\u00ab\3\2\2\2&\u00af\3\2\2\2(\u00b2" +
+                    "\3\2\2\2*\u00b5\3\2\2\2,\u00b8\3\2\2\2.\u00ba\3\2\2\2\60\u00c2\3\2\2\2" +
+                    "\62\63\5\4\3\2\63\3\3\2\2\2\64=\5\6\4\2\65=\5\b\5\2\66=\5\n\6\2\67=\5" +
+                    "\16\b\28=\5\f\7\29=\5\20\t\2:=\5\22\n\2;=\5\24\13\2<\64\3\2\2\2<\65\3" +
+                    "\2\2\2<\66\3\2\2\2<\67\3\2\2\2<8\3\2\2\2<9\3\2\2\2<:\3\2\2\2<;\3\2\2\2" +
+                    "=\5\3\2\2\2>?\7\17\2\2?\7\3\2\2\2@Q\7\6\2\2AC\5(\25\2BA\3\2\2\2BC\3\2" +
+                    "\2\2CE\3\2\2\2DF\5\30\r\2ED\3\2\2\2EF\3\2\2\2FH\3\2\2\2GI\5 \21\2HG\3" +
+                    "\2\2\2HI\3\2\2\2IK\3\2\2\2JL\5\"\22\2KJ\3\2\2\2KL\3\2\2\2LM\3\2\2\2MR" +
+                    "\5,\27\2NP\5\26\f\2ON\3\2\2\2OP\3\2\2\2PR\3\2\2\2QB\3\2\2\2QO\3\2\2\2" +
+                    "R\t\3\2\2\2Sa\7\7\2\2TV\5(\25\2UT\3\2\2\2UV\3\2\2\2VX\3\2\2\2WY\5 \21" +
+                    "\2XW\3\2\2\2XY\3\2\2\2YZ\3\2\2\2Z\\\5,\27\2[]\5.\30\2\\[\3\2\2\2\\]\3" +
+                    "\2\2\2]b\3\2\2\2^`\5\26\f\2_^\3\2\2\2_`\3\2\2\2`b\3\2\2\2aU\3\2\2\2a_" +
+                    "\3\2\2\2b\13\3\2\2\2cq\7\b\2\2df\5$\23\2ed\3\2\2\2ef\3\2\2\2fh\3\2\2\2" +
+                    "gi\5 \21\2hg\3\2\2\2hi\3\2\2\2ij\3\2\2\2jl\5,\27\2km\5.\30\2lk\3\2\2\2" +
+                    "lm\3\2\2\2mr\3\2\2\2np\5\26\f\2on\3\2\2\2op\3\2\2\2pr\3\2\2\2qe\3\2\2" +
+                    "\2qo\3\2\2\2r\r\3\2\2\2s\u0089\7\t\2\2tv\5*\26\2ut\3\2\2\2uv\3\2\2\2v" +
+                    "x\3\2\2\2wy\5$\23\2xw\3\2\2\2xy\3\2\2\2y{\3\2\2\2z|\5&\24\2{z\3\2\2\2" +
+                    "{|\3\2\2\2|~\3\2\2\2}\177\5\32\16\2~}\3\2\2\2~\177\3\2\2\2\177\u0081\3" +
+                    "\2\2\2\u0080\u0082\5\34\17\2\u0081\u0080\3\2\2\2\u0081\u0082\3\2\2\2\u0082" +
+                    "\u0084\3\2\2\2\u0083\u0085\5\36\20\2\u0084\u0083\3\2\2\2\u0084\u0085\3" +
+                    "\2\2\2\u0085\u008a\3\2\2\2\u0086\u0088\5\26\f\2\u0087\u0086\3\2\2\2\u0087" +
+                    "\u0088\3\2\2\2\u0088\u008a\3\2\2\2\u0089u\3\2\2\2\u0089\u0087\3\2\2\2" +
+                    "\u008a\17\3\2\2\2\u008b\u008c\7\n\2\2\u008c\21\3\2\2\2\u008d\u008e\t\2" +
+                    "\2\2\u008e\23\3\2\2\2\u008f\u0090\7\16\2\2\u0090\25\3\2\2\2\u0091\u0092" +
+                    "\7\3\2\2\u0092\u0096\7\17\2\2\u0093\u0094\7\3\2\2\u0094\u0096\7\20\2\2" +
+                    "\u0095\u0091\3\2\2\2\u0095\u0093\3\2\2\2\u0096\27\3\2\2\2\u0097\u0098" +
+                    "\7\3\2\2\u0098\u0099\7\23\2\2\u0099\31\3\2\2\2\u009a\u009b\7\3\2\2\u009b" +
+                    "\u009c\7\30\2\2\u009c\u009d\5\60\31\2\u009d\33\3\2\2\2\u009e\u009f\7\3" +
+                    "\2\2\u009f\u00a0\7\31\2\2\u00a0\35\3\2\2\2\u00a1\u00a2\7\3\2\2\u00a2\u00a3" +
+                    "\7\32\2\2\u00a3\37\3\2\2\2\u00a4\u00a5\7\3\2\2\u00a5\u00a6\7\24\2\2\u00a6" +
+                    "!\3\2\2\2\u00a7\u00a8\7\3\2\2\u00a8\u00a9\7\25\2\2\u00a9\u00aa\7\34\2" +
+                    "\2\u00aa#\3\2\2\2\u00ab\u00ac\7\3\2\2\u00ac\u00ad\7\26\2\2\u00ad\u00ae" +
+                    "\5\60\31\2\u00ae%\3\2\2\2\u00af\u00b0\7\3\2\2\u00b0\u00b1\7\27\2\2\u00b1" +
+                    "\'\3\2\2\2\u00b2\u00b3\7\3\2\2\u00b3\u00b4\7\21\2\2\u00b4)\3\2\2\2\u00b5" +
+                    "\u00b6\7\3\2\2\u00b6\u00b7\7\22\2\2\u00b7+\3\2\2\2\u00b8\u00b9\5\60\31" +
+                    "\2\u00b9-\3\2\2\2\u00ba\u00bb\5\60\31\2\u00bb/\3\2\2\2\u00bc\u00c3\7\33" +
+                    "\2\2\u00bd\u00c3\7 \2\2\u00be\u00bf\7\4\2\2\u00bf\u00c0\5\60\31\2\u00c0" +
+                    "\u00c1\7\5\2\2\u00c1\u00c3\3\2\2\2\u00c2\u00bc\3\2\2\2\u00c2\u00bd\3\2" +
+                    "\2\2\u00c2\u00be\3\2\2\2\u00c3\61\3\2\2\2\35<BEHKOQUX\\_aehloqux{~\u0081" +
+                    "\u0084\u0087\u0089\u0095\u00c2";
     public static final ATN _ATN =
             new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 

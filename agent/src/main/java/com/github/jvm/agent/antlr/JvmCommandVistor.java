@@ -6,6 +6,7 @@ import com.github.jvm.agent.command.basic.ExitCommand;
 import com.github.jvm.agent.command.basic.HelpCommand;
 import com.github.jvm.agent.command.basic.KeymapCommand;
 import com.github.jvm.agent.command.clazz.ClassLoaderCommand;
+import com.github.jvm.agent.command.clazz.JadCommand;
 import com.github.jvm.agent.command.clazz.SearchClassCommand;
 import com.github.jvm.agent.command.clazz.SearchMethodCommand;
 import io.termd.core.tty.TtyConnection;
@@ -68,6 +69,18 @@ public class JvmCommandVistor extends CommandBaseVisitor {
         visitList(ctx.list_flag());
 
         return super.visitClassloader_command(ctx);
+    }
+
+    @Override
+    public Object visitJad_command(CommandParser.Jad_commandContext ctx) {
+        command = new JadCommand(conn, inst);
+
+        visitHashcode(ctx.hashcode_flag());
+        visitRegexContext(ctx.regex_flag());
+        visitClassPatternContext(ctx.class_pattern());
+        visitMethodPatternContext(ctx.method_pattern());
+
+        return super.visitJad_command(ctx);
     }
 
     /**

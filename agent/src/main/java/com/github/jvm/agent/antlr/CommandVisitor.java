@@ -52,6 +52,14 @@ public interface CommandVisitor<T> extends ParseTreeVisitor<T> {
     T visitSm_command(CommandParser.Sm_commandContext ctx);
 
     /**
+     * Visit a parse tree produced by {@link CommandParser#jad_command}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitJad_command(CommandParser.Jad_commandContext ctx);
+
+    /**
      * Visit a parse tree produced by {@link CommandParser#classloader_command}.
      *
      * @param ctx the parse tree
