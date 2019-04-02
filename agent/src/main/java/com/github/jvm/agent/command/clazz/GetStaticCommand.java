@@ -1,6 +1,8 @@
 package com.github.jvm.agent.command.clazz;
 
 import com.github.jvm.agent.command.GeneralCommand;
+import com.github.jvm.agent.command.express.ExpressException;
+import com.github.jvm.agent.command.express.ExpressFactory;
 import com.github.jvm.agent.util.Constants;
 import com.github.jvm.agent.util.StringUtils;
 import com.github.jvm.agent.util.TypeRenderUtils;
@@ -117,9 +119,9 @@ public class GetStaticCommand extends GeneralCommand {
             try {
                 Object value = field.get(null);
 
-//                if (!StringUtils.isEmpty(express)) {
-//                    value = ExpressFactory.newExpress(value).get(express);
-//                }
+                if (!StringUtils.isEmpty(express)) {
+                    value = ExpressFactory.newExpress(value).get(express);
+                }
 
                 String result = StringUtils.objectToString(expand >= 0 ? new ObjectView(value, expand).draw() : value);
                 conn.write("field: " + field.getName() + "\n" + result + "\n");
@@ -130,13 +132,17 @@ public class GetStaticCommand extends GeneralCommand {
                         e);
                 conn.write("Failed to get static, exception message: " + e.getMessage()
                         + ", please check $HOME/logs/arthas/arthas.log for more details. \n");
-//            } catch (ExpressException e) {
+            } catch (ExpressException e) {
                 log.warn("getstatic: failed to get express value, class: " + clazz + ", field: " + field.getName()
                         + ", express: " + express, e);
                 conn.write("Failed to get static, exception message: " + e.getMessage()
                         + ", please check $HOME/logs/arthas/arthas.log for more details. \n");
             } finally {
                 found = true;
+            }
+
+            if (!found) {
+                conn.write("getstatic: no matched static field was found\n");
             }
         }
     }
