@@ -28,6 +28,12 @@ public abstract class GeneralCommand implements Command {
         this.inst = inst;
     }
 
+    public void setExpress(String express) {
+    }
+
+    public void setFieldPattern(String fieldPattern) {
+    }
+
     public void setListClassLoader(boolean listClassLoader) {
     }
 

@@ -125,6 +125,24 @@ public class CommandBaseListener implements CommandListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
+    public void enterGetstatic_command(CommandParser.Getstatic_commandContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitGetstatic_command(CommandParser.Getstatic_commandContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
     public void enterClassloader_command(CommandParser.Classloader_commandContext ctx) {
     }
 
@@ -405,6 +423,42 @@ public class CommandBaseListener implements CommandListener {
      */
     @Override
     public void exitClass_pattern(CommandParser.Class_patternContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void enterField_pattern(CommandParser.Field_patternContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitField_pattern(CommandParser.Field_patternContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void enterExpress_pattern(CommandParser.Express_patternContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitExpress_pattern(CommandParser.Express_patternContext ctx) {
     }
 
     /**

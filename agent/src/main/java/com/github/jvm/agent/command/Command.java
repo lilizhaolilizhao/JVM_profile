@@ -26,6 +26,10 @@ public interface Command {
 
     void setClassPattern(String classPattern);
 
+    void setFieldPattern(String fieldPattern);
+
+    void setExpress(String express);
+
     void setMethodPattern(String methodPattern);
 
     void setHelpFlag(boolean helpFlag);

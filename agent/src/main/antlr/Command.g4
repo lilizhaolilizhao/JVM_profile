@@ -10,6 +10,7 @@ command_list
  | sm_command
  | classloader_command
  | jad_command
+ | getstatic_command
  | keymap_command
  | exit_command
  | cls_command
@@ -30,6 +31,10 @@ sm_command
 
 jad_command
  : JAD_COMMAND ( ( hashcode_flag )?( regex_flag )? class_pattern (method_pattern)? | ( general_help )?)
+ ;
+
+getstatic_command
+ : GETSTATIC_COMMAND ( ( hashcode_flag )?( regex_flag )?( extend_flag )? class_pattern field_pattern ( express_pattern )? | ( general_help )?)
  ;
 
 classloader_command
@@ -99,6 +104,14 @@ class_pattern
  : any_name
  ;
 
+field_pattern
+ : any_name
+ ;
+
+express_pattern
+ : any_name
+ ;
+
 method_pattern
  : any_name
  ;
@@ -112,6 +125,7 @@ any_name
 SC_COMMAND : S C;
 SM_COMMAND : S M;
 JAD_COMMAND : J A D;
+GETSTATIC_COMMAND : G E T S T A T I C;
 CLASSLOADER_COMMAND : C L A S S L O A D E R;
 KEYMAP_COMMAND : K E Y M A P;
 EXIT_COMMAND : E X I T;

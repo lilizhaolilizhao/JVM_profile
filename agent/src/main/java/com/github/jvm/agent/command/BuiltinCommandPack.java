@@ -4,9 +4,7 @@ import com.github.jvm.agent.command.basic.ClsCommand;
 import com.github.jvm.agent.command.basic.ExitCommand;
 import com.github.jvm.agent.command.basic.HelpCommand;
 import com.github.jvm.agent.command.basic.KeymapCommand;
-import com.github.jvm.agent.command.clazz.ClassLoaderCommand;
-import com.github.jvm.agent.command.clazz.SearchClassCommand;
-import com.github.jvm.agent.command.clazz.SearchMethodCommand;
+import com.github.jvm.agent.command.clazz.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +29,8 @@ public class BuiltinCommandPack {
         commands.add(SearchClassCommand.class);
         commands.add(SearchMethodCommand.class);
         commands.add(ClassLoaderCommand.class);
+        commands.add(JadCommand.class);
+        commands.add(GetStaticCommand.class);
         commands.add(ClsCommand.class);
         commands.add(ExitCommand.class);
     }

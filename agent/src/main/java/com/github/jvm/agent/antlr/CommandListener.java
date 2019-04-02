@@ -93,6 +93,20 @@ public interface CommandListener extends ParseTreeListener {
     void exitJad_command(CommandParser.Jad_commandContext ctx);
 
     /**
+     * Enter a parse tree produced by {@link CommandParser#getstatic_command}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterGetstatic_command(CommandParser.Getstatic_commandContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link CommandParser#getstatic_command}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitGetstatic_command(CommandParser.Getstatic_commandContext ctx);
+
+    /**
      * Enter a parse tree produced by {@link CommandParser#classloader_command}.
      *
      * @param ctx the parse tree
@@ -315,6 +329,34 @@ public interface CommandListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     void exitClass_pattern(CommandParser.Class_patternContext ctx);
+
+    /**
+     * Enter a parse tree produced by {@link CommandParser#field_pattern}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterField_pattern(CommandParser.Field_patternContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link CommandParser#field_pattern}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitField_pattern(CommandParser.Field_patternContext ctx);
+
+    /**
+     * Enter a parse tree produced by {@link CommandParser#express_pattern}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterExpress_pattern(CommandParser.Express_patternContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link CommandParser#express_pattern}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitExpress_pattern(CommandParser.Express_patternContext ctx);
 
     /**
      * Enter a parse tree produced by {@link CommandParser#method_pattern}.

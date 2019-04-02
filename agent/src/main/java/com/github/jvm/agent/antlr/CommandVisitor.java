@@ -60,6 +60,14 @@ public interface CommandVisitor<T> extends ParseTreeVisitor<T> {
     T visitJad_command(CommandParser.Jad_commandContext ctx);
 
     /**
+     * Visit a parse tree produced by {@link CommandParser#getstatic_command}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitGetstatic_command(CommandParser.Getstatic_commandContext ctx);
+
+    /**
      * Visit a parse tree produced by {@link CommandParser#classloader_command}.
      *
      * @param ctx the parse tree
@@ -186,6 +194,22 @@ public interface CommandVisitor<T> extends ParseTreeVisitor<T> {
      * @return the visitor result
      */
     T visitClass_pattern(CommandParser.Class_patternContext ctx);
+
+    /**
+     * Visit a parse tree produced by {@link CommandParser#field_pattern}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitField_pattern(CommandParser.Field_patternContext ctx);
+
+    /**
+     * Visit a parse tree produced by {@link CommandParser#express_pattern}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitExpress_pattern(CommandParser.Express_patternContext ctx);
 
     /**
      * Visit a parse tree produced by {@link CommandParser#method_pattern}.

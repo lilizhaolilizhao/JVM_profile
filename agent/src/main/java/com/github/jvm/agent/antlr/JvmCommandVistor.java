@@ -5,10 +5,7 @@ import com.github.jvm.agent.command.basic.ClsCommand;
 import com.github.jvm.agent.command.basic.ExitCommand;
 import com.github.jvm.agent.command.basic.HelpCommand;
 import com.github.jvm.agent.command.basic.KeymapCommand;
-import com.github.jvm.agent.command.clazz.ClassLoaderCommand;
-import com.github.jvm.agent.command.clazz.JadCommand;
-import com.github.jvm.agent.command.clazz.SearchClassCommand;
-import com.github.jvm.agent.command.clazz.SearchMethodCommand;
+import com.github.jvm.agent.command.clazz.*;
 import io.termd.core.tty.TtyConnection;
 import lombok.Data;
 
@@ -81,6 +78,37 @@ public class JvmCommandVistor extends CommandBaseVisitor {
         visitMethodPatternContext(ctx.method_pattern());
 
         return super.visitJad_command(ctx);
+    }
+
+    @Override
+    public Object visitGetstatic_command(CommandParser.Getstatic_commandContext ctx) {
+        command = new GetStaticCommand(conn, inst);
+
+        visitHashcode(ctx.hashcode_flag());
+        visitRegexContext(ctx.regex_flag());
+        visitClassPatternContext(ctx.class_pattern());
+
+        return super.visitGetstatic_command(ctx);
+    }
+
+    @Override
+    public Object visitExpress_pattern(CommandParser.Express_patternContext ctx) {
+        if (ctx != null) {
+            String express = ctx.any_name().getText();
+            command.setExpress(express);
+        }
+
+        return super.visitExpress_pattern(ctx);
+    }
+
+    @Override
+    public Object visitField_pattern(CommandParser.Field_patternContext ctx) {
+        if (ctx != null) {
+            String fieldPattern = ctx.any_name().getText();
+            command.setFieldPattern(fieldPattern);
+        }
+
+        return super.visitField_pattern(ctx);
     }
 
     /**
