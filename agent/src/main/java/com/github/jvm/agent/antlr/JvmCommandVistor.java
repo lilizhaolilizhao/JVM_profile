@@ -112,7 +112,7 @@ public class JvmCommandVistor extends CommandBaseVisitor {
 
         CommandParser.Top_N_Busy_flagContext top_n_busy_flagContext = ctx.top_N_Busy_flag();
         if (top_n_busy_flagContext != null) {
-            command.setTopNBusy(Integer.parseInt(top_n_busy_flagContext.getChild(1).getText()));
+            command.setTopNBusy(Integer.parseInt(top_n_busy_flagContext.getChild(2).getText()));
         }
         CommandParser.Find_most_blockingthread_flagContext most_blockingthread_flag = ctx.find_most_blockingthread_flag();
         if (most_blockingthread_flag != null) {
@@ -120,7 +120,7 @@ public class JvmCommandVistor extends CommandBaseVisitor {
         }
         CommandParser.SetSampleInterval_flagContext setSampleInterval_flagContext = ctx.setSampleInterval_flag();
         if (setSampleInterval_flagContext != null) {
-            command.setSampleInterval(Integer.parseInt(setSampleInterval_flagContext.getChild(1).getText()));
+            command.setSampleInterval(Integer.parseInt(setSampleInterval_flagContext.getChild(2).getText()));
         }
         CommandParser.IdContext id = ctx.id();
         if (id != null) {

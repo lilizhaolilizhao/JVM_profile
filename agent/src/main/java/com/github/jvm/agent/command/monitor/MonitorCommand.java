@@ -56,5 +56,6 @@ public class MonitorCommand extends GeneralCommand {
 
     @Override
     public void process(Consumer<int[]> out) {
+        //TODO 未完成的部分
     }
 }
