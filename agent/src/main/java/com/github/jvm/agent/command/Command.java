@@ -4,6 +4,18 @@ import io.termd.core.function.Consumer;
 
 public interface Command {
 
+    public void setSampleInterval(int sampleInterval);
+
+    void setFindMostBlockingThread(boolean findMostBlockingThread);
+
+    void setTopNBusy(Integer topNBusy);
+
+    void setId(long id);
+
+    void setNumberOfLimit(int numberOfLimit);
+
+    void setCycle(int cycle);
+
     void setListClassLoader(boolean listClassLoader);
 
     void setTree(boolean tree);

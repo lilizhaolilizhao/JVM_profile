@@ -6,6 +6,8 @@ import com.github.jvm.agent.command.basic.ExitCommand;
 import com.github.jvm.agent.command.basic.HelpCommand;
 import com.github.jvm.agent.command.basic.KeymapCommand;
 import com.github.jvm.agent.command.clazz.*;
+import com.github.jvm.agent.command.monitor.MonitorCommand;
+import com.github.jvm.agent.command.monitor.ThreadCommand;
 import io.termd.core.tty.TtyConnection;
 import lombok.Data;
 
@@ -89,6 +91,60 @@ public class JvmCommandVistor extends CommandBaseVisitor {
         visitClassPatternContext(ctx.class_pattern());
 
         return super.visitGetstatic_command(ctx);
+    }
+
+    @Override
+    public Object visitMonitor_command(CommandParser.Monitor_commandContext ctx) {
+        command = new MonitorCommand(conn, inst);
+
+        visitCycle(ctx.cycle_flag());
+        visitRegexContext(ctx.regex_flag());
+        visitNumberLimit(ctx.number_limit_flag());
+        visitClassPatternContext(ctx.class_pattern());
+        visitMethodPatternContext(ctx.method_pattern());
+
+        return super.visitMonitor_command(ctx);
+    }
+
+    @Override
+    public Object visitThread_command(CommandParser.Thread_commandContext ctx) {
+        command = new ThreadCommand(conn, inst);
+
+        CommandParser.Top_N_Busy_flagContext top_n_busy_flagContext = ctx.top_N_Busy_flag();
+        if (top_n_busy_flagContext != null) {
+            command.setTopNBusy(Integer.parseInt(top_n_busy_flagContext.getChild(1).getText()));
+        }
+        CommandParser.Find_most_blockingthread_flagContext most_blockingthread_flag = ctx.find_most_blockingthread_flag();
+        if (most_blockingthread_flag != null) {
+            command.setFindMostBlockingThread(true);
+        }
+        CommandParser.SetSampleInterval_flagContext setSampleInterval_flagContext = ctx.setSampleInterval_flag();
+        if (setSampleInterval_flagContext != null) {
+            command.setSampleInterval(Integer.parseInt(setSampleInterval_flagContext.getChild(1).getText()));
+        }
+        CommandParser.IdContext id = ctx.id();
+        if (id != null) {
+            command.setId(Integer.parseInt(id.any_name().getText()));
+        }
+
+        return super.visitThread_command(ctx);
+    }
+
+    private void visitNumberLimit(CommandParser.Number_limit_flagContext number_limit_flagContext) {
+        if (number_limit_flagContext != null) {
+            command.setNumberOfLimit(Integer.parseInt(number_limit_flagContext.getChild(1).getText()));
+        }
+    }
+
+    /**
+     * 访问 -c cycle 统计周期
+     *
+     * @param cycle_flagContext
+     */
+    private void visitCycle(CommandParser.Cycle_flagContext cycle_flagContext) {
+        if (cycle_flagContext != null) {
+            command.setCycle(Integer.parseInt(cycle_flagContext.getChild(1).getText()));
+        }
     }
 
     @Override

@@ -28,6 +28,23 @@ public abstract class GeneralCommand implements Command {
         this.inst = inst;
     }
 
+    public void setSampleInterval(int sampleInterval){}
+
+    public void setFindMostBlockingThread(boolean findMostBlockingThread) {
+    }
+
+    public void setTopNBusy(Integer topNBusy) {
+    }
+
+    public void setId(long id) {
+    }
+
+    public void setNumberOfLimit(int numberOfLimit) {
+    }
+
+    public void setCycle(int cycle) {
+    }
+
     public void setExpress(String express) {
     }
 

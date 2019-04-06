@@ -11,6 +11,8 @@ command_list
  | classloader_command
  | jad_command
  | getstatic_command
+ | monitor_command
+ | thread_command
  | keymap_command
  | exit_command
  | cls_command
@@ -34,7 +36,15 @@ jad_command
  ;
 
 getstatic_command
- : GETSTATIC_COMMAND ( ( hashcode_flag )?( regex_flag )?( extend_flag )? class_pattern field_pattern ( express_pattern )? | ( general_help )?)
+ : GETSTATIC_COMMAND ( ( hashcode_flag )?( regex_flag )? class_pattern method_pattern ( express_pattern )? | ( general_help )?)
+ ;
+
+monitor_command
+ : MONITOR_COMMAND ( ( cycle_flag )?( regex_flag )? ( number_limit_flag )? class_pattern (method_pattern)? | ( general_help )?)
+ ;
+
+thread_command
+ : THREAD_COMMAND ( ( top_N_Busy_flag )?( find_most_blockingthread_flag )? ( setSampleInterval_flag )? ( id )? | ( general_help )?)
  ;
 
 classloader_command
@@ -80,12 +90,32 @@ regex_flag
  : '-'REGEX
  ;
 
+find_most_blockingthread_flag
+ : '-'FIND_MOST_BLOCKINGTHREAD
+ ;
+
 extend_flag
  : '-'EXTEND EXTEND_LEVEL
  ;
 
 hashcode_flag
  : '-'HASHCODE_FLAG any_name
+ ;
+
+number_limit_flag
+ : '-'NUMBER_LIMIT any_name
+ ;
+
+cycle_flag
+ : '-'HASHCODE_FLAG any_name
+ ;
+
+top_N_Busy_flag
+ : '-'NUMBER_LIMIT any_name
+ ;
+
+setSampleInterval_flag
+ : '-'INCLUDEREFLECTIONCLASSLOADER_FLAG any_name
  ;
 
 includeReflectionClassLoader_flag
@@ -112,6 +142,10 @@ express_pattern
  : any_name
  ;
 
+id
+ : any_name
+ ;
+
 method_pattern
  : any_name
  ;
@@ -126,6 +160,8 @@ SC_COMMAND : S C;
 SM_COMMAND : S M;
 JAD_COMMAND : J A D;
 GETSTATIC_COMMAND : G E T S T A T I C;
+MONITOR_COMMAND : M O N I T O R;
+THREAD_COMMAND : T H R E A D;
 CLASSLOADER_COMMAND : C L A S S L O A D E R;
 KEYMAP_COMMAND : K E Y M A P;
 EXIT_COMMAND : E X I T;
@@ -138,8 +174,11 @@ DETAIL : D;
 ALL_INFO : A;
 FIELD : F;
 REGEX : E;
+FIND_MOST_BLOCKINGTHREAD : B;
 EXTEND : X;
 HASHCODE_FLAG : C;
+NUMBER_LIMIT : N;
+CYCLE_FLAG : C;
 INCLUDEREFLECTIONCLASSLOADER_FLAG : I;
 RESOURCE : R;
 TREE : T;
