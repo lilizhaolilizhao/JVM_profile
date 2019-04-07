@@ -91,7 +91,14 @@ public class ThreadCommand extends GeneralCommand {
     }
 
     private void processBlockingThread(TtyConnection conn) {
-        //TODO 未完成的部分
+        ThreadUtil.BlockingLockInfo blockingLockInfo = ThreadUtil.findMostBlockingLock();
+
+        if (blockingLockInfo.threadInfo == null) {
+            conn.write("No most blocking thread found!\n");
+        } else {
+            String stacktrace = ThreadUtil.getFullStacktrace(blockingLockInfo);
+            conn.write(stacktrace);
+        }
     }
 
     private void processTopBusyThreads(TtyConnection conn) {
@@ -133,8 +140,7 @@ public class ThreadCommand extends GeneralCommand {
         }
 
         String stat = RenderUtil.render(new LabelElement(threadStat), 120);
-        String content = RenderUtil.render(threads.values().iterator(),
-                new ThreadRenderer(sampleInterval), 120);
+        String content = RenderUtil.render(threads.values().iterator(), new ThreadRenderer(sampleInterval), 120);
         conn.write(stat + content);
     }
 

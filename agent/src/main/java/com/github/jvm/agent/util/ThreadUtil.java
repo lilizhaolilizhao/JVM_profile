@@ -9,6 +9,8 @@ import java.util.*;
  * 线程工具类
  */
 public class ThreadUtil {
+    private static final BlockingLockInfo EMPTY_INFO = new BlockingLockInfo();
+
     private static ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
 
     public static ThreadGroup getRoot() {
@@ -22,6 +24,11 @@ public class ThreadUtil {
 
     public static String getFullStacktrace(ThreadInfo threadInfo, long cpuUsage) {
         return getFullStacktrace(threadInfo, cpuUsage, 0, 0);
+    }
+
+    public static String getFullStacktrace(BlockingLockInfo blockingLockInfo) {
+        return getFullStacktrace(blockingLockInfo.threadInfo, -1, blockingLockInfo.lockIdentityHashCode,
+                blockingLockInfo.blockingThreadCount);
     }
 
     /**
@@ -113,6 +120,87 @@ public class ThreadUtil {
         }
         sb.append('\n');
         return sb.toString().replace("\t", "    ");
+    }
+
+    /**
+     * Find the thread and lock that is blocking the most other threads.
+     * <p>
+     * Time complexity of this algorithm: O(number of thread)
+     * Space complexity of this algorithm: O(number of locks)
+     *
+     * @return the BlockingLockInfo object, or an empty object if not found.
+     */
+    public static BlockingLockInfo findMostBlockingLock() {
+        ThreadInfo[] infos = threadMXBean.dumpAllThreads(threadMXBean.isObjectMonitorUsageSupported(),
+                threadMXBean.isSynchronizerUsageSupported());
+
+        // a map of <LockInfo.getIdentityHashCode, number of thread blocking on this>
+        Map<Integer, Integer> blockCountPerLock = new HashMap<Integer, Integer>();
+        // a map of <LockInfo.getIdentityHashCode, the thread info that holding this lock
+        Map<Integer, ThreadInfo> ownerThreadPerLock = new HashMap<Integer, ThreadInfo>();
+
+        for (ThreadInfo info : infos) {
+            if (info == null) {
+                continue;
+            }
+
+            LockInfo lockInfo = info.getLockInfo();
+            if (lockInfo != null) {
+                // the current thread is blocked waiting on some condition
+                if (blockCountPerLock.get(lockInfo.getIdentityHashCode()) == null) {
+                    blockCountPerLock.put(lockInfo.getIdentityHashCode(), 0);
+                }
+                int blockedCount = blockCountPerLock.get(lockInfo.getIdentityHashCode());
+                blockCountPerLock.put(lockInfo.getIdentityHashCode(), blockedCount + 1);
+            }
+
+            for (MonitorInfo monitorInfo : info.getLockedMonitors()) {
+                // the object monitor currently held by this thread
+                if (ownerThreadPerLock.get(monitorInfo.getIdentityHashCode()) == null) {
+                    ownerThreadPerLock.put(monitorInfo.getIdentityHashCode(), info);
+                }
+            }
+
+            for (LockInfo lockedSync : info.getLockedSynchronizers()) {
+                // the ownable synchronizer currently held by this thread
+                if (ownerThreadPerLock.get(lockedSync.getIdentityHashCode()) == null) {
+                    ownerThreadPerLock.put(lockedSync.getIdentityHashCode(), info);
+                }
+            }
+        }
+
+        // find the thread that is holding the lock that blocking the largest number of threads.
+        int mostBlockingLock = 0; // System.identityHashCode(null) == 0
+        int maxBlockingCount = 0;
+        for (Map.Entry<Integer, Integer> entry : blockCountPerLock.entrySet()) {
+            if (entry.getValue() > maxBlockingCount && ownerThreadPerLock.get(entry.getKey()) != null) {
+                // the lock is explicitly held by anther thread.
+                maxBlockingCount = entry.getValue();
+                mostBlockingLock = entry.getKey();
+            }
+        }
+
+        if (mostBlockingLock == 0) {
+            // nothing found
+            return EMPTY_INFO;
+        }
+
+        BlockingLockInfo blockingLockInfo = new BlockingLockInfo();
+        blockingLockInfo.threadInfo = ownerThreadPerLock.get(mostBlockingLock);
+        blockingLockInfo.lockIdentityHashCode = mostBlockingLock;
+        blockingLockInfo.blockingThreadCount = blockCountPerLock.get(mostBlockingLock);
+        return blockingLockInfo;
+    }
+
+    public static class BlockingLockInfo {
+
+        // the thread info that is holing this lock.
+        public ThreadInfo threadInfo = null;
+        // the associated LockInfo object
+        public int lockIdentityHashCode = 0;
+        // the number of thread that is blocked on this lock
+        public int blockingThreadCount = 0;
+
     }
 
     /**
