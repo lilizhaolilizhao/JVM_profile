@@ -179,6 +179,24 @@ public class CommandBaseListener implements CommandListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
+    public void enterJvm_command(CommandParser.Jvm_commandContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitJvm_command(CommandParser.Jvm_commandContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
     public void enterClassloader_command(CommandParser.Classloader_commandContext ctx) {
     }
 

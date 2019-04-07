@@ -6,6 +6,7 @@ import com.github.jvm.agent.command.basic.ExitCommand;
 import com.github.jvm.agent.command.basic.HelpCommand;
 import com.github.jvm.agent.command.basic.KeymapCommand;
 import com.github.jvm.agent.command.clazz.*;
+import com.github.jvm.agent.command.monitor.JvmCommand;
 import com.github.jvm.agent.command.monitor.MonitorCommand;
 import com.github.jvm.agent.command.monitor.ThreadCommand;
 import io.termd.core.tty.TtyConnection;
@@ -128,6 +129,13 @@ public class JvmCommandVistor extends CommandBaseVisitor {
         }
 
         return super.visitThread_command(ctx);
+    }
+
+    @Override
+    public Object visitJvm_command(CommandParser.Jvm_commandContext ctx) {
+        command = new JvmCommand(conn);
+
+        return super.visitJvm_command(ctx);
     }
 
     private void visitNumberLimit(CommandParser.Number_limit_flagContext number_limit_flagContext) {

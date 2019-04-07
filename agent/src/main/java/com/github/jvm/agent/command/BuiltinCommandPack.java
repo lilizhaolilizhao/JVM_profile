@@ -5,6 +5,7 @@ import com.github.jvm.agent.command.basic.ExitCommand;
 import com.github.jvm.agent.command.basic.HelpCommand;
 import com.github.jvm.agent.command.basic.KeymapCommand;
 import com.github.jvm.agent.command.clazz.*;
+import com.github.jvm.agent.command.monitor.JvmCommand;
 import com.github.jvm.agent.command.monitor.MonitorCommand;
 import com.github.jvm.agent.command.monitor.ThreadCommand;
 
@@ -35,6 +36,7 @@ public class BuiltinCommandPack {
         commands.add(GetStaticCommand.class);
         commands.add(MonitorCommand.class);
         commands.add(ThreadCommand.class);
+        commands.add(JvmCommand.class);
         commands.add(ClsCommand.class);
         commands.add(ExitCommand.class);
     }

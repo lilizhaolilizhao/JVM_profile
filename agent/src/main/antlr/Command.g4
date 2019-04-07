@@ -13,6 +13,7 @@ command_list
  | getstatic_command
  | monitor_command
  | thread_command
+ | jvm_command
  | keymap_command
  | exit_command
  | cls_command
@@ -45,6 +46,10 @@ monitor_command
 
 thread_command
  : THREAD_COMMAND ( ( top_N_Busy_flag )?( find_most_blockingthread_flag )? ( setSampleInterval_flag )? ( id )? | ( general_help )?)
+ ;
+
+jvm_command
+ : JVM_COMMAND ( general_help )?
  ;
 
 classloader_command
@@ -162,6 +167,7 @@ JAD_COMMAND : J A D;
 GETSTATIC_COMMAND : G E T S T A T I C;
 MONITOR_COMMAND : M O N I T O R;
 THREAD_COMMAND : T H R E A D;
+JVM_COMMAND : J V M;
 CLASSLOADER_COMMAND : C L A S S L O A D E R;
 KEYMAP_COMMAND : K E Y M A P;
 EXIT_COMMAND : E X I T;

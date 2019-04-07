@@ -135,6 +135,20 @@ public interface CommandListener extends ParseTreeListener {
     void exitThread_command(CommandParser.Thread_commandContext ctx);
 
     /**
+     * Enter a parse tree produced by {@link CommandParser#jvm_command}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterJvm_command(CommandParser.Jvm_commandContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link CommandParser#jvm_command}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitJvm_command(CommandParser.Jvm_commandContext ctx);
+
+    /**
      * Enter a parse tree produced by {@link CommandParser#classloader_command}.
      *
      * @param ctx the parse tree
