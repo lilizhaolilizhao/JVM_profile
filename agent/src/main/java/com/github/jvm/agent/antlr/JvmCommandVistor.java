@@ -1,10 +1,7 @@
 package com.github.jvm.agent.antlr;
 
 import com.github.jvm.agent.command.Command;
-import com.github.jvm.agent.command.basic.ClsCommand;
-import com.github.jvm.agent.command.basic.ExitCommand;
-import com.github.jvm.agent.command.basic.HelpCommand;
-import com.github.jvm.agent.command.basic.KeymapCommand;
+import com.github.jvm.agent.command.basic.*;
 import com.github.jvm.agent.command.clazz.*;
 import com.github.jvm.agent.command.monitor.JvmCommand;
 import com.github.jvm.agent.command.monitor.MonitorCommand;
@@ -147,6 +144,16 @@ public class JvmCommandVistor extends CommandBaseVisitor {
         visitClassPatternContext(ctx.class_pattern());
 
         return super.visitDump_command(ctx);
+    }
+
+    @Override
+    public Object visitReset_command(CommandParser.Reset_commandContext ctx) {
+        command = new ResetCommand(conn, inst);
+
+        visitRegexContext(ctx.regex_flag());
+        visitClassPatternContext(ctx.class_pattern());
+
+        return super.visitReset_command(ctx);
     }
 
     private void visitNumberLimit(CommandParser.Number_limit_flagContext number_limit_flagContext) {

@@ -161,6 +161,24 @@ public class CommandBaseListener implements CommandListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
+    public void enterReset_command(CommandParser.Reset_commandContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitReset_command(CommandParser.Reset_commandContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
     public void enterMonitor_command(CommandParser.Monitor_commandContext ctx) {
     }
 

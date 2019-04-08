@@ -1,5 +1,7 @@
 package com.github.jvm.agent.advisor;
 
+import com.github.jvm.agent.util.matcher.Matcher;
+
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.Instrumentation;
 import java.lang.instrument.UnmodifiableClassException;
@@ -26,5 +28,9 @@ public class Enhancer {
         } finally {
             inst.removeTransformer(transformer);
         }
+    }
+
+    public static EnhancerAffect reset(Instrumentation inst, Matcher matcher) {
+        return null;
     }
 }
