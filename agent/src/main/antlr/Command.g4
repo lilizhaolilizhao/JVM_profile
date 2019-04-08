@@ -14,6 +14,7 @@ command_list
  | monitor_command
  | thread_command
  | jvm_command
+ | dump_command
  | keymap_command
  | exit_command
  | cls_command
@@ -38,6 +39,10 @@ jad_command
 
 getstatic_command
  : GETSTATIC_COMMAND ( ( hashcode_flag )?( regex_flag )? class_pattern method_pattern ( express_pattern )? | ( general_help )?)
+ ;
+
+dump_command
+ : DUMP_COMMAND ( ( hashcode_flag )?( regex_flag )? class_pattern| ( general_help )?)
  ;
 
 monitor_command
@@ -165,6 +170,7 @@ SC_COMMAND : S C;
 SM_COMMAND : S M;
 JAD_COMMAND : J A D;
 GETSTATIC_COMMAND : G E T S T A T I C;
+DUMP_COMMAND : D U M P;
 MONITOR_COMMAND : M O N I T O R;
 THREAD_COMMAND : T H R E A D;
 JVM_COMMAND : J V M;

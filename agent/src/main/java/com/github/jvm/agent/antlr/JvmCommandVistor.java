@@ -138,6 +138,17 @@ public class JvmCommandVistor extends CommandBaseVisitor {
         return super.visitJvm_command(ctx);
     }
 
+    @Override
+    public Object visitDump_command(CommandParser.Dump_commandContext ctx) {
+        command = new DumpClassCommand(conn, inst);
+
+        visitHashcode(ctx.hashcode_flag());
+        visitRegexContext(ctx.regex_flag());
+        visitClassPatternContext(ctx.class_pattern());
+
+        return super.visitDump_command(ctx);
+    }
+
     private void visitNumberLimit(CommandParser.Number_limit_flagContext number_limit_flagContext) {
         if (number_limit_flagContext != null) {
             command.setNumberOfLimit(Integer.parseInt(number_limit_flagContext.getChild(1).getText()));
