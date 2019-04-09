@@ -84,6 +84,14 @@ public interface CommandVisitor<T> extends ParseTreeVisitor<T> {
     T visitReset_command(CommandParser.Reset_commandContext ctx);
 
     /**
+     * Visit a parse tree produced by {@link CommandParser#shut_command}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitShut_command(CommandParser.Shut_commandContext ctx);
+
+    /**
      * Visit a parse tree produced by {@link CommandParser#monitor_command}.
      *
      * @param ctx the parse tree

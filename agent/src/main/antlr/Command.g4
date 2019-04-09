@@ -16,6 +16,7 @@ command_list
  | jvm_command
  | dump_command
  | reset_command
+ | shut_command
  | keymap_command
  | exit_command
  | cls_command
@@ -48,6 +49,10 @@ dump_command
 
 reset_command
  : RESET_COMMAND ( ( regex_flag )? class_pattern | ( general_help )?)
+ ;
+
+shut_command
+ : SHUT_COMMAND ( general_help )?
  ;
 
 monitor_command
@@ -177,6 +182,7 @@ JAD_COMMAND : J A D;
 GETSTATIC_COMMAND : G E T S T A T I C;
 DUMP_COMMAND : D U M P;
 RESET_COMMAND : R E S E T;
+SHUT_COMMAND : S H U T;
 MONITOR_COMMAND : M O N I T O R;
 THREAD_COMMAND : T H R E A D;
 JVM_COMMAND : J V M;

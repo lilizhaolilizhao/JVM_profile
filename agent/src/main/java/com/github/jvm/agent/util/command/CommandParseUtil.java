@@ -4,6 +4,7 @@ import com.github.jvm.agent.antlr.CommandLexer;
 import com.github.jvm.agent.antlr.CommandParser;
 import com.github.jvm.agent.antlr.JvmCommandVistor;
 import com.github.jvm.agent.command.Command;
+import com.github.jvm.agent.shell.term.TermServer;
 import io.termd.core.tty.TtyConnection;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -21,17 +22,18 @@ public class CommandParseUtil {
      *
      * @param conn
      * @param inst
+     * @param term
      * @param commandText
      * @return
      */
-    public static Command parseCommand(TtyConnection conn, Instrumentation inst, String commandText) {
+    public static Command parseCommand(TtyConnection conn, Instrumentation inst, TermServer term, String commandText) {
         ANTLRInputStream input = new ANTLRInputStream(commandText);
         CommandLexer lexer = new CommandLexer(input);
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         CommandParser parser = new CommandParser(tokens);
 
         ParseTree tree = parser.parse();
-        JvmCommandVistor commandVisitor = new JvmCommandVistor(conn, inst);
+        JvmCommandVistor commandVisitor = new JvmCommandVistor(conn, inst, term);
         commandVisitor.visit(tree);
 
         return commandVisitor.getCommand();

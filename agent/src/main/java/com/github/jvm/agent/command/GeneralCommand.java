@@ -1,5 +1,6 @@
 package com.github.jvm.agent.command;
 
+import com.github.jvm.agent.shell.term.TermServer;
 import com.github.jvm.agent.util.usage.StyledUsageFormatter;
 import com.taobao.middleware.cli.annotations.Description;
 import com.taobao.middleware.cli.annotations.Option;
@@ -18,6 +19,7 @@ public abstract class GeneralCommand implements Command {
     protected boolean helpFlag = false;
     protected TtyConnection conn;
     protected Instrumentation inst;
+    protected TermServer term;
 
     public GeneralCommand(TtyConnection conn) {
         this.conn = conn;
@@ -26,6 +28,12 @@ public abstract class GeneralCommand implements Command {
     public GeneralCommand(TtyConnection conn, Instrumentation inst) {
         this.conn = conn;
         this.inst = inst;
+    }
+
+    public GeneralCommand(TtyConnection conn, Instrumentation inst, TermServer term) {
+        this.conn = conn;
+        this.inst = inst;
+        this.term = term;
     }
 
     public void setSampleInterval(int sampleInterval) {

@@ -6,6 +6,7 @@ import com.github.jvm.agent.command.basic.ExitCommand;
 import com.github.jvm.agent.command.basic.HelpCommand;
 import com.github.jvm.agent.command.basic.KeymapCommand;
 import com.github.jvm.agent.command.clazz.SearchClassCommand;
+import com.github.jvm.agent.shell.term.TermServer;
 import com.github.jvm.agent.util.command.CommandParseUtil;
 import io.termd.core.tty.TtyConnection;
 import org.junit.Assert;
@@ -17,12 +18,12 @@ import java.lang.reflect.Field;
 public class CommandParseUtilTest {
     TtyConnection conn;
     Instrumentation inst;
-
+    TermServer term;
 
     @Test
     public void clsCommandTest() {
         String commandText = "cls";
-        Command command = CommandParseUtil.parseCommand(null, inst, commandText);
+        Command command = CommandParseUtil.parseCommand(null, inst, term, commandText);
 
         Assert.assertTrue(command instanceof ClsCommand);
     }
@@ -30,7 +31,7 @@ public class CommandParseUtilTest {
     @Test
     public void helpCommandTest() {
         String commandText = "help";
-        Command command = CommandParseUtil.parseCommand(null, inst, commandText);
+        Command command = CommandParseUtil.parseCommand(null, inst, term, commandText);
 
         Assert.assertTrue(command instanceof HelpCommand);
     }
@@ -38,7 +39,7 @@ public class CommandParseUtilTest {
     @Test
     public void exitCommandTest() {
         String commandText = "quit";
-        Command command = CommandParseUtil.parseCommand(null, inst, commandText);
+        Command command = CommandParseUtil.parseCommand(null, inst, term, commandText);
 
         Assert.assertTrue(command instanceof ExitCommand);
     }
@@ -46,7 +47,7 @@ public class CommandParseUtilTest {
     @Test
     public void keymapCommandTest() {
         String commandText = "keymap";
-        Command command = CommandParseUtil.parseCommand(null, inst, commandText);
+        Command command = CommandParseUtil.parseCommand(null, inst, term, commandText);
 
         Assert.assertTrue(command instanceof KeymapCommand);
     }
@@ -54,19 +55,19 @@ public class CommandParseUtilTest {
     @Test
     public void scCommandTest() {
         String commandText = "sc";
-        Command command = CommandParseUtil.parseCommand(null, inst, commandText);
+        Command command = CommandParseUtil.parseCommand(null, inst, term, commandText);
 
         Assert.assertTrue(command instanceof SearchClassCommand);
         Assert.assertFalse(((SearchClassCommand) command).isHelpFlag());
 
         commandText = "sc -help";
-        command = CommandParseUtil.parseCommand(null, inst, commandText);
+        command = CommandParseUtil.parseCommand(null, inst, term, commandText);
 
         Assert.assertTrue(command instanceof SearchClassCommand);
         Assert.assertTrue(((SearchClassCommand) command).isHelpFlag());
 
         commandText = "sc sun.reflect.generics.scope.MethodScope";
-        command = CommandParseUtil.parseCommand(null, inst, commandText);
+        command = CommandParseUtil.parseCommand(null, inst, term, commandText);
         Assert.assertTrue(command instanceof SearchClassCommand);
 
         try {

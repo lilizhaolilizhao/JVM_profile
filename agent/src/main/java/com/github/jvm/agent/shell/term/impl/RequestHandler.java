@@ -33,7 +33,7 @@ public class RequestHandler implements Consumer<String> {
 
         if (line != null && !"".equals(line.trim())) {
             try {
-                Command command = CommandParseUtil.parseCommand(conn, inst, line);
+                Command command = CommandParseUtil.parseCommand(conn, inst, term, line);
                 command.process(out);
             } catch (Exception e) {
                 Helper.echoMsg(out, "命令格式异常:" + e.getMessage() + "\n");

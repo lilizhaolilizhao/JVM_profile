@@ -6,6 +6,7 @@ import com.github.jvm.agent.command.clazz.*;
 import com.github.jvm.agent.command.monitor.JvmCommand;
 import com.github.jvm.agent.command.monitor.MonitorCommand;
 import com.github.jvm.agent.command.monitor.ThreadCommand;
+import com.github.jvm.agent.shell.term.TermServer;
 import io.termd.core.tty.TtyConnection;
 import lombok.Data;
 
@@ -16,10 +17,12 @@ public class JvmCommandVistor extends CommandBaseVisitor {
     private TtyConnection conn;
     private Instrumentation inst;
     private Command command;
+    private TermServer term;
 
-    public JvmCommandVistor(TtyConnection conn, Instrumentation inst) {
+    public JvmCommandVistor(TtyConnection conn, Instrumentation inst, TermServer term) {
         this.conn = conn;
         this.inst = inst;
+        this.term = term;
     }
 
     @Override
@@ -154,6 +157,13 @@ public class JvmCommandVistor extends CommandBaseVisitor {
         visitClassPatternContext(ctx.class_pattern());
 
         return super.visitReset_command(ctx);
+    }
+
+    @Override
+    public Object visitShut_command(CommandParser.Shut_commandContext ctx) {
+        command = new ShutdownCommand(conn, inst, term);
+
+        return super.visitShut_command(ctx);
     }
 
     private void visitNumberLimit(CommandParser.Number_limit_flagContext number_limit_flagContext) {

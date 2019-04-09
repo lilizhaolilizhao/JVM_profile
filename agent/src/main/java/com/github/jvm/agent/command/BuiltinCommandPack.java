@@ -37,6 +37,7 @@ public class BuiltinCommandPack {
         commands.add(DumpClassCommand.class);
         commands.add(ClsCommand.class);
         commands.add(ResetCommand.class);
+        commands.add(ShutdownCommand.class);
         commands.add(ExitCommand.class);
     }
 }

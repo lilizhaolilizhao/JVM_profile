@@ -14,6 +14,10 @@ public class Future<T> {
         fail(t);
     }
 
+    public Future(String failureMessage) {
+        this(new Throwable(failureMessage));
+    }
+
     private void fail(Throwable t) {
         System.out.println("失败,抛出异常");
     }
@@ -32,6 +36,10 @@ public class Future<T> {
 
     public static <T> Future<T> failedFuture(Throwable t) {
         return new Future<T>(t);
+    }
+
+    public static <T> Future<T> failedFuture(String failureMessage) {
+        return new Future<T>(failureMessage);
     }
 
 }
