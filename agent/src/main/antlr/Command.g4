@@ -6,6 +6,7 @@ parse
 
 command_list
  : ( help_command
+ | keymap_command
  | sc_command
  | sm_command
  | classloader_command
@@ -17,10 +18,10 @@ command_list
  | dump_command
  | reset_command
  | shut_command
- | sysprop_command
- | keymap_command
- | exit_command
  | cls_command
+ | sysprop_command
+ | redefine_command
+ | exit_command
  )
  ;
 
@@ -62,6 +63,10 @@ shut_command
 
 monitor_command
  : MONITOR_COMMAND ( ( cycle_flag )?( regex_flag )? ( number_limit_flag )? class_pattern (method_pattern)? | ( general_help )?)
+ ;
+
+redefine_command
+ : REDEFINE_COMMAND ( ( hashcode_flag )? ( path_pattern )? | ( general_help )?)
  ;
 
 thread_command
@@ -135,6 +140,10 @@ cycle_flag
  : '-'HASHCODE_FLAG any_name
  ;
 
+path_pattern
+ : '-'PATH any_name+
+ ;
+
 top_N_Busy_flag
  : '-'NUMBER_LIMIT any_name
  ;
@@ -198,6 +207,7 @@ DUMP_COMMAND : D U M P;
 RESET_COMMAND : R E S E T;
 SHUT_COMMAND : S H U T;
 MONITOR_COMMAND : M O N I T O R;
+REDEFINE_COMMAND : R E D E F I N E;
 THREAD_COMMAND : T H R E A D;
 JVM_COMMAND : J V M;
 CLASSLOADER_COMMAND : C L A S S L O A D E R;
@@ -215,6 +225,7 @@ REGEX : E;
 FIND_MOST_BLOCKINGTHREAD : B;
 EXTEND : X;
 HASHCODE_FLAG : C;
+PATH : P;
 NUMBER_LIMIT : N;
 CYCLE_FLAG : C;
 INCLUDEREFLECTIONCLASSLOADER_FLAG : I;

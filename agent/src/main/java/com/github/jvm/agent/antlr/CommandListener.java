@@ -177,6 +177,20 @@ public interface CommandListener extends ParseTreeListener {
     void exitMonitor_command(CommandParser.Monitor_commandContext ctx);
 
     /**
+     * Enter a parse tree produced by {@link CommandParser#redefine_command}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterRedefine_command(CommandParser.Redefine_commandContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link CommandParser#redefine_command}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitRedefine_command(CommandParser.Redefine_commandContext ctx);
+
+    /**
      * Enter a parse tree produced by {@link CommandParser#thread_command}.
      *
      * @param ctx the parse tree
@@ -413,6 +427,20 @@ public interface CommandListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     void exitCycle_flag(CommandParser.Cycle_flagContext ctx);
+
+    /**
+     * Enter a parse tree produced by {@link CommandParser#path_pattern}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterPath_pattern(CommandParser.Path_patternContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link CommandParser#path_pattern}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitPath_pattern(CommandParser.Path_patternContext ctx);
 
     /**
      * Enter a parse tree produced by {@link CommandParser#top_N_Busy_flag}.

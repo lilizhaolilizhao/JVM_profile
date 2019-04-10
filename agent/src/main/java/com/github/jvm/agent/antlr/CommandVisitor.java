@@ -108,6 +108,14 @@ public interface CommandVisitor<T> extends ParseTreeVisitor<T> {
     T visitMonitor_command(CommandParser.Monitor_commandContext ctx);
 
     /**
+     * Visit a parse tree produced by {@link CommandParser#redefine_command}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitRedefine_command(CommandParser.Redefine_commandContext ctx);
+
+    /**
      * Visit a parse tree produced by {@link CommandParser#thread_command}.
      *
      * @param ctx the parse tree
@@ -242,6 +250,14 @@ public interface CommandVisitor<T> extends ParseTreeVisitor<T> {
      * @return the visitor result
      */
     T visitCycle_flag(CommandParser.Cycle_flagContext ctx);
+
+    /**
+     * Visit a parse tree produced by {@link CommandParser#path_pattern}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitPath_pattern(CommandParser.Path_patternContext ctx);
 
     /**
      * Visit a parse tree produced by {@link CommandParser#top_N_Busy_flag}.

@@ -151,6 +151,17 @@ public class CommandBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
      * {@link #visitChildren} on {@code ctx}.</p>
      */
     @Override
+    public T visitRedefine_command(CommandParser.Redefine_commandContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
+    @Override
     public T visitThread_command(CommandParser.Thread_commandContext ctx) {
         return visitChildren(ctx);
     }
@@ -328,6 +339,17 @@ public class CommandBaseVisitor<T> extends AbstractParseTreeVisitor<T> implement
      */
     @Override
     public T visitCycle_flag(CommandParser.Cycle_flagContext ctx) {
+        return visitChildren(ctx);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation returns the result of calling
+     * {@link #visitChildren} on {@code ctx}.</p>
+     */
+    @Override
+    public T visitPath_pattern(CommandParser.Path_patternContext ctx) {
         return visitChildren(ctx);
     }
 

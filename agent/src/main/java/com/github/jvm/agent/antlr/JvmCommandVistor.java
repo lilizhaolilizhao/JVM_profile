@@ -11,6 +11,8 @@ import io.termd.core.tty.TtyConnection;
 import lombok.Data;
 
 import java.lang.instrument.Instrumentation;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class JvmCommandVistor extends CommandBaseVisitor {
@@ -187,6 +189,39 @@ public class JvmCommandVistor extends CommandBaseVisitor {
 
         command = systemPropertyCommand;
         return super.visitSysprop_command(ctx);
+    }
+
+    @Override
+    public Object visitRedefine_command(CommandParser.Redefine_commandContext ctx) {
+        RedefineCommand redefineCommand = new RedefineCommand(conn, inst);
+
+        CommandParser.Hashcode_flagContext hashcode_flagContext = ctx.hashcode_flag();
+        if (hashcode_flagContext != null) {
+            redefineCommand.setHashCode(hashcode_flagContext.getChild(2).getText());
+        }
+
+        List<String> paths = new ArrayList<String>();
+        CommandParser.Path_patternContext path_patternContext = ctx.path_pattern();
+        if (path_patternContext != null) {
+            List<CommandParser.Any_nameContext> any_nameContexts = path_patternContext.any_name();
+
+            if (any_nameContexts != null && any_nameContexts.size() > 0) {
+                for (CommandParser.Any_nameContext any_nameContext : any_nameContexts) {
+                    paths.add(any_nameContext.getText());
+                }
+
+                redefineCommand.setPathPatterns(paths);
+            }
+        }
+
+        CommandParser.General_helpContext general_helpContext = ctx.general_help();
+        if (general_helpContext != null) {
+            redefineCommand.setHelpFlag(true);
+        }
+
+        command = redefineCommand;
+
+        return super.visitRedefine_command(ctx);
     }
 
     private void visitNumberLimit(CommandParser.Number_limit_flagContext number_limit_flagContext) {

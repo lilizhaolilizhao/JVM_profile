@@ -233,6 +233,24 @@ public class CommandBaseListener implements CommandListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
+    public void enterRedefine_command(CommandParser.Redefine_commandContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitRedefine_command(CommandParser.Redefine_commandContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
     public void enterThread_command(CommandParser.Thread_commandContext ctx) {
     }
 
@@ -531,6 +549,24 @@ public class CommandBaseListener implements CommandListener {
      */
     @Override
     public void exitCycle_flag(CommandParser.Cycle_flagContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void enterPath_pattern(CommandParser.Path_patternContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitPath_pattern(CommandParser.Path_patternContext ctx) {
     }
 
     /**
