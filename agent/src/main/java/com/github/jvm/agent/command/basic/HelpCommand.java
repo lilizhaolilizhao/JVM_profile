@@ -36,7 +36,7 @@ public class HelpCommand extends GeneralCommand {
     public void process(Consumer<int[]> out) {
         List<Class<? extends Command>> commands = BuiltinCommandPack.getCommands();
 
-        String message = RenderUtil.render(mainHelp(commands));
+        String message = RenderUtil.render(mainHelp(commands), 120);
         conn.write(message);
     }
 

@@ -166,6 +166,29 @@ public class JvmCommandVistor extends CommandBaseVisitor {
         return super.visitShut_command(ctx);
     }
 
+    @Override
+    public Object visitSysprop_command(CommandParser.Sysprop_commandContext ctx) {
+        SystemPropertyCommand systemPropertyCommand = new SystemPropertyCommand(conn);
+
+        CommandParser.Property_nameContext property_nameContext = ctx.property_name();
+        if (property_nameContext != null) {
+            systemPropertyCommand.setOptionName(property_nameContext.any_name().getText());
+        }
+
+        CommandParser.Property_valueContext property_valueContext = ctx.property_value();
+        if (property_valueContext != null) {
+            systemPropertyCommand.setOptionValue(property_valueContext.any_name().getText());
+        }
+
+        CommandParser.General_helpContext general_helpContext = ctx.general_help();
+        if (general_helpContext != null) {
+            systemPropertyCommand.setHelpFlag(true);
+        }
+
+        command = systemPropertyCommand;
+        return super.visitSysprop_command(ctx);
+    }
+
     private void visitNumberLimit(CommandParser.Number_limit_flagContext number_limit_flagContext) {
         if (number_limit_flagContext != null) {
             command.setNumberOfLimit(Integer.parseInt(number_limit_flagContext.getChild(1).getText()));

@@ -17,6 +17,7 @@ command_list
  | dump_command
  | reset_command
  | shut_command
+ | sysprop_command
  | keymap_command
  | exit_command
  | cls_command
@@ -41,6 +42,10 @@ jad_command
 
 getstatic_command
  : GETSTATIC_COMMAND ( ( hashcode_flag )?( regex_flag )? class_pattern method_pattern ( express_pattern )? | ( general_help )?)
+ ;
+
+sysprop_command
+ : SYSPROP_COMMAND  ( ( property_name )? ( property_value )? | ( general_help )?)
  ;
 
 dump_command
@@ -154,6 +159,14 @@ class_pattern
  : any_name
  ;
 
+property_name
+ : any_name
+ ;
+
+property_value
+ : any_name
+ ;
+
 field_pattern
  : any_name
  ;
@@ -180,6 +193,7 @@ SC_COMMAND : S C;
 SM_COMMAND : S M;
 JAD_COMMAND : J A D;
 GETSTATIC_COMMAND : G E T S T A T I C;
+SYSPROP_COMMAND : S Y S P R O P;
 DUMP_COMMAND : D U M P;
 RESET_COMMAND : R E S E T;
 SHUT_COMMAND : S H U T;

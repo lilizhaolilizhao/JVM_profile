@@ -143,6 +143,24 @@ public class CommandBaseListener implements CommandListener {
      * <p>The default implementation does nothing.</p>
      */
     @Override
+    public void enterSysprop_command(CommandParser.Sysprop_commandContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitSysprop_command(CommandParser.Sysprop_commandContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
     public void enterDump_command(CommandParser.Dump_commandContext ctx) {
     }
 
@@ -621,6 +639,42 @@ public class CommandBaseListener implements CommandListener {
      */
     @Override
     public void exitClass_pattern(CommandParser.Class_patternContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void enterProperty_name(CommandParser.Property_nameContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitProperty_name(CommandParser.Property_nameContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void enterProperty_value(CommandParser.Property_valueContext ctx) {
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <p>The default implementation does nothing.</p>
+     */
+    @Override
+    public void exitProperty_value(CommandParser.Property_valueContext ctx) {
     }
 
     /**

@@ -107,6 +107,20 @@ public interface CommandListener extends ParseTreeListener {
     void exitGetstatic_command(CommandParser.Getstatic_commandContext ctx);
 
     /**
+     * Enter a parse tree produced by {@link CommandParser#sysprop_command}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterSysprop_command(CommandParser.Sysprop_commandContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link CommandParser#sysprop_command}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitSysprop_command(CommandParser.Sysprop_commandContext ctx);
+
+    /**
      * Enter a parse tree produced by {@link CommandParser#dump_command}.
      *
      * @param ctx the parse tree
@@ -483,6 +497,34 @@ public interface CommandListener extends ParseTreeListener {
      * @param ctx the parse tree
      */
     void exitClass_pattern(CommandParser.Class_patternContext ctx);
+
+    /**
+     * Enter a parse tree produced by {@link CommandParser#property_name}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterProperty_name(CommandParser.Property_nameContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link CommandParser#property_name}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitProperty_name(CommandParser.Property_nameContext ctx);
+
+    /**
+     * Enter a parse tree produced by {@link CommandParser#property_value}.
+     *
+     * @param ctx the parse tree
+     */
+    void enterProperty_value(CommandParser.Property_valueContext ctx);
+
+    /**
+     * Exit a parse tree produced by {@link CommandParser#property_value}.
+     *
+     * @param ctx the parse tree
+     */
+    void exitProperty_value(CommandParser.Property_valueContext ctx);
 
     /**
      * Enter a parse tree produced by {@link CommandParser#field_pattern}.

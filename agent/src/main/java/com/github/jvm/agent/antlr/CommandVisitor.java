@@ -68,6 +68,14 @@ public interface CommandVisitor<T> extends ParseTreeVisitor<T> {
     T visitGetstatic_command(CommandParser.Getstatic_commandContext ctx);
 
     /**
+     * Visit a parse tree produced by {@link CommandParser#sysprop_command}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitSysprop_command(CommandParser.Sysprop_commandContext ctx);
+
+    /**
      * Visit a parse tree produced by {@link CommandParser#dump_command}.
      *
      * @param ctx the parse tree
@@ -282,6 +290,22 @@ public interface CommandVisitor<T> extends ParseTreeVisitor<T> {
      * @return the visitor result
      */
     T visitClass_pattern(CommandParser.Class_patternContext ctx);
+
+    /**
+     * Visit a parse tree produced by {@link CommandParser#property_name}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitProperty_name(CommandParser.Property_nameContext ctx);
+
+    /**
+     * Visit a parse tree produced by {@link CommandParser#property_value}.
+     *
+     * @param ctx the parse tree
+     * @return the visitor result
+     */
+    T visitProperty_value(CommandParser.Property_valueContext ctx);
 
     /**
      * Visit a parse tree produced by {@link CommandParser#field_pattern}.
