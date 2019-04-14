@@ -56,6 +56,14 @@ public class MonitorCommand extends GeneralCommand {
 
     @Override
     public void process(Consumer<int[]> out) {
-        //TODO 未完成的部分
+        int i = 0;
+        while (true) {
+            try {
+                conn.write("i=: " + i++ + "\n");
+                Thread.sleep(3000L);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

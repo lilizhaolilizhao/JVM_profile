@@ -6,16 +6,20 @@ import com.github.jvm.agent.shell.future.Future;
 import com.github.jvm.agent.shell.term.TermServer;
 import com.github.jvm.agent.shell.util.Helper;
 import com.github.jvm.agent.util.Constants;
+import io.termd.core.function.BiConsumer;
 import io.termd.core.function.Consumer;
+import io.termd.core.readline.Function;
 import io.termd.core.readline.Readline;
 import io.termd.core.telnet.netty.NettyTelnetTtyBootstrap;
 import io.termd.core.tty.TtyConnection;
+import io.termd.core.tty.TtyEvent;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.instrument.Instrumentation;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -24,6 +28,8 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @Data
 public class TelnetTermServer extends TermServer {
+    private static final List<Function> readlineFunctions = io.termd.core.util.Helper.loadServices(Function.class.getClassLoader(), Function.class);
+
     private Readline readline;
     private NettyTelnetTtyBootstrap bootstrap;
     private String hostIp;
@@ -41,6 +47,9 @@ public class TelnetTermServer extends TermServer {
         this.inst = inst;
 
         readline = new Readline(Helper.loadKeymap());
+        for (Function function : readlineFunctions) {
+            readline.addFunction(function);
+        }
     }
 
     public TelnetTermServer listen(Handler<Future<TelnetTermServer>> listenHandler) {
@@ -48,7 +57,7 @@ public class TelnetTermServer extends TermServer {
         try {
             bootstrap.start(new Consumer<TtyConnection>() {
                 @Override
-                public void accept(TtyConnection conn) {
+                public void accept(final TtyConnection conn) {
                     conn.write(welcomeText + "\n");
                     conn.write("pid:  " + javaPid + "\n");
 
@@ -58,6 +67,23 @@ public class TelnetTermServer extends TermServer {
 
                     readline.readline(conn, Constants.DEFAULT_PROMPT, new RequestHandler(TelnetTermServer.this,
                             conn, new ShellLineHandler(), inst));
+                    conn.setEventHandler(new BiConsumer<TtyEvent, Integer>() {
+                        @Override
+                        public void accept(TtyEvent ttyEvent, Integer key) {
+                            switch (ttyEvent) {
+                                case INTR:
+                                    readline.readline(conn, Constants.DEFAULT_PROMPT, new RequestHandler(TelnetTermServer.this,
+                                            conn, new ShellLineHandler(), inst));
+                                    break;
+                                case EOF:
+                                    //TODO
+                                    break;
+                                case SUSP:
+                                    //TODO
+                                    break;
+                            }
+                        }
+                    });
                 }
             }).get(connectionTimeout, TimeUnit.MILLISECONDS);
             listenHandler.handle(Future.<TelnetTermServer>succeededFuture());
